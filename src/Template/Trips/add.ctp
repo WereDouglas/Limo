@@ -20,6 +20,8 @@
     <table>
         <tbody>
         <tr>
+            <td>Start Address</td>
+            <td><?php echo $this->Form->control('start_address');?></td>
 
             <td>Choose Your File:</td>
             <td><?php echo $this->Form->control('trip', ['type' => 'file']);?></td>
