@@ -28,8 +28,8 @@
             echo $this->Form->control('client');
             echo $this->Form->control('phone');
             echo $this->Form->control('date', ['empty' => true]);
-            echo $this->Form->control('pick_up_time', ['empty' => true]);
-            echo $this->Form->control('appointment_time', ['empty' => true]);
+            echo $this->Form->control('pick_up_time');
+            echo $this->Form->control('appointment_time');
             echo $this->Form->control('pick_up_address');
             echo $this->Form->control('pick_up_city');
             echo $this->Form->control('drop_off_address');
@@ -37,6 +37,7 @@
             echo $this->Form->control('comments');
             echo $this->Form->control('distance');
             echo $this->Form->control('user_id', ['options' => $users, 'empty' => true]);
+            echo $this->Form->control('company_id', ['options' => $companies]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

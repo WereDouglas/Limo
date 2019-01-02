@@ -29,11 +29,9 @@
                 <th scope="col"><?= $this->Paginator->sort('pick_up_city') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('drop_off_address') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('drop_off_city') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('comments') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('distance') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('companies_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('company_id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -50,9 +48,7 @@
                 <td><?= h($trip->pick_up_city) ?></td>
                 <td><?= h($trip->drop_off_address) ?></td>
                 <td><?= h($trip->drop_off_city) ?></td>
-                <td><?= h($trip->comments) ?></td>
                 <td><?= h($trip->created) ?></td>
-                <td><?= h($trip->distance) ?></td>
                 <td><?= $trip->has('user') ? $this->Html->link($trip->user->id, ['controller' => 'Users', 'action' => 'view', $trip->user->id]) : '' ?></td>
                 <td><?= $trip->has('company') ? $this->Html->link($trip->company->name, ['controller' => 'Companies', 'action' => 'view', $trip->company->id]) : '' ?></td>
                 <td class="actions">

@@ -56,6 +56,10 @@ class TripsController extends AppController
     // var_dump($trip_objects);
     // $max =$this->max_attribute_in_array($start_objects,'distance');
     // var_dump($max);
+    /**
+     * Convert spreadsheet data to a list of trip objects
+     * @return array
+     */
     public function import()
     {
         $helper = new Helper\Sample();
@@ -64,7 +68,8 @@ class TripsController extends AppController
         $values = $this->request->getData();
         $inputFileName = $values['trip']['tmp_name'];
         $start_address = $values['start_address'];
-
+        $spreadsheet = "";
+        $sheetData = "";
         if ($inputFileName != '') {
             try {
                 $spreadsheet = IOFactory::load($inputFileName);
@@ -95,43 +100,97 @@ class TripsController extends AppController
                 $distance = $this->getDistance($this->clean($sheetData[$i]['E']) . ' ' . $sheetData[$i]['F'],
                     $this->clean($sheetData[$i]['G']) . ' ' . $sheetData[$i]['H'], $unit = '');
                 $tripping->distance_from_start = $this->getDistance($start_address,
-                    $this->clean($sheetData[$i]['G']) . ' ' . $sheetData[$i]['H'], $unit = '');;
+                    $this->clean($sheetData[$i]['G']) . ' ' . $sheetData[$i]['H'], $unit = '');
                 $tripping->distance = $distance;
                 $tripping->drop_off_city = $sheetData[$i]['H'];
                 $tripping->comments = $sheetData[$i]['I'];
                 $tripping->user_id = "1";
-                $tripping->companies_id = "1";
+                $tripping->company_id = "1";
                 array_push($trip_objects, $tripping);
             }
-            /****/
+            /**
+             * echo '<pre>';
+             * echo $min = $this->min_distance($trip_objects);
+             * $index = $this->index_value($trip_objects, $min);
+             * echo '<br>';
+             * echo $index;
+             * echo '<br>';
+             * $new_start = $this->next_start($trip_objects, $index, $min);
+             * echo '<br>';
+             * unset($trip_objects[$index]);
+             *
+             * $x = count( $trip_objects);
+             * while( $x <= count( $trip_objects)){
+             *
+             * echo '<pre>';
+             * echo $min = $this->min_distance($trip_objects);
+             * $index = $this->index_value($trip_objects, $min);
+             * echo '<br>';
+             * echo $index;
+             * echo '<br>';
+             * $new_start = $this->next_start($trip_objects, $index, $min);
+             * echo '<br>';
+             * unset($trip_objects[$index]);
+             *
+             * }
+             *
+             * $this->reassign($trip_objects, $new_start);
+             * var_dump($trip_objects);
+             *
+             *
+             * exit;
+             **/
             echo '<pre>';
-            echo $min = $this->min_distance($trip_objects);
-            $index = $this->index_value($trip_objects, $min);
-            echo '<br>';
-            echo $index;
-            echo '<br>';
-            $new_start = $this->next_start($trip_objects, $index, $min);
-            echo '<br>';
-            unset($trip_objects[$index]);
-            /****/
-
-
-            $this->reassign($trip_objects, $new_start);
             var_dump($trip_objects);
-
-
-            exit;
+            $this->loop($trip_objects);
         }
         $this->Flash->error(__('No file loaded'));
 
     }
 
-    function reassign($objects, $new_start)
+    function loop($trips)
     {
-        for ($i = 0; $i < count($objects); $i++) {
-            $objects[$i]->distance_from_start = $this->getDistance($new_start, $objects[$i]->pick_up_address);
+        $counts = 1;
+        if (empty($trips)) {
+            return $this->redirect(
+                ['controller' => 'Trips', 'action' => 'thanks']
+            );
         }
-        return $objects;
+        echo '<pre>';
+        //  var_dump($trips);
+        echo '<br>';
+
+        $min = $this->min_distance($trips);
+        echo ' MINIMUM DISTANCE ' . $min;
+        $index = $this->index_value($trips, $min);
+
+        echo '<br>';
+        echo 'Index ' . $index;
+        echo '<br>';
+        $new_start = $this->next_start($trips, $index, $min);
+        echo 'NEW START ' . $new_start;
+        echo '<br>';
+        unset($trips[$index]);
+
+        $trips = array_values($trips);
+        var_dump($trips);
+        $counts = $counts + 1;
+        echo $counts . '------------^object iteration --------------------------<br>';
+        //  for ($i = 0; $i < count($trips); $i++) {
+        foreach ($trips as $key => $value) {
+            //$trips[$i]->distance_from_start = $this->getDistance($new_start, $trips[$i]->pick_up_address);
+            echo 'old distance ' . $trips[$key]->distance_from_start;
+            echo '<br>';
+            $new_distance = $this->getDistance($new_start, $trips[$key]->pick_up_address);
+            $trips[$key]->distance_from_start = $new_distance;
+            echo $key . ' ' . $new_start . ' This new distance ' . $new_distance . ' starting from ' . $trips[$key]->pick_up_address . ' drop off address ' . $trips[$key]->drop_off_address;
+
+            echo '<br>';
+        }
+        // var_dump($trips);
+        // exit;
+
+        $this->loop($trips);
     }
 
     /**
@@ -159,14 +218,13 @@ class TripsController extends AppController
         $trip->drop_off_city = $neededObject[$index]->drop_off_city;
         $trip->comments = $neededObject[$index]->comments;
         $trip->user_id = "1";
-        $trip->companies_id = "1";
-
-        /*  if ($this->Trips->save($trip)) {
-              echo 'Trip has been saved.';
-          } else {
-              var_dump($trip->getErrors());
-              exit;
-          }*/
+        $trip->company_id = "1";
+        if ($this->Trips->save($trip)) {
+            echo 'Trip has been saved.';
+        } else {
+            var_dump($trip->getErrors());
+            exit;
+        }
         print_r($neededObject);
         return $neededObject[$index]->drop_off_address;
     }
@@ -180,7 +238,10 @@ class TripsController extends AppController
     function index_value($objects, $min)
     {
         // find the index of the subarray containing min value
-        return array_search($min, array_column($objects, 'distance_from_start'));
+        $index = array_search($min, array_column($objects, 'distance_from_start'));
+
+
+        return $index;
     }
 
     /**
@@ -261,13 +322,14 @@ class TripsController extends AppController
 
     function time($string)
     {
-
         $chars = str_split($string);
         $hr = $chars[0] . $chars[1];
         $min = $chars[2] . $chars[3];
         $p = $chars[4];
-        return $hr . ':' . $min . ' ' . $p;
-
+        if($p =='A'){ }else{  }
+        $time =  $hr .':'.$min.' '.$p.'M';
+        $time =  date("G:i", strtotime($time));
+        return $time;
     }
 
     /**
@@ -275,8 +337,7 @@ class TripsController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public
-    function add()
+    public function add()
     {
         $trip = $this->Trips->newEntity();
         if ($this->request->is('post')) {

@@ -29,6 +29,14 @@
             <td><?= h($trip->phone) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Pick Up Time') ?></th>
+            <td><?= h($trip->pick_up_time) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Appointment Time') ?></th>
+            <td><?= h($trip->appointment_time) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Pick Up Address') ?></th>
             <td><?= h($trip->pick_up_address) ?></td>
         </tr>
@@ -43,14 +51,6 @@
         <tr>
             <th scope="row"><?= __('Drop Off City') ?></th>
             <td><?= h($trip->drop_off_city) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Comments') ?></th>
-            <td><?= h($trip->comments) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Distance') ?></th>
-            <td><?= h($trip->distance) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('User') ?></th>
@@ -69,16 +69,16 @@
             <td><?= h($trip->date) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Pick Up Time') ?></th>
-            <td><?= h($trip->pick_up_time) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Appointment Time') ?></th>
-            <td><?= h($trip->appointment_time) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Created') ?></th>
             <td><?= h($trip->created) ?></td>
         </tr>
     </table>
+    <div class="row">
+        <h4><?= __('Comments') ?></h4>
+        <?= $this->Text->autoParagraph(h($trip->comments)); ?>
+    </div>
+    <div class="row">
+        <h4><?= __('Distance') ?></h4>
+        <?= $this->Text->autoParagraph(h($trip->distance)); ?>
+    </div>
 </div>
