@@ -38,7 +38,7 @@ class TripsTable extends Table
 
         $this->setTable('trips');
         $this->setDisplayField('id');
-        $this->setPrimaryKey(['id', 'company_id']);
+        $this->setPrimaryKey(['id']);
 
         $this->addBehavior('Timestamp');
 

@@ -84,12 +84,10 @@ class TripsController extends AppController
             for ($i = 0; $i < count($sheetData); $i++) {
                 $tripping = new \stdClass();
                 // echo $sheetData[$i]['A'] . ' ' . $sheetData[$i]['B'] . ' ';
-                if ($sheetData[$i]['A'] == "") {
+                if ($sheetData[$i]['A'] == "" || $sheetData[$i]['A'] == "Client Name") {
                     continue;
                 }
-                if ($sheetData[$i]['A'] == "Client Name") {
-                    continue;
-                }
+
                 $tripping->client = $sheetData[$i]['A'];
                 $tripping->phone = $sheetData[$i]['B'];
                 $tripping->pick_up_time = $this->time($sheetData[$i]['C']);
@@ -97,10 +95,9 @@ class TripsController extends AppController
                 $tripping->pick_up_address = $this->clean($sheetData[$i]['E'] . ' ' . $sheetData[$i]['F']);
                 $tripping->pick_up_city = $sheetData[$i]['F'];
                 $tripping->drop_off_address = $this->clean($sheetData[$i]['G'] . ' ' . $sheetData[$i]['H']);
-                $distance = $this->getDistance($this->clean($sheetData[$i]['E']) . ' ' . $sheetData[$i]['F'],
-                    $this->clean($sheetData[$i]['G']) . ' ' . $sheetData[$i]['H'], $unit = '');
-                $tripping->distance_from_start = $this->getDistance($start_address,
-                    $this->clean($sheetData[$i]['G']) . ' ' . $sheetData[$i]['H'], $unit = '');
+              //  $distance = "";
+                $distance = $this->getDistance($this->clean($sheetData[$i]['E']) . ' ' . $sheetData[$i]['F'],$this->clean($sheetData[$i]['G']) . ' ' . $sheetData[$i]['H'], $unit = '');
+              //  $tripping->distance_from_start = $this->getDistance($start_address, $this->clean($sheetData[$i]['G']) . ' ' . $sheetData[$i]['H'], $unit = '');
                 $tripping->distance = $distance;
                 $tripping->drop_off_city = $sheetData[$i]['H'];
                 $tripping->comments = $sheetData[$i]['I'];
@@ -108,6 +105,10 @@ class TripsController extends AppController
                 $tripping->company_id = "1";
                 array_push($trip_objects, $tripping);
             }
+            usort($trip_objects, function ($a, $b) {
+                return strtotime($a->pick_up_time) - strtotime($b->pick_up_time);
+            });
+
             /**
              * echo '<pre>';
              * echo $min = $this->min_distance($trip_objects);
@@ -141,14 +142,42 @@ class TripsController extends AppController
              * exit;
              **/
             echo '<pre>';
-            var_dump($trip_objects);
             $this->loop($trip_objects);
+            $this->Flash->error(__('Upload complete.'));
+            return $this->redirect(['Controller'=>'Trips','action' => 'index']);
         }
         $this->Flash->error(__('No file loaded'));
 
     }
 
     function loop($trips)
+    {
+        for ($index = 0; $index < count($trips); $index++) {
+
+            $trip = $this->Trips->newEntity();
+            $trip->client = $trips[$index]->client;
+            $trip->phone = $trips[$index]->phone;
+            $trip->pick_up_time = $trips[$index]->pick_up_time;
+            $trip->appointment_time = $trips[$index]->appointment_time;
+            $trip->pick_up_address = $trips[$index]->pick_up_address;
+            $trip->pick_up_city = $trips[$index]->pick_up_city;
+            $trip->drop_off_address = $trips[$index]->drop_off_address;
+            $trip->distance = $trips[$index]->distance;
+            $trip->drop_off_city = $trips[$index]->drop_off_city;
+            $trip->comments = $trips[$index]->comments;
+            $trip->user_id = "1";
+            $trip->company_id = "1";
+            if ($this->Trips->save($trip)) {
+                echo 'Trip has been saved.';
+            } else {
+                var_dump($trip->getErrors());
+                exit;
+            }
+        }
+
+    }
+
+    function loop_old($trips)
     {
         $counts = 1;
         if (empty($trips)) {
@@ -326,9 +355,11 @@ class TripsController extends AppController
         $hr = $chars[0] . $chars[1];
         $min = $chars[2] . $chars[3];
         $p = $chars[4];
-        if($p =='A'){ }else{  }
-        $time =  $hr .':'.$min.' '.$p.'M';
-        $time =  date("G:i", strtotime($time));
+        if ($p == 'A') {
+        } else {
+        }
+        $time = $hr . ':' . $min . ' ' . $p . 'M';
+        $time = date("G:i", strtotime($time));
         return $time;
     }
 
