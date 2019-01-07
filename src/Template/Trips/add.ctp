@@ -15,45 +15,66 @@
     </ul>
 </nav>
 <div class="trips form large-9 medium-8 columns content">
+    <div class="container mt--8 pb-5">
+        <!-- Table -->
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card bg-secondary shadow border-0">
 
-    <?= $this->Form->create($trip, ['type' => 'file','controller'=>'trips','action'=>'import']) ?>
-    <table>
-        <tbody>
-        <tr>
-            <td>Start Address</td>
-            <td><?php echo $this->Form->control('start_address');?></td>
+                    <div class="card-body px-lg-5 py-lg-5">
+                        <?= $this->Form->create($trip,
+                            ['type' => 'file', 'controller' => 'trips', 'action' => 'import']) ?>
+                        <legend><?= __('Import trips') ?></legend>
 
-            <td>Choose Your File:</td>
-            <td><?php echo $this->Form->control('trip', ['type' => 'file']);?></td>
-            <td>
-                <div>
-                    <?php echo $this->Form->submit('Import', array('div'=>false,'name'=>'importexcel'));
-                    ?>
+                        <?php echo $this->Form->control('start_address', ['class' => 'form-control']); ?>
+                        <br>
+                        <?php echo $this->Form->control('date',
+                            ['label' => 'Date', 'empty' => true, 'class' => 'form-control']); ?>
+                        <?php echo $this->Form->control('trip', ['type' => 'file', 'class' => 'form-control']); ?>
+
+                        <div>
+                            <?php echo $this->Form->submit('Import',
+                                ['div' => false, 'name' => 'importexcel', 'class' => 'btn btn-primary mt-4']);
+                            ?>
+                        </div>
+
+                        <?= $this->Form->end() ?>
+                        <?= $this->Form->create($trip) ?>
+                        <fieldset>
+                            <legend><?= __('Add Trip') ?></legend>
+                            <?php
+                            echo $this->Form->control('client', ['class' => 'form-control']);
+                            echo $this->Form->control('phone', ['class' => 'form-control']);
+                            echo '  <br>';
+                            echo $this->Form->control('date', [
+                                'label' => 'Date',
+                                'empty' => true,
+                                'class' => 'form-control'
+                            ]);
+                            echo $this->Form->control('pick_up_time', ['class' => 'form-control']);
+                            echo $this->Form->control('appointment_time', ['class' => 'form-control']);
+                            echo $this->Form->control('pick_up_address', ['class' => 'form-control']);
+                            echo $this->Form->control('pick_up_city', ['class' => 'form-control']);
+                            echo $this->Form->control('drop_off_address', ['class' => 'form-control']);
+                            echo $this->Form->control('drop_off_city', ['class' => 'form-control']);
+                            echo $this->Form->control('comments', ['class' => 'form-control']);
+                            echo $this->Form->control('distance', ['class' => 'form-control']);
+                            echo $this->Form->control('user_id',
+                                ['options' => $users, 'empty' => true, 'class' => 'form-control']);
+                            echo $this->Form->control('company_id',
+                                ['options' => $companies, 'class' => 'form-control']);
+                            echo $this->Form->control('complete', ['class' => 'form-control']);
+                            echo $this->Form->control('start_lat', ['class' => 'form-control']);
+                            echo $this->Form->control('start_long', ['class' => 'form-control']);
+                            echo $this->Form->control('drop_lat', ['class' => 'form-control']);
+                            echo $this->Form->control('drop_long', ['class' => 'form-control']);
+                            ?>
+                        </fieldset>
+                        <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary mt-4']) ?>
+                        <?= $this->Form->end() ?>
+                    </div>
                 </div>
-            </td>
-        </tr>
+            </div>
+        </div>
+    </div>
 
-        </tbody>
-    </table>
-    <?= $this->Form->end() ?>
-    <?= $this->Form->create($trip) ?>
-    <fieldset>
-        <legend><?= __('Add Trip') ?></legend>
-        <?php
-            echo $this->Form->control('client');
-            echo $this->Form->control('phone');
-            echo $this->Form->control('date', ['empty' => true]);
-            echo $this->Form->control('pick_up_time', ['empty' => true]);
-            echo $this->Form->control('appointment_time', ['empty' => true]);
-            echo $this->Form->control('pick_up_address');
-            echo $this->Form->control('pick_up_city');
-            echo $this->Form->control('drop_off_address');
-            echo $this->Form->control('drop_off_city');
-            echo $this->Form->control('comments');
-            echo $this->Form->control('distance');
-            echo $this->Form->control('user_id', ['options' => $users, 'empty' => true]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div>

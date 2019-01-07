@@ -14,6 +14,9 @@ use Cake\ORM\Entity;
  * @property string|null $password
  * @property string|null $type
  * @property int|null $company_id
+ * @property string|null $api_key_plain
+ * @property string|null $api_key
+ * @property string|null $digest_hash
  *
  * @property \App\Model\Entity\Company $company
  * @property \App\Model\Entity\Car[] $cars
@@ -41,6 +44,9 @@ class User extends Entity
         'password' => true,
         'type' => true,
         'company_id' => true,
+        'api_key_plain' => true,
+        'api_key' => true,
+        'digest_hash' => true,
         'company' => true,
         'cars' => true,
         'drivers' => true,

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -30,10 +29,11 @@ class TripsController extends AppController
      */
     public function index()
     {
+        $this->viewBuilder()->setLayout('admin');
         $this->paginate = [
             'contain' => ['Users', 'Companies']
         ];
-        $trips = $this->paginate($this->Trips);
+        $trips = $this->paginate($this->Trips,['maxLimit' => 5]);
 
         $this->set(compact('trips'));
     }
@@ -53,13 +53,74 @@ class TripsController extends AppController
 
         $this->set('trip', $trip);
     }
-    // var_dump($trip_objects);
-    // $max =$this->max_attribute_in_array($start_objects,'distance');
-    // var_dump($max);
+
     /**
-     * Convert spreadsheet data to a list of trip objects
-     * @return array
+     * Add method
+     *
+     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
+    public function add()
+    {
+        $trip = $this->Trips->newEntity();
+        if ($this->request->is('post')) {
+            $trip = $this->Trips->patchEntity($trip, $this->request->getData());
+            if ($this->Trips->save($trip)) {
+                $this->Flash->success(__('The trip has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The trip could not be saved. Please, try again.'));
+        }
+        $users = $this->Trips->Users->find('list', ['limit' => 200]);
+        $companies = $this->Trips->Companies->find('list', ['limit' => 200]);
+        $this->set(compact('trip', 'users', 'companies'));
+    }
+
+    /**
+     * Edit method
+     *
+     * @param string|null $id Trip id.
+     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function edit($id = null)
+    {
+        $trip = $this->Trips->get($id, [
+            'contain' => []
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $trip = $this->Trips->patchEntity($trip, $this->request->getData());
+            if ($this->Trips->save($trip)) {
+                $this->Flash->success(__('The trip has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The trip could not be saved. Please, try again.'));
+        }
+        $users = $this->Trips->Users->find('list', ['limit' => 200]);
+        $companies = $this->Trips->Companies->find('list', ['limit' => 200]);
+        $this->set(compact('trip', 'users', 'companies'));
+    }
+
+    /**
+     * Delete method
+     *
+     * @param string|null $id Trip id.
+     * @return \Cake\Http\Response|null Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $trip = $this->Trips->get($id);
+        if ($this->Trips->delete($trip)) {
+            $this->Flash->success(__('The trip has been deleted.'));
+        } else {
+            $this->Flash->error(__('The trip could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'index']);
+    }
     public function import()
     {
         $helper = new Helper\Sample();
@@ -68,6 +129,7 @@ class TripsController extends AppController
         $values = $this->request->getData();
         $inputFileName = $values['trip']['tmp_name'];
         $start_address = $values['start_address'];
+        $date = date('Y-m-d',strtotime($values['date'])) ;
         $spreadsheet = "";
         $sheetData = "";
         if ($inputFileName != '') {
@@ -95,14 +157,21 @@ class TripsController extends AppController
                 $tripping->pick_up_address = $this->clean($sheetData[$i]['E'] . ' ' . $sheetData[$i]['F']);
                 $tripping->pick_up_city = $sheetData[$i]['F'];
                 $tripping->drop_off_address = $this->clean($sheetData[$i]['G'] . ' ' . $sheetData[$i]['H']);
-              //  $distance = "";
+                //  $distance = "";
+                global $latitudeFrom,$longitudeFrom,$latitudeTo,$longitudeTo;
                 $distance = $this->getDistance($this->clean($sheetData[$i]['E']) . ' ' . $sheetData[$i]['F'],$this->clean($sheetData[$i]['G']) . ' ' . $sheetData[$i]['H'], $unit = '');
-              //  $tripping->distance_from_start = $this->getDistance($start_address, $this->clean($sheetData[$i]['G']) . ' ' . $sheetData[$i]['H'], $unit = '');
+                //  $tripping->distance_from_start = $this->getDistance($start_address, $this->clean($sheetData[$i]['G']) . ' ' . $sheetData[$i]['H'], $unit = '');
                 $tripping->distance = $distance;
                 $tripping->drop_off_city = $sheetData[$i]['H'];
                 $tripping->comments = $sheetData[$i]['I'];
                 $tripping->user_id = "1";
                 $tripping->company_id = "1";
+                $tripping->date = $date;
+
+                $tripping->start_lat =  $latitudeFrom;
+                $tripping->start_long = $longitudeFrom;
+                $tripping->drop_lat =$latitudeTo;
+                $tripping->drop_long =$longitudeTo;
                 array_push($trip_objects, $tripping);
             }
             usort($trip_objects, function ($a, $b) {
@@ -165,8 +234,15 @@ class TripsController extends AppController
             $trip->distance = $trips[$index]->distance;
             $trip->drop_off_city = $trips[$index]->drop_off_city;
             $trip->comments = $trips[$index]->comments;
+            $trip->date = $trips[$index]->date;
+            $trip->complete = 'no';
             $trip->user_id = "1";
             $trip->company_id = "1";
+            $trip->start_lat =  $trips[$index]->start_lat;
+            $trip->start_long = $trips[$index]->start_long;
+            $trip->drop_lat = $trips[$index]->drop_lat;
+            $trip->drop_long = $trips[$index]->drop_long;
+
             if ($this->Trips->save($trip)) {
                 echo 'Trip has been saved.';
             } else {
@@ -174,7 +250,6 @@ class TripsController extends AppController
                 exit;
             }
         }
-
     }
 
     function loop_old($trips)
@@ -286,6 +361,9 @@ class TripsController extends AppController
      * @url https://www.codexworld.com
      *
      */
+
+
+
     function getDistance($addressFrom, $addressTo, $unit = '')
     {
         // Google API key  AIzaSyDkPuKLdJPV9H_ozRBlj95r429WxNiyPss
@@ -308,6 +386,7 @@ class TripsController extends AppController
         if (!empty($outputTo->error_message)) {
             return $outputTo->error_message;
         }
+        global $latitudeFrom,$longitudeFrom,$latitudeTo,$longitudeTo;
 
         // Get latitude and longitude from the geodata
         $latitudeFrom = $outputFrom->results[0]->geometry->location->lat;
@@ -363,75 +442,4 @@ class TripsController extends AppController
         return $time;
     }
 
-    /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $trip = $this->Trips->newEntity();
-        if ($this->request->is('post')) {
-            $trip = $this->Trips->patchEntity($trip, $this->request->getData());
-            if ($this->Trips->save($trip)) {
-                $this->Flash->success(__('The trip has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The trip could not be saved. Please, try again.'));
-        }
-        $users = $this->Trips->Users->find('list', ['limit' => 200]);
-        $companies = $this->Trips->Companies->find('list', ['limit' => 200]);
-        $this->set(compact('trip', 'users', 'companies'));
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id Trip id.
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public
-    function edit(
-        $id = null
-    ) {
-        $trip = $this->Trips->get($id, [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $trip = $this->Trips->patchEntity($trip, $this->request->getData());
-            if ($this->Trips->save($trip)) {
-                $this->Flash->success(__('The trip has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The trip could not be saved. Please, try again.'));
-        }
-        $users = $this->Trips->Users->find('list', ['limit' => 200]);
-        $companies = $this->Trips->Companies->find('list', ['limit' => 200]);
-        $this->set(compact('trip', 'users', 'companies'));
-    }
-
-    /**
-     * Delete method
-     *
-     * @param string|null $id Trip id.
-     * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public
-    function delete(
-        $id = null
-    ) {
-        $this->request->allowMethod(['post', 'delete']);
-        $trip = $this->Trips->get($id);
-        if ($this->Trips->delete($trip)) {
-            $this->Flash->success(__('The trip has been deleted.'));
-        } else {
-            $this->Flash->error(__('The trip could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
-    }
 }

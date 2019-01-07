@@ -38,6 +38,9 @@
             echo $this->Form->control('password');
             echo $this->Form->control('type');
             echo $this->Form->control('company_id', ['options' => $companies, 'empty' => true]);
+            echo $this->Form->control('api_key_plain');
+            echo $this->Form->control('api_key');
+            echo $this->Form->control('digest_hash');
             echo $this->Form->control('roles._ids', ['options' => $roles]);
         ?>
     </fieldset>

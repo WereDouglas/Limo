@@ -12,6 +12,7 @@ use Cake\ORM\Entity;
  * @property string|null $address
  * @property string|null $contact
  *
+ * @property \App\Model\Entity\Trip[] $trips
  * @property \App\Model\Entity\User[] $users
  */
 class Company extends Entity
@@ -31,6 +32,7 @@ class Company extends Entity
         'photo' => true,
         'address' => true,
         'contact' => true,
+        'trips' => true,
         'users' => true
     ];
 }

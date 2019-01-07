@@ -55,6 +55,18 @@
             <td><?= $user->has('company') ? $this->Html->link($user->company->name, ['controller' => 'Companies', 'action' => 'view', $user->company->id]) : '' ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Api Key Plain') ?></th>
+            <td><?= h($user->api_key_plain) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Api Key') ?></th>
+            <td><?= h($user->api_key) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Digest Hash') ?></th>
+            <td><?= h($user->digest_hash) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($user->id) ?></td>
         </tr>
@@ -155,7 +167,12 @@
                 <th scope="col"><?= __('Created') ?></th>
                 <th scope="col"><?= __('Distance') ?></th>
                 <th scope="col"><?= __('User Id') ?></th>
-                <th scope="col"><?= __('Companies Id') ?></th>
+                <th scope="col"><?= __('Company Id') ?></th>
+                <th scope="col"><?= __('Complete') ?></th>
+                <th scope="col"><?= __('Start Lat') ?></th>
+                <th scope="col"><?= __('Start Long') ?></th>
+                <th scope="col"><?= __('Drop Lat') ?></th>
+                <th scope="col"><?= __('Drop Long') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($user->trips as $trips): ?>
@@ -174,7 +191,12 @@
                 <td><?= h($trips->created) ?></td>
                 <td><?= h($trips->distance) ?></td>
                 <td><?= h($trips->user_id) ?></td>
-                <td><?= h($trips->companies_id) ?></td>
+                <td><?= h($trips->company_id) ?></td>
+                <td><?= h($trips->complete) ?></td>
+                <td><?= h($trips->start_lat) ?></td>
+                <td><?= h($trips->start_long) ?></td>
+                <td><?= h($trips->drop_lat) ?></td>
+                <td><?= h($trips->drop_long) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'Trips', 'action' => 'view', $trips->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['controller' => 'Trips', 'action' => 'edit', $trips->id]) ?>

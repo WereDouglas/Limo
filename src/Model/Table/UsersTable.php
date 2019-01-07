@@ -101,6 +101,21 @@ class UsersTable extends Table
             ->maxLength('type', 20)
             ->allowEmpty('type');
 
+        $validator
+            ->scalar('api_key_plain')
+            ->maxLength('api_key_plain', 60)
+            ->allowEmpty('api_key_plain');
+
+        $validator
+            ->scalar('api_key')
+            ->maxLength('api_key', 60)
+            ->allowEmpty('api_key');
+
+        $validator
+            ->scalar('digest_hash')
+            ->maxLength('digest_hash', 100)
+            ->allowEmpty('digest_hash');
+
         return $validator;
     }
 

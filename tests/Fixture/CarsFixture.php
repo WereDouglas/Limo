@@ -48,7 +48,7 @@ class CarsFixture extends TestFixture
                 'id' => 1,
                 'plate' => 'Lorem ipsum dolor sit amet',
                 'registration' => 'Lorem ipsum dolor sit amet',
-                'expiry' => '2018-12-29',
+                'expiry' => '2019-01-06',
                 'user_id' => 1
             ],
         ];

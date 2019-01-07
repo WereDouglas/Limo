@@ -21,6 +21,11 @@ use Cake\ORM\Entity;
  * @property string|null $distance
  * @property int|null $user_id
  * @property int $company_id
+ * @property string|null $complete
+ * @property float|null $start_lat
+ * @property float|null $start_long
+ * @property float|null $drop_lat
+ * @property float|null $drop_long
  *
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Company $company
@@ -51,6 +56,11 @@ class Trip extends Entity
         'created' => true,
         'distance' => true,
         'user_id' => true,
+        'complete' => true,
+        'start_lat' => true,
+        'start_long' => true,
+        'drop_lat' => true,
+        'drop_long' => true,
         'user' => true,
         'company' => true
     ];

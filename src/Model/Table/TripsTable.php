@@ -38,7 +38,7 @@ class TripsTable extends Table
 
         $this->setTable('trips');
         $this->setDisplayField('id');
-        $this->setPrimaryKey(['id']);
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
@@ -114,6 +114,26 @@ class TripsTable extends Table
         $validator
             ->scalar('distance')
             ->allowEmpty('distance');
+
+        $validator
+            ->scalar('complete')
+            ->allowEmpty('complete');
+
+        $validator
+            ->decimal('start_lat')
+            ->allowEmpty('start_lat');
+
+        $validator
+            ->decimal('start_long')
+            ->allowEmpty('start_long');
+
+        $validator
+            ->decimal('drop_lat')
+            ->allowEmpty('drop_lat');
+
+        $validator
+            ->decimal('drop_long')
+            ->allowEmpty('drop_long');
 
         return $validator;
     }

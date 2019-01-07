@@ -20,26 +20,48 @@
         <li><?= $this->Html->link(__('New Company'), ['controller' => 'Companies', 'action' => 'add']) ?></li>
     </ul>
 </nav>
-<div class="trips form large-9 medium-8 columns content">
-    <?= $this->Form->create($trip) ?>
-    <fieldset>
-        <legend><?= __('Edit Trip') ?></legend>
-        <?php
-            echo $this->Form->control('client');
-            echo $this->Form->control('phone');
-            echo $this->Form->control('date', ['empty' => true]);
-            echo $this->Form->control('pick_up_time');
-            echo $this->Form->control('appointment_time');
-            echo $this->Form->control('pick_up_address');
-            echo $this->Form->control('pick_up_city');
-            echo $this->Form->control('drop_off_address');
-            echo $this->Form->control('drop_off_city');
-            echo $this->Form->control('comments');
-            echo $this->Form->control('distance');
-            echo $this->Form->control('user_id', ['options' => $users, 'empty' => true]);
-            echo $this->Form->control('company_id', ['options' => $companies]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
+
+<div class="container mt--8 pb-5">
+    <!-- Table -->
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card bg-secondary shadow border-0">
+                <div class="card-header bg-transparent pb-5">
+                    <div class="text-muted text-center mt-2 mb-4"><small><?= __('Edit Trip') ?></small></div>
+                </div>
+                <div class="card-body px-lg-5 py-lg-5">
+                    <?= $this->Form->create($trip) ?>
+                    <fieldset>
+                        <legend></legend>
+                        <?php
+                        echo $this->Form->control('client',['class' => 'form-control','placeholder'=>'Name']);
+                        echo $this->Form->control('phone',['class' => 'form-control']);
+                        echo $this->Form->control('date', ['empty' => false]);
+                        echo $this->Form->control('pick_up_time',['class' => 'form-control']);
+                        echo $this->Form->control('appointment_time',['class' => 'form-control']);
+                        echo $this->Form->control('pick_up_address',['class' => 'form-control']);
+                        echo $this->Form->control('pick_up_city',['class' => 'form-control']);
+                        echo $this->Form->control('drop_off_address',['class' => 'form-control']);
+                        echo $this->Form->control('drop_off_city',['class' => 'form-control']);
+                        echo $this->Form->control('comments',['class' => 'form-control']);
+                        echo $this->Form->control('distance',['class' => 'form-control']);
+                        echo $this->Form->control('user_id', ['options' => $users, 'empty' => true,'class' => 'form-control']);
+                        echo $this->Form->control('company_id', ['options' => $companies,'class' => 'form-control']);
+                        echo $this->Form->control('complete',['class' => 'form-control']);
+                        echo $this->Form->control('start_lat',['class' => 'form-control']);
+                        echo $this->Form->control('start_long',['class' => 'form-control']);
+                        echo $this->Form->control('drop_lat',['class' => 'form-control']);
+                        echo $this->Form->control('drop_long',['class' => 'form-control']);
+                        ?>
+                    </fieldset>
+                    <div class="text-center">
+                        <?= $this->Form->button(__('Submit'),['class' => 'btn btn-primary mt-4']) ?>
+                    </div>
+
+                    <?= $this->Form->end() ?>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

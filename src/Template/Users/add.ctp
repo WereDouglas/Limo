@@ -20,21 +20,36 @@
         <li><?= $this->Html->link(__('New Role'), ['controller' => 'Roles', 'action' => 'add']) ?></li>
     </ul>
 </nav>
-<div class="users form large-9 medium-8 columns content">
-    <?= $this->Form->create($user) ?>
-    <fieldset>
-        <legend><?= __('Add User') ?></legend>
-        <?php
-            echo $this->Form->control('first_name');
-            echo $this->Form->control('last_name');
-            echo $this->Form->control('contact');
-            echo $this->Form->control('email');
-            echo $this->Form->control('password');
-            echo $this->Form->control('type');
-            echo $this->Form->control('company_id', ['options' => $companies, 'empty' => true]);
-            echo $this->Form->control('roles._ids', ['options' => $roles]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div>
+<div class="trips form large-9 medium-8 columns content">
+    <div class="container mt--8 pb-5">
+        <!-- Table -->
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card bg-secondary shadow border-0">
+
+                    <div class="card-body px-lg-5 py-lg-5">
+                        <?= $this->Form->create($user) ?>
+                        <fieldset>
+                            <legend><?= __('Add User') ?></legend>
+                            <?php
+                            echo $this->Form->control('first_name', ['class' => 'form-control']);
+                            echo $this->Form->control('last_name', ['class' => 'form-control']);
+                            echo $this->Form->control('contact', ['class' => 'form-control']);
+                            echo $this->Form->control('email', ['class' => 'form-control']);
+                            echo $this->Form->control('password', ['class' => 'form-control']);
+                            echo $this->Form->control('type', ['class' => 'form-control']);
+                            echo $this->Form->control('company_id', ['options' => $companies, 'empty' => true,'class' => 'form-control']);
+                            echo $this->Form->control('api_key_plain', ['class' => 'form-control']);
+                            echo $this->Form->control('api_key', ['class' => 'form-control']);
+                            echo $this->Form->control('digest_hash', ['class' => 'form-control']);
+                            echo $this->Form->control('roles._ids', ['options' => $roles,'class' => 'form-control']);
+                            ?>
+                        </fieldset>
+                        <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary mt-4']) ?>
+                        <?= $this->Form->end() ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+

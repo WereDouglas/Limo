@@ -40,6 +40,9 @@
                 <th scope="col"><?= __('Password') ?></th>
                 <th scope="col"><?= __('Type') ?></th>
                 <th scope="col"><?= __('Company Id') ?></th>
+                <th scope="col"><?= __('Api Key Plain') ?></th>
+                <th scope="col"><?= __('Api Key') ?></th>
+                <th scope="col"><?= __('Digest Hash') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($role->users as $users): ?>
@@ -52,6 +55,9 @@
                 <td><?= h($users->password) ?></td>
                 <td><?= h($users->type) ?></td>
                 <td><?= h($users->company_id) ?></td>
+                <td><?= h($users->api_key_plain) ?></td>
+                <td><?= h($users->api_key) ?></td>
+                <td><?= h($users->digest_hash) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'Users', 'action' => 'view', $users->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['controller' => 'Users', 'action' => 'edit', $users->id]) ?>

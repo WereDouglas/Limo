@@ -9,6 +9,7 @@ use Cake\Validation\Validator;
 /**
  * Companies Model
  *
+ * @property \App\Model\Table\TripsTable|\Cake\ORM\Association\HasMany $Trips
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\HasMany $Users
  *
  * @method \App\Model\Entity\Company get($primaryKey, $options = [])
@@ -37,6 +38,9 @@ class CompaniesTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
+        $this->hasMany('Trips', [
+            'foreignKey' => 'company_id'
+        ]);
         $this->hasMany('Users', [
             'foreignKey' => 'company_id'
         ]);
