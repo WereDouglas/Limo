@@ -32,7 +32,7 @@
                         <fieldset>
                             <legend><?= __('Add User') ?></legend>
                             <?php
-                            echo $this->Form->control('first_name', ['class' => 'form-control']);
+                             echo $this->Form->control('first_name', ['class' => 'form-control']);
                             echo $this->Form->control('last_name', ['class' => 'form-control']);
                             echo $this->Form->control('contact', ['class' => 'form-control']);
                             echo $this->Form->control('email', ['class' => 'form-control']);

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -132,5 +133,15 @@ class UsersTable extends Table
         $rules->add($rules->existsIn(['company_id'], 'Companies'));
 
         return $rules;
+    }
+
+    public function findUsers(Query $query, array $options)
+    {
+
+        $query->where([
+            $this->alias() . '.id'=>1
+        ]);
+        return $query;
+
     }
 }
