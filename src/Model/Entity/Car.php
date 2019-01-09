@@ -11,6 +11,10 @@ use Cake\ORM\Entity;
  * @property string|null $registration
  * @property \Cake\I18n\FrozenDate|null $expiry
  * @property int|null $user_id
+ * @property string|null $photo
+ * @property string|null $photo_dir
+ * @property string|null $photo_size
+ * @property string|null $photo_type
  *
  * @property \App\Model\Entity\User $user
  */
@@ -31,6 +35,10 @@ class Car extends Entity
         'registration' => true,
         'expiry' => true,
         'user_id' => true,
+        'photo' => true,
+        'photo_dir' => true,
+        'photo_size' => true,
+        'photo_type' => true,
         'user' => true
     ];
 }

@@ -69,6 +69,26 @@ class CarsTable extends Table
             ->date('expiry')
             ->allowEmpty('expiry');
 
+        $validator
+            ->scalar('photo')
+            ->maxLength('photo', 45)
+            ->allowEmpty('photo');
+
+        $validator
+            ->scalar('photo_dir')
+            ->maxLength('photo_dir', 45)
+            ->allowEmpty('photo_dir');
+
+        $validator
+            ->scalar('photo_size')
+            ->maxLength('photo_size', 45)
+            ->allowEmpty('photo_size');
+
+        $validator
+            ->scalar('photo_type')
+            ->maxLength('photo_type', 45)
+            ->allowEmpty('photo_type');
+
         return $validator;
     }
 

@@ -79,6 +79,39 @@ class CompaniesTable extends Table
             ->maxLength('contact', 45)
             ->allowEmpty('contact');
 
+        $validator
+            ->scalar('photo_dir')
+            ->maxLength('photo_dir', 45)
+            ->allowEmpty('photo_dir');
+
+        $validator
+            ->scalar('photo_size')
+            ->maxLength('photo_size', 45)
+            ->allowEmpty('photo_size');
+
+        $validator
+            ->scalar('photo_type')
+            ->maxLength('photo_type', 45)
+            ->allowEmpty('photo_type');
+
+        $validator
+            ->email('email')
+            ->allowEmpty('email');
+
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->isUnique(['email']));
+
+        return $rules;
     }
 }

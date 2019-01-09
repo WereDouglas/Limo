@@ -8,7 +8,7 @@
         </button>
         <!-- Brand -->
         <a class="navbar-brand pt-0" href="../index.html">
-            <img src="<?= $this->Url->image('brand/blue.png') ?>" class="navbar-brand-img" alt="...">
+            <img src="<?= $this->Url->image('logo.png') ?>" class="navbar-brand-img" alt="...">
         </a>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
@@ -57,7 +57,20 @@
                     <div class="dropdown-divider"></div>
                     <a href="#!" class="dropdown-item">
                         <i class="ni ni-user-run"></i>
-                        <span>Logout</span>
+                        <span>
+                            <?php
+                            echo $this->Html->link(
+                                'Sign out',
+                                array(
+                                    'controller' => 'users',
+                                    'action' => 'login'
+                                ),
+                                array(
+                                    'class' => 'text-light',
+                                    'escape' => false
+                                )
+                            );
+                            ?></span>
                     </a>
                 </div>
             </li>
@@ -101,11 +114,7 @@
                         <i class="ni ni-tv-2 text-primary"></i> Dashboard
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../examples/icons.html">
-                        <i class="ni ni-planet text-blue"></i> Icons
-                    </a>
-                </li>
+
                 <li class="nav-item">
 
 
@@ -125,11 +134,9 @@
 
                 </li>
                 <li class="nav-item">
-
-
                     <?php
                     echo $this->Html->link(
-                        ' <i class="ni ni-single-02 text-yellow"></i>Users',
+                        ' <i class="ni ni-circle-08 "></i>Users',
                         array(
                             'controller' => 'users',
                             'action' => 'index'
@@ -149,7 +156,7 @@
 
                     <?php
                     echo $this->Html->link(
-                        ' <i class="ni ni-bullet-list-67 text-yellow"></i>Cars',
+                        ' <i class="ni ni-delivery-fast text-indigo"></i>Cars',
                         array(
                             'controller' => 'cars',
                             'action' => 'index'
@@ -167,7 +174,7 @@
 
                     <?php
                     echo $this->Html->link(
-                        ' <i class="ni ni-circle-08 text-yellow"></i>Drivers',
+                        ' <i class="ni ni-single-02 text-green"></i>Drivers',
                         array(
                             'controller' => 'drivers',
                             'action' => 'index'
@@ -180,6 +187,41 @@
                     ?>
 
                 </li>
+                <li class="nav-item">
+
+
+                    <?php
+                    echo $this->Html->link(
+                        ' <i class="ni ni-badge text-gray"></i>Roles',
+                        array(
+                            'controller' => 'roles',
+                            'action' => 'index'
+                        ),
+                        array(
+                            'class' => 'nav-link active',
+                            'escape' => false
+                        )
+                    );
+                    ?>
+
+                </li>
+                <li class="nav-item">
+                    <?php
+                    echo $this->Html->link(
+                        ' <i class="ni ni-lock-circle-open text-red"></i>Permissions',
+                        array(
+                            'controller' => 'permissions',
+                            'action' => 'index'
+                        ),
+                        array(
+                            'class' => 'nav-link active',
+                            'escape' => false
+                        )
+                    );
+                    ?>
+
+                </li>
+
             </ul>
             <!-- Divider -->
             <hr class="my-3">
@@ -187,6 +229,18 @@
             <h6 class="navbar-heading text-muted">Documentation</h6>
             <!-- Navigation -->
             <ul class="navbar-nav mb-md-3">
+                <li class="nav-item">
+                <a href="#!" class="btn btn-sm btn-primary" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">Add</a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                    <ul class="side-nav">
+                        <?php if ($this->fetch('links')) { ?>
+                            <?= $this->fetch('links') ?>
+                        <?php } ?>
+
+                    </ul>
+                </div>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link"
                        href="https://demos.creative-tim.com/argon-dashboard/docs/getting-started/overview.html">

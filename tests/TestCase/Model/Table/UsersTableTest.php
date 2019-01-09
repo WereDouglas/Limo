@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\UsersTable;
@@ -85,18 +84,5 @@ class UsersTableTest extends TestCase
     public function testBuildRules()
     {
         $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    public function testFindUsers()
-    {
-
-        $query = $this->Users->find('Users');
-        $this->assertInstanceOf('Cake\ORM\Query', $query);
-        $result = $query->hydrate(false)->toArray();
-        $expected = [
-
-            ['id'=>1,'first_name'=>'Douglas']
-        ];
-        $this->assertEquals($expected, $result);
     }
 }

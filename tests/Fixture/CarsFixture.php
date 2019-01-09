@@ -22,6 +22,10 @@ class CarsFixture extends TestFixture
         'registration' => ['type' => 'string', 'length' => 45, 'null' => true, 'default' => null, 'collate' => 'utf8mb4_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'expiry' => ['type' => 'date', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'user_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'photo' => ['type' => 'string', 'length' => 45, 'null' => true, 'default' => null, 'collate' => 'utf8mb4_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
+        'photo_dir' => ['type' => 'string', 'length' => 45, 'null' => true, 'default' => null, 'collate' => 'utf8mb4_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
+        'photo_size' => ['type' => 'string', 'length' => 45, 'null' => true, 'default' => null, 'collate' => 'utf8mb4_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
+        'photo_type' => ['type' => 'string', 'length' => 45, 'null' => true, 'default' => null, 'collate' => 'utf8mb4_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         '_indexes' => [
             'fk_cars_users1_idx' => ['type' => 'index', 'columns' => ['user_id'], 'length' => []],
         ],
@@ -48,8 +52,12 @@ class CarsFixture extends TestFixture
                 'id' => 1,
                 'plate' => 'Lorem ipsum dolor sit amet',
                 'registration' => 'Lorem ipsum dolor sit amet',
-                'expiry' => '2019-01-06',
-                'user_id' => 1
+                'expiry' => '2019-01-08',
+                'user_id' => 1,
+                'photo' => 'Lorem ipsum dolor sit amet',
+                'photo_dir' => 'Lorem ipsum dolor sit amet',
+                'photo_size' => 'Lorem ipsum dolor sit amet',
+                'photo_type' => 'Lorem ipsum dolor sit amet'
             ],
         ];
         parent::init();

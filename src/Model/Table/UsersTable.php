@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -39,7 +38,7 @@ class UsersTable extends Table
         parent::initialize($config);
 
         $this->setTable('users');
-        $this->setDisplayField('id');
+        $this->setDisplayField('full_name');
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Companies', [
@@ -117,6 +116,26 @@ class UsersTable extends Table
             ->maxLength('digest_hash', 100)
             ->allowEmpty('digest_hash');
 
+        $validator
+            ->scalar('photo')
+            ->maxLength('photo', 45)
+            ->allowEmpty('photo');
+
+        $validator
+            ->scalar('photo_dir')
+            ->maxLength('photo_dir', 45)
+            ->allowEmpty('photo_dir');
+
+        $validator
+            ->scalar('photo_size')
+            ->maxLength('photo_size', 45)
+            ->allowEmpty('photo_size');
+
+        $validator
+            ->scalar('photo_type')
+            ->maxLength('photo_type', 45)
+            ->allowEmpty('photo_type');
+
         return $validator;
     }
 
@@ -133,15 +152,5 @@ class UsersTable extends Table
         $rules->add($rules->existsIn(['company_id'], 'Companies'));
 
         return $rules;
-    }
-
-    public function findUsers(Query $query, array $options)
-    {
-
-        $query->where([
-            $this->alias() . '.id'=>1
-        ]);
-        return $query;
-
     }
 }

@@ -9,6 +9,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string|null $license
  * @property int $user_id
+ * @property \Cake\I18n\FrozenDate|null $expires
  *
  * @property \App\Model\Entity\User $user
  */
@@ -27,6 +28,7 @@ class Driver extends Entity
     protected $_accessible = [
         'license' => true,
         'user_id' => true,
+        'expires' => true,
         'user' => true
     ];
 }
