@@ -12,6 +12,7 @@
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Controller\Controller;
@@ -37,6 +38,7 @@ class AppController extends Controller
      *
      * @return void
      */
+
     public function initialize()
     {
         parent::initialize();
@@ -46,12 +48,43 @@ class AppController extends Controller
         ]);
         $this->loadComponent('Flash');
 
-
-
         /*
          * Enable the following component for recommended CakePHP security settings.
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
          */
         //$this->loadComponent('Security');
+        $this->loadComponent('Auth', [
+            'authorize' => 'Controller',
+
+            'loginRedirect' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ],
+            'logoutRedirect' => [
+                'controller' => 'Users',
+                'action' => 'logout'
+            ],
+            'authenticate' => [
+                'Form' => [
+                    'fields' => ['username' => 'contact', 'password' => 'password']
+                ],
+                'Digest' => [
+                    'fields' => ['username' => 'contact', 'password' => 'digest_hash'],
+                    'userModel' => 'Users'
+                ],
+            ],
+          //  'storage' => 'Memory',
+            // If unauthorized, return them to page they were just on
+            'unauthorizedRedirect' => $this->referer()
+        ]);
+
+      //  $this->Auth->allow(['display', 'view', 'index']);
     }
+
+    public function isAuthorized($user)
+    {
+        // By default deny access.
+        return false;
+    }
+
 }

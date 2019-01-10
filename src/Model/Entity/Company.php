@@ -43,4 +43,8 @@ class Company extends Entity
         'trips' => true,
         'users' => true
     ];
+    protected function _getFullUrl()
+    {
+        return '/'. $this->_properties['photo_dir'] . '' . $this->_properties['photo'];
+    }
 }

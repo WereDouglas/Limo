@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Company[]|\Cake\Collection\CollectionInterface $companies
  */
 $this->extend('/Common/subPage');
-$this->assign('title', 'Roles');
+$this->assign('title', 'Companies');
 ?>
 <?php $this->start('links'); ?>
 <li><?= $this->Html->link(__('New Company'), ['action' => 'add']) ?></li>
@@ -15,30 +15,47 @@ $this->assign('title', 'Roles');
 <?php $this->end(); ?>
 <?php $this->start('table'); ?>
 <?php $this->start('th'); ?>
-    <tr>
-        <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('photo') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('address') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('contact') ?></th>
-        <th scope="col" class="actions"><?= __('Actions') ?></th>
-    </tr>
+<tr>
+    <th scope="col"></th>
+    <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('name') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('photo') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('address') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('contact') ?></th>
+    <th scope="col" class="actions"><?= __('Actions') ?></th>
+</tr>
 <?php $this->end(); ?>
 <?php $this->start('tr'); ?>
-    <?php foreach ($companies as $company): ?>
-        <tr>
-            <td><?= $this->Number->format($company->id) ?></td>
-            <td><?= h($company->name) ?></td>
-            <td><?= h($company->photo) ?></td>
-            <td><?= h($company->address) ?></td>
-            <td><?= h($company->contact) ?></td>
-            <td class="actions">
-                <?= $this->Html->link(__('View'), ['action' => 'view', $company->id]) ?>
-                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $company->id]) ?>
-                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $company->id], ['confirm' => __('Are you sure you want to delete # {0}?', $company->id)]) ?>
-            </td>
-        </tr>
-    <?php endforeach; ?>
+<?php foreach ($companies as $company): ?>
+    <tr>
+        <td>
+            <?php
+            $image = $this->Url->image('company.png');
+            if (h($company->photo != "")) {
+                $image = $this->Url->build($company->full_url);
+            }
+            ?>
+            <div class="avatar-group">
+                <a href="#" class="avatar avatar-sm" data-toggle="tooltip"
+                   data-original-title="<?= h($company->name) ?>">
+                    <img alt="Image placeholder" src="<?= $image; ?>" class="rounded-circle">
+                </a>
+            </div>
+
+        </td>
+        <td><?= $this->Number->format($company->id) ?></td>
+        <td><?= h($company->name) ?></td>
+        <td><?= h($company->photo) ?></td>
+        <td><?= h($company->address) ?></td>
+        <td><?= h($company->contact) ?></td>
+        <td class="actions">
+            <?= $this->Html->link(__('View'), ['action' => 'view', $company->id]) ?>
+            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $company->id]) ?>
+            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $company->id],
+                ['confirm' => __('Are you sure you want to delete # {0}?', $company->id)]) ?>
+        </td>
+    </tr>
+<?php endforeach; ?>
 <?php $this->end(); ?>
 
 <?php $this->end(); ?>

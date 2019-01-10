@@ -10,8 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
-    <?= $this->Html->css('argon.css') ?>
+    <?= $this->Html->css('nucleo.css') ?>
     <?= $this->Html->css('all.min.css') ?>
+    <?= $this->Html->css('argon.css?v=1.0.0') ?>
     <?= $this->Html->script(['jquery.min', 'bootstrap.bundle.min.js', 'argon.js']); ?>
 
     <?= $this->fetch('meta') ?>

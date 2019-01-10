@@ -57,29 +57,19 @@ $this->assign('title', 'All trips');
 <?php foreach ($trips as $trip): ?>
     <tr>
         <td>
+            <?php
+           // echo '<pre>';
+          // var_dump($trip->user);
+            $image = $this->Url->image('user.png');
+            if ($trip->user->photo != "") {
+                $image = $this->Url->build($trip->user->full_url);
+            }
+            ?>
             <div class="avatar-group">
                 <a href="#" class="avatar avatar-sm" data-toggle="tooltip"
-                   data-original-title="Ryan Tompson">
+                   data-original-title="<?= $trip->user->full_url ?>">
                     <img alt="Image placeholder"
-                         src="<?= $this->Url->image('theme/team-1-800x800.jpg') ?>"
-                         class="rounded-circle">
-                </a>
-                <a href="#" class="avatar avatar-sm" data-toggle="tooltip"
-                   data-original-title="Romina Hadid">
-                    <img alt="Image placeholder"
-                         src="<?= $this->Url->image('theme/team-2-800x800.jpg') ?>"
-                         class="rounded-circle">
-                </a>
-                <a href="#" class="avatar avatar-sm" data-toggle="tooltip"
-                   data-original-title="Alexander Smith">
-                    <img alt="Image placeholder"
-                         src="<?= $this->Url->image('theme/team-3-800x800.jpg') ?>"
-                         class="rounded-circle">
-                </a>
-                <a href="#" class="avatar avatar-sm" data-toggle="tooltip"
-                   data-original-title="Jessica Doe">
-                    <img alt="Image placeholder"
-                         src="<?= $this->Url->image('theme/team-4-800x800.jpg ') ?>"
+                         src="<?= $image ?>"
                          class="rounded-circle">
                 </a>
             </div>
@@ -110,14 +100,11 @@ $this->assign('title', 'All trips');
                 <span class="badge badge-dot"><i class="bg-info"></i>en route</span>
             <?php endif; ?>
         </td>
-
         <td><?= $this->Number->format($trip->start_lat) ?></td>
         <td><?= $this->Number->format($trip->start_long) ?></td>
         <td><?= $this->Number->format($trip->drop_lat) ?></td>
         <td><?= $this->Number->format($trip->drop_long) ?></td>
         <td class="actions">
-
-
             <div class="dropdown">
                 <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

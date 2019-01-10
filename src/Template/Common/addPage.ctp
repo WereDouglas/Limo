@@ -26,7 +26,6 @@
     </div>
 <?php  endif ?>
 <!-- Page content -->
-
 <div class="trips form large-9 medium-8 columns content">
     <div class="container mt--8 pb-5">
         <!-- Table -->

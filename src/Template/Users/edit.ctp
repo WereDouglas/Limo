@@ -24,12 +24,27 @@
 <li><?= $this->Html->link(__('List Roles'), ['controller' => 'Roles', 'action' => 'index']) ?></li>
 <li><?= $this->Html->link(__('New Role'), ['controller' => 'Roles', 'action' => 'add']) ?></li>
 
+
 <?php $this->end(); ?>
 <?php $this->start('form'); ?>
 <div class="users form large-9 medium-8 columns content">
-    <?= $this->Form->create($user) ?>
+
+    <?= $this->Form->create($user, ['type' => 'file']) ?>
+    <div class="card-profile-image">
+        <a href="#">
+            <?php
+            $image = $this->Url->image('user.png');
+            if ($user->photo != "") {
+                $image = $this->Url->build($user->full_url);
+            }
+            ?>
+            <img src="<?= $image; ?>" class="rounded-circle">
+        </a>
+    </div>
     <fieldset>
+
         <legend><?= __('Edit User') ?></legend>
+
         <?php
         echo $this->Form->control('first_name');
         echo $this->Form->control('last_name');
@@ -41,11 +56,11 @@
         echo $this->Form->control('api_key_plain');
         echo $this->Form->control('api_key');
         echo $this->Form->control('digest_hash');
-        echo $this->Form->control('roles._ids', ['options' => $roles]);
-        echo $this->Form->control('photo', ['type' => 'file', 'class' => 'form-control']);
+        echo $this->Form->control('roles._ids', ['options' => $roles, 'class' => 'form-control']);
+
         ?>
     </fieldset>
-    <?php  echo $this->Form->submit('Submit'); ?>
+    <?php echo $this->Form->submit('Submit'); ?>
     <?= $this->Form->end() ?>
 </div>
 

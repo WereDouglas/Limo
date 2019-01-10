@@ -20,6 +20,7 @@ $this->assign('title', 'Cars');
 
 <?php $this->start('th'); ?>
 <tr>
+    <th scope="col"></th>
     <th scope="col"><?= $this->Paginator->sort('id') ?></th>
     <th scope="col"><?= $this->Paginator->sort('plate') ?></th>
     <th scope="col"><?= $this->Paginator->sort('registration') ?></th>
@@ -31,6 +32,20 @@ $this->assign('title', 'Cars');
 <?php $this->start('tr'); ?>
 <?php foreach ($cars as $car): ?>
     <tr>
+        <td>
+            <?php
+            $image = $this->Url->image('logo.png');
+            if (h($car->photo != "")) {
+                $image = $this->Url->build($car->full_url);
+            }
+            ?>
+            <div class="avatar-group">
+                <a href="#" class="avatar avatar-sm" data-toggle="tooltip"
+                   data-original-title="<?= h($car->name) ?>">
+                    <img alt="Image placeholder" src="<?= $image; ?>" class="rounded-circle">
+                </a>
+            </div>
+        </td>
         <td><?= $this->Number->format($car->id) ?></td>
         <td><?= h($car->plate) ?></td>
         <td><?= h($car->registration) ?></td>

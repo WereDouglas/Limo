@@ -4,7 +4,9 @@ namespace App\Model\Table;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Event\Event;
 use Cake\Validation\Validator;
+use Cake\Auth\DigestAuthenticate;
 
 /**
  * Users Model
@@ -37,6 +39,7 @@ class UsersTable extends Table
     {
         parent::initialize($config);
 
+
         $this->setTable('users');
         $this->setDisplayField('full_name');
         $this->setPrimaryKey('id');
@@ -57,6 +60,17 @@ class UsersTable extends Table
             'foreignKey' => 'user_id',
             'targetForeignKey' => 'role_id',
             'joinTable' => 'roles_users'
+        ]);
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'photo' => [
+                'fields' => [
+                    // if these fields or their defaults exist
+                    // the values will be set.
+                    'dir' => 'photo_dir', // defaults to `dir`
+                    'size' => 'photo_size', // defaults to `size`
+                    'type' => 'photo_type', // defaults to `type`
+                ],
+            ]
         ]);
     }
 
@@ -116,26 +130,6 @@ class UsersTable extends Table
             ->maxLength('digest_hash', 100)
             ->allowEmpty('digest_hash');
 
-        $validator
-            ->scalar('photo')
-            ->maxLength('photo', 45)
-            ->allowEmpty('photo');
-
-        $validator
-            ->scalar('photo_dir')
-            ->maxLength('photo_dir', 45)
-            ->allowEmpty('photo_dir');
-
-        $validator
-            ->scalar('photo_size')
-            ->maxLength('photo_size', 45)
-            ->allowEmpty('photo_size');
-
-        $validator
-            ->scalar('photo_type')
-            ->maxLength('photo_type', 45)
-            ->allowEmpty('photo_type');
-
         return $validator;
     }
 
@@ -153,4 +147,15 @@ class UsersTable extends Table
 
         return $rules;
     }
+    public function beforeSave(Event $event)
+    {
+        $entity = $event->getData('entity');
+        $entity->digest_hash = DigestAuthenticate::password(
+            $entity->contact,
+            $entity->password,
+            env('douglas')
+        );
+        return true;
+    }
+
 }

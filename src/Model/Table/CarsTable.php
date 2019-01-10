@@ -40,6 +40,17 @@ class CarsTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'photo' => [
+                'fields' => [
+                    // if these fields or their defaults exist
+                    // the values will be set.
+                    'dir' => 'photo_dir', // defaults to `dir`
+                    'size' => 'photo_size', // defaults to `size`
+                    'type' => 'photo_type', // defaults to `type`
+                ],
+            ],
+        ]);
     }
 
     /**
@@ -69,26 +80,6 @@ class CarsTable extends Table
             ->date('expiry')
             ->allowEmpty('expiry');
 
-        $validator
-            ->scalar('photo')
-            ->maxLength('photo', 45)
-            ->allowEmpty('photo');
-
-        $validator
-            ->scalar('photo_dir')
-            ->maxLength('photo_dir', 45)
-            ->allowEmpty('photo_dir');
-
-        $validator
-            ->scalar('photo_size')
-            ->maxLength('photo_size', 45)
-            ->allowEmpty('photo_size');
-
-        $validator
-            ->scalar('photo_type')
-            ->maxLength('photo_type', 45)
-            ->allowEmpty('photo_type');
-
         return $validator;
     }
 
@@ -105,4 +96,5 @@ class CarsTable extends Table
 
         return $rules;
     }
+
 }

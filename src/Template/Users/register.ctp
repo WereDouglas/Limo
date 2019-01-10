@@ -5,7 +5,16 @@ $this->assign('header', 'Or sign up with credentials');
 ?>
 <!-- Navbar -->
 <?php $this->start('form'); ?>
-<form role="form">
+<?php echo $this->Form->create('users', array(
+    'inputDefaults' => array(
+        'div' => 'form-group',
+        'label' => false,
+        'wrapInput' => false,
+        'class' => 'form-control',
+        'role' => 'form'
+    ),
+
+)); ?>
     <div class="form-group">
         <div class="input-group input-group-alternative mb-3">
             <div class="input-group-prepend">
@@ -46,9 +55,7 @@ $this->assign('header', 'Or sign up with credentials');
     <div class="text-center">
         <button type="button" class="btn btn-primary mt-4">Create account</button>
     </div>
-</form>
-
-
+<?= $this->Form->end() ?>
 <?php $this->end(); ?>
 <?php $this->start('links');?>
 <div class="row mt-3">

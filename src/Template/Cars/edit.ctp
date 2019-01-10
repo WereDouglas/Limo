@@ -19,7 +19,7 @@
 <?php$this->end();?>
 <?php$this->start('form');?>
 
-<?= $this->Form->create($car) ?>
+<?= $this->Form->create($car, ['type' => 'file']) ?>
 <fieldset>
     <legend><?= __('Edit Car') ?></legend>
     <?php

@@ -13,7 +13,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'Erplimo';
+$cakeDescription = 'erplimo';
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,12 +36,12 @@ $cakeDescription = 'Erplimo';
 
 </head>
 <body>
-<?=$this->element('sideNav')?>
+<?= $this->element('sideNav') ?>
 <!-- Sidenav -->
-<?= $this->Flash->render() ?>
+
 <div class="main-content">
     <!-- content -->
-
+    <?= $this->Flash->render() ?>
     <?= $this->fetch('content') ?>
     <!-- Footer -->
     <?=$this->element('footer')?>
@@ -51,7 +51,7 @@ $cakeDescription = 'Erplimo';
 <footer>
 </footer>
 
-<?=$this->Html->script(['jquery.min', 'bootstrap.bundle.min', 'argon']);?>
+<?= $this->Html->script(['jquery.min', 'bootstrap.bundle.min', 'argon']);?>
 
 </body>
 </html>

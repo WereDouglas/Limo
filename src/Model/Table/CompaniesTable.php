@@ -44,6 +44,17 @@ class CompaniesTable extends Table
         $this->hasMany('Users', [
             'foreignKey' => 'company_id'
         ]);
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'photo' => [
+                'fields' => [
+                    // if these fields or their defaults exist
+                    // the values will be set.
+                    'dir' => 'photo_dir', // defaults to `dir`
+                    'size' => 'photo_size', // defaults to `size`
+                    'type' => 'photo_type', // defaults to `type`
+                ],
+            ],
+        ]);
     }
 
     /**
@@ -64,10 +75,6 @@ class CompaniesTable extends Table
             ->requirePresence('name', 'create')
             ->notEmpty('name');
 
-        $validator
-            ->scalar('photo')
-            ->maxLength('photo', 45)
-            ->allowEmpty('photo');
 
         $validator
             ->scalar('address')
@@ -79,20 +86,6 @@ class CompaniesTable extends Table
             ->maxLength('contact', 45)
             ->allowEmpty('contact');
 
-        $validator
-            ->scalar('photo_dir')
-            ->maxLength('photo_dir', 45)
-            ->allowEmpty('photo_dir');
-
-        $validator
-            ->scalar('photo_size')
-            ->maxLength('photo_size', 45)
-            ->allowEmpty('photo_size');
-
-        $validator
-            ->scalar('photo_type')
-            ->maxLength('photo_type', 45)
-            ->allowEmpty('photo_type');
 
         $validator
             ->email('email')
@@ -114,4 +107,5 @@ class CompaniesTable extends Table
 
         return $rules;
     }
+
 }

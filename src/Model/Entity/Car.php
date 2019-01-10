@@ -41,4 +41,8 @@ class Car extends Entity
         'photo_type' => true,
         'user' => true
     ];
+    protected function _getFullUrl()
+    {
+        return '/'.$this->_properties['photo_dir'] . '' . $this->_properties['photo'];
+    }
 }

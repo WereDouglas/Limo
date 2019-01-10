@@ -2,6 +2,14 @@
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\Auth\DefaultPasswordHasher;
+
+
+use Cake\Utility\Text;
+use Cake\Event\Event;
+use Cake\ORM\Table;
+use Cake\Utility\Security;
+
 
 /**
  * User Entity
@@ -41,7 +49,7 @@ class User extends Entity
      * @var array
      */
     protected $_accessible = [
-        'first_name' => true,
+        'id' => true,
         'first_name' => true,
         'last_name' => true,
         'contact' => true,
@@ -71,6 +79,14 @@ class User extends Entity
     protected $_hidden = [
         'password'
     ];
+    protected function _setPassword($value)
+    {
+        if (strlen($value)) {
+            $hasher = new DefaultPasswordHasher();
+
+            return $hasher->hash($value);
+        }
+    }
     protected function _getFullName()
     {
         return $this->_properties['first_name'] . '  ' .
@@ -78,7 +94,7 @@ class User extends Entity
     }
     protected function _getFullUrl()
     {
-        return $this->_properties['photo_dir'] . '' . $this->_properties['photo'];
+        return '/'.$this->_properties['photo_dir'] . '' . $this->_properties['photo'];
     }
     public function validationDefault(Validator $validator)
     {
@@ -86,4 +102,5 @@ class User extends Entity
             ->notEmpty('contact', 'A contact is required')
             ->notEmpty('password', 'A password is required');
     }
+
 }

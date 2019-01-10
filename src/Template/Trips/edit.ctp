@@ -21,35 +21,35 @@
 <?php $this->end(); ?>
 <?php $this->start('form'); ?>
 
-                    <?= $this->Form->create($trip) ?>
-                    <fieldset>
-                        <legend></legend>
-                        <?php
-                        echo $this->Form->control('client', ['class' => 'form-control', 'placeholder' => 'Name']);
-                        echo $this->Form->control('phone', ['class' => 'form-control']);
-                        echo $this->Form->control('date', ['empty' => false]);
-                        echo $this->Form->control('pick_up_time', ['class' => 'form-control']);
-                        echo $this->Form->control('appointment_time', ['class' => 'form-control']);
-                        echo $this->Form->control('pick_up_address', ['class' => 'form-control']);
-                        echo $this->Form->control('pick_up_city', ['class' => 'form-control']);
-                        echo $this->Form->control('drop_off_address', ['class' => 'form-control']);
-                        echo $this->Form->control('drop_off_city', ['class' => 'form-control']);
-                        echo $this->Form->control('comments', ['class' => 'form-control']);
-                        echo $this->Form->control('distance', ['class' => 'form-control']);
-                        echo $this->Form->control('user_id',
-                            ['options' => $users, 'empty' => true, 'class' => 'form-control']);
-                        echo $this->Form->control('company_id', ['options' => $companies, 'class' => 'form-control']);
-                        echo $this->Form->control('complete', ['class' => 'form-control']);
-                        echo $this->Form->control('start_lat', ['class' => 'form-control']);
-                        echo $this->Form->control('start_long', ['class' => 'form-control']);
-                        echo $this->Form->control('drop_lat', ['class' => 'form-control']);
-                        echo $this->Form->control('drop_long', ['class' => 'form-control']);
-                        ?>
-                    </fieldset>
-                    <div class="text-center">
-                        <?php  echo $this->Form->submit('Submit'); ?>
-                    </div>
+<?= $this->Form->create($trip) ?>
+<fieldset>
+    <legend></legend>
+    <?php
+    echo $this->Form->control('client', ['class' => 'form-control', 'placeholder' => 'Name']);
+    echo $this->Form->control('phone', ['class' => 'form-control']);
+    echo $this->Form->control('date', ['empty' => false]);
+    echo $this->Form->control('pick_up_time', ['class' => 'form-control']);
+    echo $this->Form->control('appointment_time', ['class' => 'form-control']);
+    echo $this->Form->control('pick_up_address', ['class' => 'form-control']);
+    echo $this->Form->control('pick_up_city', ['class' => 'form-control']);
+    echo $this->Form->control('drop_off_address', ['class' => 'form-control']);
+    echo $this->Form->control('drop_off_city', ['class' => 'form-control']);
+    echo $this->Form->control('comments', ['class' => 'form-control']);
+    echo $this->Form->control('distance', ['class' => 'form-control']);
+    echo $this->Form->control('user_id',
+        ['options' => $users, 'empty' => true, 'class' => 'form-control']);
+    echo $this->Form->control('company_id', ['options' => $companies, 'class' => 'form-control']);
+    echo $this->Form->control('complete', ['class' => 'form-control']);
+    echo $this->Form->control('start_lat', ['class' => 'form-control']);
+    echo $this->Form->control('start_long', ['class' => 'form-control']);
+    echo $this->Form->control('drop_lat', ['class' => 'form-control']);
+    echo $this->Form->control('drop_long', ['class' => 'form-control']);
+    ?>
+</fieldset>
+<div class="text-center">
+    <?php echo $this->Form->submit('Submit'); ?>
+</div>
 
-                    <?= $this->Form->end() ?>
+<?= $this->Form->end() ?>
 
 <?php $this->end(); ?>
