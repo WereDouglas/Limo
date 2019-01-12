@@ -2,6 +2,14 @@
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\Auth\DefaultPasswordHasher;
+
+
+use Cake\Utility\Text;
+use Cake\Event\Event;
+use Cake\ORM\Table;
+use Cake\Utility\Security;
+
 
 /**
  * User Entity
@@ -14,6 +22,13 @@ use Cake\ORM\Entity;
  * @property string|null $password
  * @property string|null $type
  * @property int|null $company_id
+ * @property string|null $api_key_plain
+ * @property string|null $api_key
+ * @property string|null $digest_hash
+ * @property string|null $photo
+ * @property string|null $photo_dir
+ * @property string|null $photo_size
+ * @property string|null $photo_type
  *
  * @property \App\Model\Entity\Company $company
  * @property \App\Model\Entity\Car[] $cars
@@ -34,6 +49,7 @@ class User extends Entity
      * @var array
      */
     protected $_accessible = [
+        'id' => true,
         'first_name' => true,
         'last_name' => true,
         'contact' => true,
@@ -41,6 +57,13 @@ class User extends Entity
         'password' => true,
         'type' => true,
         'company_id' => true,
+        'api_key_plain' => true,
+        'api_key' => true,
+        'digest_hash' => true,
+        'photo' => true,
+        'photo_dir' => true,
+        'photo_size' => true,
+        'photo_type' => true,
         'company' => true,
         'cars' => true,
         'drivers' => true,
@@ -56,4 +79,28 @@ class User extends Entity
     protected $_hidden = [
         'password'
     ];
+    protected function _setPassword($value)
+    {
+        if (strlen($value)) {
+            $hasher = new DefaultPasswordHasher();
+
+            return $hasher->hash($value);
+        }
+    }
+    protected function _getFullName()
+    {
+        return $this->_properties['first_name'] . '  ' .
+            $this->_properties['last_name'];
+    }
+    protected function _getFullUrl()
+    {
+        return '/'.$this->_properties['photo_dir'] . '' . $this->_properties['photo'];
+    }
+    public function validationDefault(Validator $validator)
+    {
+        return $validator
+            ->notEmpty('contact', 'A contact is required')
+            ->notEmpty('password', 'A password is required');
+    }
+
 }

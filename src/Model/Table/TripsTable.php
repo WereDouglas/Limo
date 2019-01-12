@@ -38,7 +38,7 @@ class TripsTable extends Table
 
         $this->setTable('trips');
         $this->setDisplayField('id');
-        $this->setPrimaryKey(['id', 'companies_id']);
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
@@ -46,7 +46,7 @@ class TripsTable extends Table
             'foreignKey' => 'user_id'
         ]);
         $this->belongsTo('Companies', [
-            'foreignKey' => 'companies_id',
+            'foreignKey' => 'company_id',
             'joinType' => 'INNER'
         ]);
     }
@@ -78,11 +78,13 @@ class TripsTable extends Table
             ->allowEmpty('date');
 
         $validator
-            ->dateTime('pick_up_time')
+            ->scalar('pick_up_time')
+            ->maxLength('pick_up_time', 10)
             ->allowEmpty('pick_up_time');
 
         $validator
-            ->dateTime('appointment_time')
+            ->scalar('appointment_time')
+            ->maxLength('appointment_time', 10)
             ->allowEmpty('appointment_time');
 
         $validator
@@ -105,6 +107,33 @@ class TripsTable extends Table
             ->maxLength('drop_off_city', 45)
             ->allowEmpty('drop_off_city');
 
+        $validator
+            ->scalar('comments')
+            ->allowEmpty('comments');
+
+        $validator
+            ->scalar('distance')
+            ->allowEmpty('distance');
+
+        $validator
+            ->scalar('complete')
+            ->allowEmpty('complete');
+
+        $validator
+            ->decimal('start_lat')
+            ->allowEmpty('start_lat');
+
+        $validator
+            ->decimal('start_long')
+            ->allowEmpty('start_long');
+
+        $validator
+            ->decimal('drop_lat')
+            ->allowEmpty('drop_lat');
+
+        $validator
+            ->decimal('drop_long')
+            ->allowEmpty('drop_long');
 
         return $validator;
     }
@@ -119,7 +148,7 @@ class TripsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
-        $rules->add($rules->existsIn(['companies_id'], 'Companies'));
+        $rules->add($rules->existsIn(['company_id'], 'Companies'));
 
         return $rules;
     }

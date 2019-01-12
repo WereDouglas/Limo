@@ -13,7 +13,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+$cakeDescription = 'erplimo';
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,33 +25,36 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <?= $this->fetch('title') ?>
     </title>
     <?= $this->Html->meta('icon') ?>
-
-    <?= $this->Html->css('base.css') ?>
-    <?= $this->Html->css('style.css') ?>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <?= $this->Html->css('nucleo.css') ?>
+    <?= $this->Html->css('all.min.css') ?>
+    <?= $this->Html->css('argon.css?v=1.0.0') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
+
 </head>
 <body>
-    <nav class="top-bar expanded" data-topbar role="navigation">
-        <ul class="title-area large-3 medium-4 columns">
-            <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
-            </li>
-        </ul>
-        <div class="top-bar-section">
-            <ul class="right">
-                <li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
-                <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>
-            </ul>
-        </div>
-    </nav>
-    <?= $this->Flash->render() ?>
-    <div class="container clearfix">
-        <?= $this->fetch('content') ?>
+<?= $this->element('sideNav') ?>
+<!-- Sidenav -->
+
+<div class="main-content">
+    <!-- content -->
+
+    <?= $this->fetch('content') ?>
+    <div class="col-lg-2 center ">
+        <?= $this->Flash->render() ?>
     </div>
-    <footer>
-    </footer>
+
+    <!-- Footer -->
+    <?= $this->element('footer') ?>
+
+
+<footer>
+</footer>
+
+<?= $this->Html->script(['jquery.min', 'bootstrap.bundle.min', 'argon']); ?>
+
 </body>
 </html>

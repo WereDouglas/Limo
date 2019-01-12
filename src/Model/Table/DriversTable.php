@@ -60,6 +60,10 @@ class DriversTable extends Table
             ->maxLength('license', 45)
             ->allowEmpty('license');
 
+        $validator
+            ->date('expires')
+            ->allowEmpty('expires');
+
         return $validator;
     }
 

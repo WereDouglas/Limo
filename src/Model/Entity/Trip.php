@@ -10,8 +10,8 @@ use Cake\ORM\Entity;
  * @property string|null $client
  * @property string|null $phone
  * @property \Cake\I18n\FrozenDate|null $date
- * @property \Cake\I18n\FrozenTime|null $pick_up_time
- * @property \Cake\I18n\FrozenTime|null $appointment_time
+ * @property string|null $pick_up_time
+ * @property string|null $appointment_time
  * @property string|null $pick_up_address
  * @property string|null $pick_up_city
  * @property string|null $drop_off_address
@@ -20,7 +20,12 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime|null $created
  * @property string|null $distance
  * @property int|null $user_id
- * @property int $companies_id
+ * @property int $company_id
+ * @property string|null $complete
+ * @property float|null $start_lat
+ * @property float|null $start_long
+ * @property float|null $drop_lat
+ * @property float|null $drop_long
  *
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Company $company
@@ -51,6 +56,11 @@ class Trip extends Entity
         'created' => true,
         'distance' => true,
         'user_id' => true,
+        'complete' => true,
+        'start_lat' => true,
+        'start_long' => true,
+        'drop_lat' => true,
+        'drop_long' => true,
         'user' => true,
         'company' => true
     ];

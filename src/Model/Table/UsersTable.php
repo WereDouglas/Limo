@@ -4,7 +4,10 @@ namespace App\Model\Table;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
+use Cake\Auth\DigestAuthenticate;
 
 /**
  * Users Model
@@ -37,8 +40,9 @@ class UsersTable extends Table
     {
         parent::initialize($config);
 
+
         $this->setTable('users');
-        $this->setDisplayField('id');
+        $this->setDisplayField('full_name');
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Companies', [
@@ -57,6 +61,17 @@ class UsersTable extends Table
             'foreignKey' => 'user_id',
             'targetForeignKey' => 'role_id',
             'joinTable' => 'roles_users'
+        ]);
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'photo' => [
+                'fields' => [
+                    // if these fields or their defaults exist
+                    // the values will be set.
+                    'dir' => 'photo_dir', // defaults to `dir`
+                    'size' => 'photo_size', // defaults to `size`
+                    'type' => 'photo_type', // defaults to `type`
+                ],
+            ]
         ]);
     }
 
@@ -101,6 +116,21 @@ class UsersTable extends Table
             ->maxLength('type', 20)
             ->allowEmpty('type');
 
+        $validator
+            ->scalar('api_key_plain')
+            ->maxLength('api_key_plain', 60)
+            ->allowEmpty('api_key_plain');
+
+        $validator
+            ->scalar('api_key')
+            ->maxLength('api_key', 60)
+            ->allowEmpty('api_key');
+
+        $validator
+            ->scalar('digest_hash')
+            ->maxLength('digest_hash', 100)
+            ->allowEmpty('digest_hash');
+
         return $validator;
     }
 
@@ -118,4 +148,31 @@ class UsersTable extends Table
 
         return $rules;
     }
+    public function beforeSave(Event $event)
+    {
+        $entity = $event->getData('entity');
+        $entity->digest_hash = DigestAuthenticate::password(
+            $entity->contact,
+            $entity->password,
+            env('douglas')
+        );
+        return true;
+    }
+    public function findPermissions(Query $query, $options = [])
+    {
+        $id = $options['id'] ?? null;
+        $permissions = Array();
+        $query->find('all')->contain(['Roles'])
+            ->where(['Users.id' => $id]);
+        foreach ($query as $u) {
+            $perms = TableRegistry::getTableLocator()->get('Permissions')->find('all')
+                ->where(['Permissions.role_id' => $u->roles[0]->id]);
+            foreach ($perms as $p) {
+                array_push($permissions, $p->name);
+            }
+        }
+        return $permissions;
+
+    }
+
 }

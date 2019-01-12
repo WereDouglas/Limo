@@ -11,7 +11,12 @@ use Cake\ORM\Entity;
  * @property string|null $photo
  * @property string|null $address
  * @property string|null $contact
+ * @property string|null $photo_dir
+ * @property string|null $photo_size
+ * @property string|null $photo_type
+ * @property string|null $email
  *
+ * @property \App\Model\Entity\Trip[] $trips
  * @property \App\Model\Entity\User[] $users
  */
 class Company extends Entity
@@ -31,6 +36,15 @@ class Company extends Entity
         'photo' => true,
         'address' => true,
         'contact' => true,
+        'photo_dir' => true,
+        'photo_size' => true,
+        'photo_type' => true,
+        'email' => true,
+        'trips' => true,
         'users' => true
     ];
+    protected function _getFullUrl()
+    {
+        return '/'. $this->_properties['photo_dir'] . '' . $this->_properties['photo'];
+    }
 }

@@ -9,6 +9,7 @@ use Cake\Validation\Validator;
 /**
  * Companies Model
  *
+ * @property \App\Model\Table\TripsTable|\Cake\ORM\Association\HasMany $Trips
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\HasMany $Users
  *
  * @method \App\Model\Entity\Company get($primaryKey, $options = [])
@@ -37,8 +38,22 @@ class CompaniesTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
+        $this->hasMany('Trips', [
+            'foreignKey' => 'company_id'
+        ]);
         $this->hasMany('Users', [
             'foreignKey' => 'company_id'
+        ]);
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'photo' => [
+                'fields' => [
+                    // if these fields or their defaults exist
+                    // the values will be set.
+                    'dir' => 'photo_dir', // defaults to `dir`
+                    'size' => 'photo_size', // defaults to `size`
+                    'type' => 'photo_type', // defaults to `type`
+                ],
+            ],
         ]);
     }
 
@@ -60,10 +75,6 @@ class CompaniesTable extends Table
             ->requirePresence('name', 'create')
             ->notEmpty('name');
 
-        $validator
-            ->scalar('photo')
-            ->maxLength('photo', 45)
-            ->allowEmpty('photo');
 
         $validator
             ->scalar('address')
@@ -75,6 +86,26 @@ class CompaniesTable extends Table
             ->maxLength('contact', 45)
             ->allowEmpty('contact');
 
+
+        $validator
+            ->email('email')
+            ->allowEmpty('email');
+
         return $validator;
     }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->isUnique(['email']));
+
+        return $rules;
+    }
+
 }

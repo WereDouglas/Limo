@@ -40,6 +40,17 @@ class CarsTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'photo' => [
+                'fields' => [
+                    // if these fields or their defaults exist
+                    // the values will be set.
+                    'dir' => 'photo_dir', // defaults to `dir`
+                    'size' => 'photo_size', // defaults to `size`
+                    'type' => 'photo_type', // defaults to `type`
+                ],
+            ],
+        ]);
     }
 
     /**
@@ -85,4 +96,5 @@ class CarsTable extends Table
 
         return $rules;
     }
+
 }

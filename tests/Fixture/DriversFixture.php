@@ -20,6 +20,7 @@ class DriversFixture extends TestFixture
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'license' => ['type' => 'string', 'length' => 45, 'null' => true, 'default' => null, 'collate' => 'utf8mb4_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'user_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'expires' => ['type' => 'date', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         '_indexes' => [
             'fk_drivers_users1_idx' => ['type' => 'index', 'columns' => ['user_id'], 'length' => []],
         ],
@@ -45,7 +46,8 @@ class DriversFixture extends TestFixture
             [
                 'id' => 1,
                 'license' => 'Lorem ipsum dolor sit amet',
-                'user_id' => 1
+                'user_id' => 1,
+                'expires' => '2019-01-08'
             ],
         ];
         parent::init();

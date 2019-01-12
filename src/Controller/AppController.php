@@ -12,10 +12,12 @@
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
 
 /**
  * Application Controller
@@ -24,6 +26,9 @@ use Cake\Event\Event;
  * will inherit them.
  *
  * @link https://book.cakephp.org/3.0/en/controllers.html#the-app-controller
+ * @property  string $id
+ * @property  array $permissions
+ * @property  string $action
  */
 class AppController extends Controller
 {
@@ -36,7 +41,10 @@ class AppController extends Controller
      * e.g. `$this->loadComponent('Security');`
      *
      * @return void
+     * @property array $permissions
      */
+    var $helpers = array('Session');
+
     public function initialize()
     {
         parent::initialize();
@@ -51,5 +59,42 @@ class AppController extends Controller
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
          */
         //$this->loadComponent('Security');
+        $this->loadComponent('Auth', [
+            'authorize' => 'Controller',
+            'loginRedirect' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ],
+            'logoutRedirect' => [
+                'controller' => 'Users',
+                'action' => 'logout'
+            ],
+            'authenticate' => [
+                'Form' => [
+                    'fields' => ['username' => 'contact', 'password' => 'password']
+                ],
+                'Digest' => [
+                    'fields' => ['username' => 'contact', 'password' => 'digest_hash'],
+                    'userModel' => 'Users'
+                ],
+            ],
+            // 'storage' => 'Memory',
+            // If unauthorized, return them to page they were just on
+             'unauthorizedRedirect' => $this->referer()
+        ]);
+
+       // $this->Auth->allow(['display', 'view', 'index']);
+        $this->Auth->allow(['logout', 'login', 'register']);
+
     }
+
+    public function isAuthorized($user)
+    {
+      /*  $this->action = $this->request->getParam('action');
+        $this->id = $user['id'];
+        $this->permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $this->id]);*/
+        return false;
+    }
+
+
 }
