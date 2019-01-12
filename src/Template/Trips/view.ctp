@@ -22,7 +22,6 @@ $this->assign('title', 'All trips');
 </div>
 <?php $this->end(); ?>
 <!-- Page content -->
-
 <!-- Table -->
 <div class="row">
     <div class="col">
@@ -30,7 +29,7 @@ $this->assign('title', 'All trips');
             <div class="card-header border-0">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="mb-0">All trips</h3>
+                        <h3 class="mb-0">TRIP</h3>
                     </div>
                     <div class="col text-right">
                         <a href="#!" class="btn btn-sm btn-primary" role="button" data-toggle="dropdown"
@@ -55,102 +54,113 @@ $this->assign('title', 'All trips');
                     </div>
                 </div>
             </div>
-            <div class="trips view large-9 medium-8 columns content">
-                <div class="row">
-                    <div class="col">
-                        <div class="card shadow border-0">
-                            <div id="map-canvas" class="map-canvas"  style="height: 600px;"></div>
+            <div class="container">
+                    <div class="trips view large-12 medium-12 columns content">
+                        <div class="row">
+                            <div class="col-9">
+                                <div class="card shadow border-0">
+                                    <div id="map-canvas" class="map-canvas" style="height: 600px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+
+                                <h3><?= h($trip->id) ?></h3>
+                                <table class="vertical-table">
+                                    <tr>
+                                        <th scope="row"><?= __('Client') ?></th>
+                                        <td><?= h($trip->client) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><?= __('Phone') ?></th>
+                                        <td><?= h($trip->phone) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><?= __('Pick Up Time') ?></th>
+                                        <td><?= h($trip->pick_up_time) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><?= __('Appointment Time') ?></th>
+                                        <td><?= h($trip->appointment_time) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><?= __('Pick Up Address') ?></th>
+                                        <td><?= h($trip->pick_up_address) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><?= __('Pick Up City') ?></th>
+                                        <td><?= h($trip->pick_up_city) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><?= __('Drop Off Address') ?></th>
+                                        <td><?= h($trip->drop_off_address) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><?= __('Drop Off City') ?></th>
+                                        <td><?= h($trip->drop_off_city) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><?= __('User') ?></th>
+                                        <td><?= $trip->has('user') ? $this->Html->link($trip->user->id,
+                                                ['controller' => 'Users', 'action' => 'view', $trip->user->id]) : '' ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><?= __('Company') ?></th>
+                                        <td><?= $trip->has('company') ? $this->Html->link($trip->company->name,
+                                                [
+                                                    'controller' => 'Companies',
+                                                    'action' => 'view',
+                                                    $trip->company->id
+                                                ]) : '' ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><?= __('Complete') ?></th>
+                                        <td><?= h($trip->complete) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><?= __('Id') ?></th>
+                                        <td><?= $this->Number->format($trip->id) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><?= __('Start Lat') ?></th>
+                                        <td><?= $this->Number->format($trip->start_lat) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><?= __('Start Long') ?></th>
+                                        <td><?= $this->Number->format($trip->start_long) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><?= __('Drop Lat') ?></th>
+                                        <td><?= $this->Number->format($trip->drop_lat) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><?= __('Drop Long') ?></th>
+                                        <td><?= $this->Number->format($trip->drop_long) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><?= __('Date') ?></th>
+                                        <td><?= h($trip->date) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><?= __('Created') ?></th>
+                                        <td><?= h($trip->created) ?></td>
+                                    </tr>
+                                </table>
+                                <div class="row">
+                                    <h4><?= __('Comments') ?></h4>
+                                    <?= $this->Text->autoParagraph(h($trip->comments)); ?>
+                                </div>
+                                <div class="row">
+                                    <h4><?= __('Distance') ?></h4>
+                                    <?= $this->Text->autoParagraph(h($trip->distance)); ?>
+                                </div>
+
+
+                            </div>
                         </div>
+
                     </div>
-                </div>
-                <h3><?= h($trip->id) ?></h3>
-                <table class="vertical-table">
-                    <tr>
-                        <th scope="row"><?= __('Client') ?></th>
-                        <td><?= h($trip->client) ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?= __('Phone') ?></th>
-                        <td><?= h($trip->phone) ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?= __('Pick Up Time') ?></th>
-                        <td><?= h($trip->pick_up_time) ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?= __('Appointment Time') ?></th>
-                        <td><?= h($trip->appointment_time) ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?= __('Pick Up Address') ?></th>
-                        <td><?= h($trip->pick_up_address) ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?= __('Pick Up City') ?></th>
-                        <td><?= h($trip->pick_up_city) ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?= __('Drop Off Address') ?></th>
-                        <td><?= h($trip->drop_off_address) ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?= __('Drop Off City') ?></th>
-                        <td><?= h($trip->drop_off_city) ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?= __('User') ?></th>
-                        <td><?= $trip->has('user') ? $this->Html->link($trip->user->id,
-                                ['controller' => 'Users', 'action' => 'view', $trip->user->id]) : '' ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?= __('Company') ?></th>
-                        <td><?= $trip->has('company') ? $this->Html->link($trip->company->name,
-                                ['controller' => 'Companies', 'action' => 'view', $trip->company->id]) : '' ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?= __('Complete') ?></th>
-                        <td><?= h($trip->complete) ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?= __('Id') ?></th>
-                        <td><?= $this->Number->format($trip->id) ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?= __('Start Lat') ?></th>
-                        <td><?= $this->Number->format($trip->start_lat) ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?= __('Start Long') ?></th>
-                        <td><?= $this->Number->format($trip->start_long) ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?= __('Drop Lat') ?></th>
-                        <td><?= $this->Number->format($trip->drop_lat) ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?= __('Drop Long') ?></th>
-                        <td><?= $this->Number->format($trip->drop_long) ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?= __('Date') ?></th>
-                        <td><?= h($trip->date) ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?= __('Created') ?></th>
-                        <td><?= h($trip->created) ?></td>
-                    </tr>
-                </table>
-                <div class="row">
-                    <h4><?= __('Comments') ?></h4>
-                    <?= $this->Text->autoParagraph(h($trip->comments)); ?>
-                </div>
-                <div class="row">
-                    <h4><?= __('Distance') ?></h4>
-                    <?= $this->Text->autoParagraph(h($trip->distance)); ?>
-                </div>
+
             </div>
-
-
         </div>
     </div>
 </div>
@@ -158,15 +168,15 @@ $this->assign('title', 'All trips');
 
 
 <script type='text/javascript'>
-    var pick_lat =parseFloat( '<?php echo $trip->start_lat; ?>');
+    var pick_lat = parseFloat('<?php echo $trip->start_lat; ?>');
     var pick_lg = parseFloat('<?php echo $trip->start_long; ?>');
 
-    var drop_lat =parseFloat( '<?php echo $trip->drop_lat; ?>');
+    var drop_lat = parseFloat('<?php echo $trip->drop_lat; ?>');
     var drop_lg = parseFloat('<?php echo $trip->drop_long; ?>');
 
 
-   // var pick = new google.maps.LatLng(pick_lat, pick_lg);
-   // var drop = new google.maps.LatLng(drop_lat,drop_lg);
+    // var pick = new google.maps.LatLng(pick_lat, pick_lg);
+    // var drop = new google.maps.LatLng(drop_lat,drop_lg);
 
     var pick = '<?php echo $trip->pick_up_address; ?>)';
     var drop = '<?php echo $trip->drop_off_address; ?>)';
@@ -174,7 +184,6 @@ $this->assign('title', 'All trips');
     function init_map() {
         var directionsService = new google.maps.DirectionsService();
         var directionsDisplay = new google.maps.DirectionsRenderer();
-
 
 
         var mapOptions = {
@@ -185,14 +194,15 @@ $this->assign('title', 'All trips');
         directionsDisplay.setMap(map);
         calculateAndDisplayRoute(directionsService, directionsDisplay);
     }
+
     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-        var start =pick;
+        var start = pick;
         var end = drop;
         directionsService.route({
             origin: start,
             destination: end,
             travelMode: 'DRIVING'
-        }, function(response, status) {
+        }, function (response, status) {
             if (status === 'OK') {
                 directionsDisplay.setDirections(response);
             } else {

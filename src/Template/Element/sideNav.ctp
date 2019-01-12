@@ -138,7 +138,6 @@
                     );
                     ?>
                 </li>
-
                 <li class="nav-item">
                     <h6 class="navbar-heading text-muted">Quick items</h6>
                     <?= $this->element('newMenu') ?>
@@ -237,26 +236,18 @@
 
                 <li class="nav-item">
                     <!-- Divider -->
-                    <hr class="my-3">
                     <!-- Heading -->
                     <h6 class="navbar-heading text-muted">Help & support</h6>
                     <!-- Navigation -->
                     <ul class="navbar-nav mb-md-3">
-
                         <li class="nav-item">
-                            <a class="nav-link"
-                               href="#">
-                                <i class="ni ni-spaceship"></i> Getting started
-                            </a>
+                            <a class="nav-link"  href="#"><i class="ni ni-spaceship"></i> Getting started </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link"
-                               href="#">
-                                <i class="ni ni-palette"></i> Foundation
-                            </a>
+                            <a class="nav-link" href="#"><i class="ni ni-palette"></i> Foundation </a>
                         </li>
-
                     </ul>
+
                 </li>
             </ul>
 

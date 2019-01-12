@@ -18,10 +18,9 @@
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
 </head>
-<?= $this->Flash->render() ?>
 <body class="bg-default">
-
 <div class="main-content">
+    <?= $this->Flash->render() ?>
     <!-- Navbar -->
     <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
         <div class="container px-4">

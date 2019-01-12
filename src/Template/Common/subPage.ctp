@@ -23,6 +23,7 @@
             </div>
         </form>
         <!-- User -->
+
         <?= $this->element('profile') ?>
     </div>
 </nav>
@@ -30,9 +31,7 @@
 <?php if ($this->fetch('counter')): ?>
     <?= $this->fetch('counter') ?>
 <?php else: ?>
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
 
-    </div>
 <?php endif ?>
 <!-- Page content -->
 <div class="container-fluid mt--7">
@@ -74,12 +73,11 @@
                         </table>
                     </div>
                 <?php } ?>
-
+                <?php if($this->fetch('pagination')) { ?>
                 <div class="card-footer py-4">
                     <nav aria-label="...">
                         <div class="paginator">
 
-                            <?php if ($this->fetch('pagination')) { ?>
                                 <?= $this->fetch('pagination') ?>
 
                                 <ul class="pagination justify-content-end mb-0">
@@ -107,15 +105,14 @@
                                         </a>
                                     </li>
                                 </ul>
-                            <?php } ?>
+
                         </div>
 
                     </nav>
                 </div>
+            <?php } ?>
             </div>
         </div>
     </div>
 </div>
 
-
-</div>

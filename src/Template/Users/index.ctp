@@ -37,12 +37,10 @@ $this->assign('title', 'Users');
     <th scope="col"><?= $this->Paginator->sort('last_name') ?></th>
     <th scope="col"><?= $this->Paginator->sort('contact') ?></th>
     <th scope="col"><?= $this->Paginator->sort('email') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('password') ?></th>
+
     <th scope="col"><?= $this->Paginator->sort('type') ?></th>
     <th scope="col"><?= $this->Paginator->sort('company_id') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('api_key_plain') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('api_key') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('digest_hash') ?></th>
+
     <th scope="col" class="actions"><?= __('Actions') ?></th>
 
 </tr>
@@ -68,13 +66,11 @@ $this->assign('title', 'Users');
         <td><?= h($user->last_name) ?></td>
         <td><?= h($user->contact) ?></td>
         <td><?= h($user->email) ?></td>
-        <td><?= h($user->password) ?></td>
+
         <td><?= h($user->type) ?></td>
         <td><?= $user->has('company') ? $this->Html->link($user->company->name,
                 ['controller' => 'Companies', 'action' => 'view', $user->company->id]) : '' ?></td>
-        <td><?= h($user->api_key_plain) ?></td>
-        <td><?= h($user->api_key) ?></td>
-        <td><?= h($user->digest_hash) ?></td>
+
         <td class="actions" >
             <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>

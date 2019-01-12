@@ -7,7 +7,7 @@
                      <?php
                      $image = $this->Url->image('user.png');
                      if ($this->session->read('image') != "") {
-                         $image = $this->Url->build('/'.$this->session->read('image'));
+                         $image =  $this->Url->build( $this->session->read('image'));
                      }
                      ?>
                   <img alt="Image placeholder" src="<?= $image; ?>">
@@ -19,31 +19,31 @@
         </a>
         <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
             <div class=" dropdown-header noti-title">
-                <h6 class="text-overflow m-0">Welcome!</h6>
+                <h6 class="text-overflow m-0">Hey!</h6>
             </div>
-            <i class="ni ni-single-02"></i>
-            <?= $this->Html->link(__('Profile'),
-                ['controller' => 'Users', 'action' => 'view', $this->session->read('id')]) ?>
 
-            <a href="../examples/profile.html" class="dropdown-item">
-                <i class="ni ni-settings-gear-65"></i>
-                <span>Settings</span>
-            </a>
-            <a href="../examples/profile.html" class="dropdown-item">
-                <i class="ni ni-calendar-grid-58"></i>
-                <span>Activity</span>
-            </a>
-            <a href="../examples/profile.html" class="dropdown-item">
-                <i class="ni ni-support-16"></i>
-                <span>Support</span>
-            </a>
+            <?php
+            echo $this->Html->link(
+                ' <i class="ni ni-single-02"></i>Profile',
+                array(
+                    'controller' => 'users',
+                    'action' => 'view',
+                 $this->session->read('id')
+                ),
+                array(
+                    'class' => 'dropdown-item',
+                    'escape' => false
+                )
+            );
+            ?>
+
             <div class="dropdown-divider"></div>
             <?php
             echo $this->Html->link(
                 ' <i class="ni ni-user-run"></i>Sign out',
                 array(
                     'controller' => 'users',
-                    'action' => 'login'
+                    'action' => 'logout'
                 ),
                 array(
                     'class' => 'dropdown-item',

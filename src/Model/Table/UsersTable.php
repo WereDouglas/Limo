@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Cake\Auth\DigestAuthenticate;
 
@@ -156,6 +157,22 @@ class UsersTable extends Table
             env('douglas')
         );
         return true;
+    }
+    public function findPermissions(Query $query, $options = [])
+    {
+        $id = $options['id'] ?? null;
+        $permissions = Array();
+        $query->find('all')->contain(['Roles'])
+            ->where(['Users.id' => $id]);
+        foreach ($query as $u) {
+            $perms = TableRegistry::getTableLocator()->get('Permissions')->find('all')
+                ->where(['Permissions.role_id' => $u->roles[0]->id]);
+            foreach ($perms as $p) {
+                array_push($permissions, $p->name);
+            }
+        }
+        return $permissions;
+
     }
 
 }

@@ -9,6 +9,7 @@ use App\Model\Table\Trips;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Helper;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Cake\Event\Event;
 
 require ROOT . DS . 'vendor' . DS . 'phpoffice\phpspreadsheet\src\Bootstrap.php';
 
@@ -22,11 +23,13 @@ require ROOT . DS . 'vendor' . DS . 'phpoffice\phpspreadsheet\src\Bootstrap.php'
 class TripsController extends AppController
 {
 
+
     /**
      * Index method
      *
      * @return \Cake\Http\Response|void
      */
+
     public function index()
     {
         $this->viewBuilder()->setLayout('admin');
@@ -440,6 +443,33 @@ class TripsController extends AppController
         $time = $hr . ':' . $min . ' ' . $p . 'M';
         $time = date("G:i", strtotime($time));
         return $time;
+    }
+
+    public function isAuthorized($user)
+    {
+        $action = $this->request->getParam('action');
+        $id = $user['id'];
+        $permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $id]);
+
+        /* print_r($permissions);
+         exit;*/
+        if (in_array('add_trips', $permissions) && $action === 'add') {
+            return true;
+        }
+        if (in_array('view_trips', $permissions) && $action === 'view') {
+            return true;
+        }
+        if (in_array('delete_trips', $permissions) && $action === 'delete') {
+            return true;
+        }
+        if (in_array('edit_trips', $permissions) && $action === 'edit') {
+            return true;
+        }
+        if (in_array('list_trips', $permissions) && $action === 'index') {
+            return true;
+        }
+
+        return false;
     }
 
 }

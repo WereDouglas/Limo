@@ -114,6 +114,8 @@
                 ?>
             </li>
 
+
         </ul>
+        <?= $this->element('roleMenu') ?>
     </div>
 </ul>

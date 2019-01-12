@@ -112,10 +112,7 @@
                                     <th scope="row"><?= __('Email') ?></th>
                                     <td><?= h($user->email) ?></td>
                                 </tr>
-                                <tr>
-                                    <th scope="row"><?= __('Password') ?></th>
-                                    <td><?= h($user->password) ?></td>
-                                </tr>
+
                                 <tr>
                                     <th scope="row"><?= __('Type') ?></th>
                                     <td><?= h($user->type) ?></td>
@@ -129,18 +126,7 @@
                                                 $user->company->id
                                             ]) : '' ?></td>
                                 </tr>
-                                <tr>
-                                    <th scope="row"><?= __('Api Key Plain') ?></th>
-                                    <td><?= h($user->api_key_plain) ?></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><?= __('Api Key') ?></th>
-                                    <td><?= h($user->api_key) ?></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><?= __('Digest Hash') ?></th>
-                                    <td><?= h($user->digest_hash) ?></td>
-                                </tr>
+
                                 <tr>
                                     <th scope="row"><?= __('Id') ?></th>
                                     <td><?= $this->Number->format($user->id) ?></td>

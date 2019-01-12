@@ -5,7 +5,7 @@
  */
 ?>
 <?php $this->extend('/Common/addPage'); ?>
-<?php$this->start('links');?>
+<?php $this->start('links');?>
 <li><?= $this->Form->postLink(
         __('Delete'),
         ['action' => 'delete', $car->id],
@@ -16,8 +16,8 @@
 <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
 <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
 
-<?php$this->end();?>
-<?php$this->start('form');?>
+<?php $this->end();?>
+<?php $this->start('form');?>
 
 <?= $this->Form->create($car, ['type' => 'file']) ?>
 <fieldset>
@@ -34,4 +34,4 @@
 <?= $this->Form->end() ?>
 
 
-<?php$this->end();?>
+<?php $this->end();?>

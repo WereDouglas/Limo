@@ -41,17 +41,20 @@ $cakeDescription = 'erplimo';
 
 <div class="main-content">
     <!-- content -->
-    <?= $this->Flash->render() ?>
-    <?= $this->fetch('content') ?>
-    <!-- Footer -->
-    <?=$this->element('footer')?>
 
-</div>
-</div>
+    <?= $this->fetch('content') ?>
+    <div class="col-lg-2 center ">
+        <?= $this->Flash->render() ?>
+    </div>
+
+    <!-- Footer -->
+    <?= $this->element('footer') ?>
+
+
 <footer>
 </footer>
 
-<?= $this->Html->script(['jquery.min', 'bootstrap.bundle.min', 'argon']);?>
+<?= $this->Html->script(['jquery.min', 'bootstrap.bundle.min', 'argon']); ?>
 
 </body>
 </html>
