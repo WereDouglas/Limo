@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
     <div class="container-fluid">
         <!-- Toggler -->
@@ -6,8 +7,12 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Brand -->
-        <a class="navbar-brand pt-0" href="../index.html">
+        <a class="navbar-brand pt-0" href="#">
             <img src="<?= $this->Url->image('logo.png') ?>" class="navbar-brand-img" alt="...">
+            <h1 class="logo">
+                <span class="word1">ERP</span>
+                <span class="word1">LIMO</span>
+            </h1>
         </a>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
@@ -117,7 +122,7 @@
                             'action' => 'index'
                         ),
                         array(
-                            'class' => 'nav-link active green',
+                            'class' => 'nav-link word1 green ',
                             'escape' => false
                         )
                     );
@@ -132,7 +137,7 @@
                             'action' => 'index'
                         ),
                         array(
-                            'class' => 'nav-link ',
+                            'class' => 'nav-link word1',
                             'escape' => false
                         )
                     );
@@ -245,6 +250,21 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#"><i class="ni ni-palette"></i> Foundation </a>
+                        </li>
+                        <li class="nav-item">
+                            <?php
+                            echo $this->Html->link(
+                                ' <i class="ni ni-notification-70 text-red"></i>Logs',
+                                array(
+                                    'controller' => 'logs',
+                                    'action' => 'index'
+                                ),
+                                array(
+                                    'class' => 'nav-link word1',
+                                    'escape' => false
+                                )
+                            );
+                            ?>
                         </li>
                     </ul>
 

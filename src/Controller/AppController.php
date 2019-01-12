@@ -44,6 +44,12 @@ class AppController extends Controller
      * @property array $permissions
      */
     var $helpers = array('Session');
+    public $paginate = [
+        'limit' => 25,
+        'order' => [
+            'Articles.title' => 'asc'
+        ]
+    ];
 
     public function initialize()
     {
@@ -53,7 +59,7 @@ class AppController extends Controller
             'enableBeforeRedirect' => false,
         ]);
         $this->loadComponent('Flash');
-
+        $this->loadComponent('Paginator');
         /*
          * Enable the following component for recommended CakePHP security settings.
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html

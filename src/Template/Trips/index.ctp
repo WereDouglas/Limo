@@ -136,11 +136,11 @@ $this->assign('title', 'All trips');
 <?php $this->end(); ?>
 <?php $this->start('pagination'); ?>
 <ul class="pagination">
-    <?= $this->Paginator->first('<< ' . __('first')) ?>
-    <?= $this->Paginator->prev('< ' . __('previous')) ?>
+    <?= $this->Paginator->first('<< ') ?>
+    <?= $this->Paginator->prev('< ' ) ?>
     <?= $this->Paginator->numbers() ?>
-    <?= $this->Paginator->next(__('next') . ' >') ?>
-    <?= $this->Paginator->last(__('last') . ' >>') ?>
+    <?= $this->Paginator->next(' >') ?>
+    <?= $this->Paginator->last(' >>') ?>
 </ul>
 <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
 
