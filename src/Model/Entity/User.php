@@ -38,6 +38,7 @@ use Cake\Utility\Security;
  */
 class User extends Entity
 {
+   // use AuthorizationTrait;
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -102,5 +103,6 @@ class User extends Entity
             ->notEmpty('contact', 'A contact is required')
             ->notEmpty('password', 'A password is required');
     }
+
 
 }

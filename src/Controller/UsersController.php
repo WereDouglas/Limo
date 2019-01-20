@@ -15,8 +15,6 @@ use PhpParser\Node\Expr\Array_;
  */
 class UsersController extends AppController
 {
-
-
     /**
      * Index method
      *
@@ -139,6 +137,7 @@ class UsersController extends AppController
 
     public function login()
     {
+
         $permissions = Array();
         $roles = Array();
         $this->viewBuilder()->setLayout('');
@@ -214,7 +213,9 @@ class UsersController extends AppController
         $session = $this->getRequest()->getSession();
         $session->destroy();
         return $this->redirect(['action' => 'login']);
+        // return $this->redirect($this->Auth->logout());
     }
+
     public function isAuthorized($user)
     {
         $action = $this->request->getParam('action');
@@ -238,8 +239,12 @@ class UsersController extends AppController
         if (in_array('list_users', $permissions) && $action === 'index') {
             return true;
         }
+        if (in_array('update_users', $permissions) && $action === 'update') {
+            return true;
+        }
 
         return false;
     }
+
 
 }

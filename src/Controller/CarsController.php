@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Http\Exception\UnauthorizedException;
 use Cake\ORM\TableRegistry;
 
 /**
@@ -103,6 +104,9 @@ class CarsController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $car = $this->Cars->get($id);
+
+
+
         if ($this->Cars->delete($car)) {
             $this->Flash->success(__('The car has been deleted.'));
         } else {

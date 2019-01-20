@@ -35,6 +35,10 @@ class Application extends BaseApplication
      */
     public function bootstrap()
     {
+        $this->addPlugin('Rest', ['bootstrap' => true]);
+
+
+
         $this->addPlugin('Migrations');
 
         // Call parent to load bootstrap from files.
@@ -48,6 +52,9 @@ class Application extends BaseApplication
             }
 
             $this->addPlugin('Migrations');
+
+
+
         }
 
         /*

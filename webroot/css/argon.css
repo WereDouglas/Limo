@@ -16796,8 +16796,8 @@ a.text-lighter:focus
 {
     display: inline-block;
 
-    width: .375rem;
-    height: .375rem;
+    width: 1.375rem;
+    height: 1.375rem;
     margin-right: .375rem; 
 
     vertical-align: middle;

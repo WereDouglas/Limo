@@ -1,13 +1,17 @@
 <?php
+
 namespace App\Model\Table;
 
+use Cake\Auth\DigestAuthenticate;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
-use Cake\Auth\DigestAuthenticate;
+
+use Cake\Auth\DefaultPasswordHasher;
+use Cake\Utility\Security;
 
 /**
  * Users Model
@@ -148,16 +152,28 @@ class UsersTable extends Table
 
         return $rules;
     }
+
     public function beforeSave(Event $event)
     {
         $entity = $event->getData('entity');
+
+        $hasher = new DefaultPasswordHasher();
+        // Generate an API 'token'
+        $entity->api_key_plain = Security::hash(Security::randomBytes(32), 'sha256', false);
+
+        // Bcrypt the token so BasicAuthenticate can check
+        // it during login.
+        $entity->api_key = $hasher->hash($entity->api_key_plain);
+
         $entity->digest_hash = DigestAuthenticate::password(
-            $entity->contact,
-            $entity->password,
-            env('douglas')
+            $entity->username,
+            $entity->plain_password,
+            env('SERVER_NAME')
         );
+
         return true;
     }
+
     public function findPermissions(Query $query, $options = [])
     {
         $id = $options['id'] ?? null;
@@ -172,6 +188,12 @@ class UsersTable extends Table
             }
         }
         return $permissions;
+
+    }
+
+    public function findLogin(Query $query, array $options)
+    {
+        return $query->select(['id', 'contact', 'first_name', 'digest_hash', 'photo']);
 
     }
 

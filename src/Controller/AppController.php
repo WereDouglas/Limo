@@ -29,6 +29,7 @@ use Cake\ORM\TableRegistry;
  * @property  string $id
  * @property  array $permissions
  * @property  string $action
+ * @property bool $api
  */
 class AppController extends Controller
 {
@@ -60,46 +61,44 @@ class AppController extends Controller
         ]);
         $this->loadComponent('Flash');
         $this->loadComponent('Paginator');
-        /*
-         * Enable the following component for recommended CakePHP security settings.
-         * see https://book.cakephp.org/3.0/en/controllers/components/security.html
-         */
-        //$this->loadComponent('Security');
-        $this->loadComponent('Auth', [
-            'authorize' => 'Controller',
-            'loginRedirect' => [
-                'controller' => 'Users',
-                'action' => 'login'
-            ],
-            'logoutRedirect' => [
-                'controller' => 'Users',
-                'action' => 'logout'
-            ],
-            'authenticate' => [
-                'Form' => [
-                    'fields' => ['username' => 'contact', 'password' => 'password']
-                ],
-                'Digest' => [
-                    'fields' => ['username' => 'contact', 'password' => 'digest_hash'],
-                    'userModel' => 'Users'
-                ],
-            ],
-            // 'storage' => 'Memory',
-            // If unauthorized, return them to page they were just on
-             'unauthorizedRedirect' => $this->referer()
-        ]);
 
-       // $this->Auth->allow(['display', 'view', 'index']);
+
+        $acceptsContentTypes = $this->getRequest()->accepts();
+        $this->api = !empty(array_intersect(['application/json', 'application/xml'], $acceptsContentTypes))
+            && !in_array('text/html', $acceptsContentTypes);
+
+
+            $this->loadComponent('Auth', [
+                'authenticate' => [
+                    'Form' => [
+                        'fields' => ['username' => 'contact', 'password' => 'password']
+                    ]
+                ],
+                'storage' => 'Session',
+                'authorize' => 'Controller',
+                'loginRedirect' => [
+                    'controller' => 'Users',
+                    'action' => 'login'
+                ],
+                'logoutRedirect' => [
+                    'controller' => 'Users',
+                    'action' => 'logout'
+                ],
+                // If unauthorized, return them to page they were just on
+                'unauthorizedRedirect' => $this->referer()
+            ]);
+
+
+
         $this->Auth->allow(['logout', 'login', 'register']);
 
     }
 
-    public function isAuthorized($user)
+
+    public function beforeFilter(Event $event)
     {
-      /*  $this->action = $this->request->getParam('action');
-        $this->id = $user['id'];
-        $this->permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $this->id]);*/
-        return false;
+       // $this->Auth->allow(['index']);
+        $this->set('loggedIn', $this->Auth->user());
     }
 
 

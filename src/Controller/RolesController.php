@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
  * Roles Controller
@@ -106,4 +107,31 @@ class RolesController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+    public function isAuthorized($user)
+    {
+        $action = $this->request->getParam('action');
+        $id = $user['id'];
+        $permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $id]);
+
+        /* print_r($permissions);
+         exit;*/
+        if (in_array('add_roles', $permissions) && $action === 'add') {
+            return true;
+        }
+        if (in_array('view_roles', $permissions) && $action === 'view') {
+            return true;
+        }
+        if (in_array('delete_roles',$permissions) && $action === 'delete') {
+            return true;
+        }
+        if (in_array('edit_roles', $permissions) && $action === 'edit') {
+            return true;
+        }
+        if (in_array('list_roles', $permissions) && $action === 'index') {
+            return true;
+        }
+
+        return false;
+    }
+
 }

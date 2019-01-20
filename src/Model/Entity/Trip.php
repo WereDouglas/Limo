@@ -43,6 +43,7 @@ class Trip extends Entity
      * @var array
      */
     protected $_accessible = [
+        'id' => true,
         'client' => true,
         'phone' => true,
         'date' => true,

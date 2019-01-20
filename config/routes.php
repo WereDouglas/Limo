@@ -17,6 +17,7 @@
  * @link          https://cakephp.org CakePHP(tm) Project
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
+
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
@@ -88,6 +89,21 @@ Router::scope('/', function (RouteBuilder $routes) {
      * You can remove these routes once you've connected the
      * routes you want in your application.
      */
+    $routes->connect('/information/trips', ['controller' => 'Information', 'action' => 'trips', 'isRest' => true,'requireAuthorization' => true]);
+    $routes->connect('/information/login', ['controller' => 'Information', 'action' => 'login', 'isRest' => true]);
+    $routes->connect('/information/users', ['controller' => 'Information', 'action' => 'users', 'isRest' => true,'requireAuthorization' => true]);
+    $routes->connect('/information/update', ['controller' => 'Information', 'action' => 'update', 'isRest' => true,'requireAuthorization' => true]);
+
+
+    $routes->scope('/api', function (RouteBuilder $routes) {
+        $routes->resources('Users');
+        $routes->resources('Trips');
+        $routes->resources('Companies');
+        $routes->resources('Drivers');
+        $routes->resources('Permissions');
+
+
+    });
     $routes->fallbacks(DashedRoute::class);
 });
 
