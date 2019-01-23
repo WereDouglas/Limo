@@ -46,10 +46,7 @@ class AppController extends Controller
      */
     var $helpers = array('Session');
     public $paginate = [
-        'limit' => 25,
-        'order' => [
-            'Articles.title' => 'asc'
-        ]
+        'limit' => 25
     ];
 
     public function initialize()
@@ -61,7 +58,6 @@ class AppController extends Controller
         ]);
         $this->loadComponent('Flash');
         $this->loadComponent('Paginator');
-
 
         $acceptsContentTypes = $this->getRequest()->accepts();
         $this->api = !empty(array_intersect(['application/json', 'application/xml'], $acceptsContentTypes))
@@ -88,12 +84,8 @@ class AppController extends Controller
                 'unauthorizedRedirect' => $this->referer()
             ]);
 
-
-
         $this->Auth->allow(['logout', 'login', 'register']);
-
     }
-
 
     public function beforeFilter(Event $event)
     {

@@ -56,7 +56,7 @@ Router::scope('/', function (RouteBuilder $routes) {
      * Apply a middleware to the current route scope.
      * Requires middleware to be registered via `Application::routes()` with `registerMiddleware()`
      */
-    $routes->applyMiddleware('csrf');
+
 
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
@@ -94,16 +94,11 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/information/users', ['controller' => 'Information', 'action' => 'users', 'isRest' => true,'requireAuthorization' => true]);
     $routes->connect('/information/update', ['controller' => 'Information', 'action' => 'update', 'isRest' => true,'requireAuthorization' => true]);
 
-
-    $routes->scope('/api', function (RouteBuilder $routes) {
-        $routes->resources('Users');
-        $routes->resources('Trips');
-        $routes->resources('Companies');
-        $routes->resources('Drivers');
-        $routes->resources('Permissions');
-
+    Router::scope('/here', function (RouteBuilder $routes) {
+        $routes->applyMiddleware('csrf');
 
     });
+
     $routes->fallbacks(DashedRoute::class);
 });
 

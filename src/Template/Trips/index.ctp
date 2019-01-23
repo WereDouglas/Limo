@@ -2,11 +2,12 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Trip[]|\Cake\Collection\CollectionInterface $trips
+ * @var \App\Model\Entity\Trip $trip
  */
 ?>
 <?php
 $this->extend('/Common/subPage');
-$this->assign('title', 'All trips');
+$this->assign('title', 'All trips :' . $day);
 ?>
 <!-- Header -->
 <?php $this->start('counter'); ?>
@@ -27,6 +28,13 @@ $this->assign('title', 'All trips');
         ['controller' => 'Companies', 'action' => 'index']) ?></li>
 <li><?= $this->Html->link(__('New Company'),
         ['controller' => 'Companies', 'action' => 'add']) ?></li>
+<li>
+    <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal">
+        Import
+    </button>
+</li>
+
+
 <?php $this->end(); ?>
 <?php $this->start('th'); ?>
 <tr>
@@ -58,8 +66,8 @@ $this->assign('title', 'All trips');
     <tr>
         <td>
             <?php
-           // echo '<pre>';
-          // var_dump($trip->user);
+            // echo '<pre>';
+            // var_dump($trip->user);
             $image = $this->Url->image('user.png');
             if ($trip->user->photo != "") {
                 $image = $this->Url->build($trip->user->full_url);
@@ -137,11 +145,88 @@ $this->assign('title', 'All trips');
 <?php $this->start('pagination'); ?>
 <ul class="pagination">
     <?= $this->Paginator->first('<< ') ?>
-    <?= $this->Paginator->prev('< ' ) ?>
+    <?= $this->Paginator->prev('< ') ?>
     <?= $this->Paginator->numbers() ?>
     <?= $this->Paginator->next(' >') ?>
     <?= $this->Paginator->last(' >>') ?>
 </ul>
 <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
 
+<?php $this->end(); ?>
+<?php $this->start('modal'); ?>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Import excel data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <?php $trip = null; ?>
+                <?= $this->Form->create($trip,
+                    ['type' => 'file', 'controller' => 'trips', 'action' => 'import']) ?>
+                <legend><?= __('Import trips') ?></legend>
+
+                <?php echo $this->Form->control('start_address', ['class' => 'form-control']); ?>
+                <br>
+                <div class="form-group">
+                    <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                        </div>
+                        <input name="date" class="form-control datepicker" placeholder="Select date" type="text"
+                               value="<?= date('m/d/Y') ?>">
+                    </div>
+                </div>
+
+                <?php echo $this->Form->control('trip', ['type' => 'file', 'class' => 'form-control']); ?>
+
+                <div>
+                    <?php echo $this->Form->submit('Import',
+                        ['div' => false, 'name' => 'importexcel', 'class' => 'btn btn-primary mt-4']);
+                    ?>
+                </div>
+
+                <?= $this->Form->end() ?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<?php $this->end(); ?>
+<?php $this->start('date'); ?>
+<?php $list = null; ?>
+
+    <?= $this->Form->create($list, ['action' => 'index', 'class' => 'form-horizontal']) ?>
+    <div class="row">
+        <div class="col">
+
+            <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                </div>
+                <input name="date" class="form-control datepicker" placeholder="Select date" type="text"
+                       value="<?= date('m/d/Y') ?>">
+            </div>
+
+        </div>
+        <div class="col">
+            <button class="btn-icon btn btn-secondary" type="submit">
+                <span class="btn-inner--icon"><i class="ni ni-bullet-list-67"></i></span>
+                <span class="btn-inner--text">filter</span>
+            </button>
+
+        </div>
+
+    </div>
+
+
+<?= $this->Form->end() ?>
 <?php $this->end(); ?>

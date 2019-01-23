@@ -63,7 +63,6 @@ class UsersController extends AppController
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
 
-
         $companies = $this->Users->Companies->find('list', ['limit' => 200]);
         $roles = $this->Users->Roles->find('list', ['limit' => 200]);
         $this->set(compact('user', 'companies', 'roles'));
@@ -178,6 +177,7 @@ class UsersController extends AppController
                     'id' => $user_id,
                     'company_image' => '/' . $company['photo_dir'] . ' ' . $company['photo'],
                     'company_name' => $company['name'],
+                    'company_id' =>$company_id,
                     'permissions' => $permissions,
                     'roles' => $roles
                 ]);

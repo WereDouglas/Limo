@@ -39,6 +39,7 @@ return [
      'prevDisabled' => '<li class="page-item active">
       <a class="page-link" href="{{url}}">{{text}}<span class="sr-only word1">{{text}}</span></a>
     </li>'
+
 ];
 
 

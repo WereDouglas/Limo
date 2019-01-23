@@ -144,8 +144,7 @@
                     ?>
                 </li>
                 <li class="nav-item">
-                    <h6 class="navbar-heading text-muted">Quick items</h6>
-                    <?= $this->element('newMenu') ?>
+
                     <hr class="my-3">
                     <!-- Divider -->
                     <h6 class="navbar-heading text-muted">View</h6>

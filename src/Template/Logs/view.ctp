@@ -10,7 +10,6 @@ $this->assign('title', 'Logs');
 
 </div>
 <?php $this->start('links'); ?>
-
 <li class="heading"><?= __('Actions') ?></li>
 <li><?= $this->Html->link(__('Edit Log'), ['action' => 'edit', $log->id]) ?> </li>
 <li><?= $this->Form->postLink(__('Delete Log'), ['action' => 'delete', $log->id],
