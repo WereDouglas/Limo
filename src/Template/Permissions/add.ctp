@@ -18,7 +18,8 @@
     <legend><?= __('Add Permission') ?></legend>
     <?php
     echo $this->Form->control('name');
-    echo $this->Form->control('role_id', ['class' => 'form-control','options' => $roles]);
+   // echo $this->Form->control('role_id', ['class' => 'form-control','options' => $roles]);
+    echo $this->Form->control('roles._ids', ['class' => 'form-control', 'options' => $roles]);
     ?>
 </fieldset>
 <?php  echo $this->Form->submit('Submit'); ?>

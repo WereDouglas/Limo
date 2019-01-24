@@ -37,7 +37,7 @@ $this->assign('title', 'All trips :' . $day);
 
 <?php $this->end(); ?>
 <?php $this->start('table'); ?>
-<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css">
+
 <table class="table align-items-center table-flush"  id="example" >
     <thead class="thead-light">
     <tr>

@@ -15,6 +15,7 @@ use Cake\ORM\Entity;
  * @property string|null $photo_size
  * @property string|null $photo_type
  * @property string|null $email
+ * @property string|null $activated
  *
  * @property \App\Model\Entity\Trip[] $trips
  * @property \App\Model\Entity\User[] $users
@@ -41,7 +42,8 @@ class Company extends Entity
         'photo_type' => true,
         'email' => true,
         'trips' => true,
-        'users' => true
+        'users' => true,
+        'activated' => true
     ];
     protected function _getFullUrl()
     {

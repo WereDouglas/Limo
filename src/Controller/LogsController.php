@@ -117,9 +117,10 @@ class LogsController extends AppController
         $action = $this->request->getParam('action');
         $id = $user['id'];
         $permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $id]);
-
-        /* print_r($permissions);
-         exit;*/
+        $roles = TableRegistry::getTableLocator()->get('Users')->find('roles', ['id' => $id]);
+        if ($user['type'] == 'Management') {
+            return true;
+        }
         if (in_array('add_logs', $permissions) && $action === 'add') {
             return true;
         }

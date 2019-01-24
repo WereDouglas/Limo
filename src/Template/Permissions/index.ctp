@@ -18,15 +18,18 @@ $this->assign('title', 'Permissions');
 <li><?= $this->Html->link(__('List Roles'), ['controller' => 'Roles', 'action' => 'index']) ?></li>
 <li><?= $this->Html->link(__('New Role'), ['controller' => 'Roles', 'action' => 'add']) ?></li>
 <?php $this->end(); ?>
-<?php $this->start('th'); ?>
+<?php $this->start('table'); ?>
+
+<table class="table align-items-center table-flush"  id="example" >
+    <thead class="thead-light">
 <tr>
     <th scope="col"><?= $this->Paginator->sort('id') ?></th>
     <th scope="col"><?= $this->Paginator->sort('name') ?></th>
     <th scope="col"><?= $this->Paginator->sort('role_id') ?></th>
     <th scope="col" class="actions"><?= __('Actions') ?></th>
 </tr>
-<?php $this->end(); ?>
-<?php $this->start('tr'); ?>
+    </thead>
+    <tbody>
 <?php foreach ($permissions as $permission): ?>
     <tr>
         <td><?= $this->Number->format($permission->id) ?></td>
@@ -40,18 +43,24 @@ $this->assign('title', 'Permissions');
         </td>
     </tr>
 <?php endforeach; ?>
-<?php $this->end(); ?>
+    </tbody>
+</table>
 
-<?php $this->start('pagination'); ?>
-<div class="paginator">
-    <ul class="pagination">
-        <?= $this->Paginator->first('<<' ) ?>
-        <?= $this->Paginator->prev('< ') ?>
-        <?= $this->Paginator->numbers() ?>
-        <?= $this->Paginator->next(' >') ?>
-        <?= $this->Paginator->last(' >>') ?>
-    </ul>
-    <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-</div>
+<?php $this->Html->css('bootstrap.css', ['block' => 'bootstrap']);?>
+<?php $this->Html->css('jquery.dataTables.min.css', ['block' => 'cssTop']);?>
+<?php $this->Html->script('jquery.dataTables.min.js', ['block' => 'scriptBottom']);?>
+<?php
+$this->Html->scriptStart(['block' => 'inlineScript']); ?>
+$(document).ready(function () {
+$('#example')
+.addClass('nowrap')
+.dataTable({
+responsive: true,
+columnDefs: [
+{targets: [-1, -3], className: 'dt-body-right'}
+]
+});
+});
+<?php $this->Html->scriptEnd();?>
 <?php $this->end(); ?>
 

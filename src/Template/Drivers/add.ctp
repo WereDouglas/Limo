@@ -23,11 +23,12 @@ $this->extend('/Common/addPage');
     echo $this->Form->control('contact');
     echo $this->Form->control('email');
     echo $this->Form->control('password');
-    echo $this->Form->select('type', ['Driver', 'Administrator', 'Other'], ['empty' => '(choose one)']);
-    echo $this->Form->control('company_id',
-        ['class' => 'form-control', 'options' => $companies, 'empty' => true]);
+    echo $this->Form->control('type',
+        ['options' =>$types, 'empty' =>'(choose one)', 'class' => 'form-control']);
     echo $this->Form->control('roles._ids', ['class' => 'form-control', 'options' => $roles]);
     echo $this->Form->control('photo', ['type' => 'file', 'class' => 'form-control']);
+    echo $this->Form->control('activated',
+        ['options' =>$active, 'empty' =>'yes', 'class' => 'form-control']);
     echo '<h1><span class="badge badge-pill badge-info">Driver Information</span></h1>';
     echo $this->Form->control('drivers.license');
    // echo $this->Form->control('user_id', ['options' => $users, 'class' => 'form-control form-control-alternative']);

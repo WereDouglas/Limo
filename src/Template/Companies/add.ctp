@@ -30,9 +30,9 @@
     echo $this->Form->control('users.contact');
     echo $this->Form->control('users.email');
     echo $this->Form->control('users.password');
-    echo $this->Form->select('users.type', ['Driver', 'Administrator','Management','Other'], ['empty' => '(choose one)']);
-    echo $this->Form->control('users.roles._ids', ['class' => 'form-control', 'options' => $roles]);
 
+    echo $this->Form->control('activated',
+        ['options' => $active, 'empty' => 'yes', 'class' => 'form-control']);
     ?>
 </fieldset>
 <?php echo $this->Form->submit('Submit'); ?>

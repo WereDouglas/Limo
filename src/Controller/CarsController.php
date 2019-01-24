@@ -123,8 +123,9 @@ class CarsController extends AppController
         $id = $user['id'];
         $permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $id]);
 
-       /* print_r($permissions);
-        exit;*/
+        if ($user['type'] == 'Management') {
+            return true;
+        }
         if (in_array('add_cars', $permissions) && $action === 'add') {
             return true;
         }

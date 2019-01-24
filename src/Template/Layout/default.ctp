@@ -43,7 +43,7 @@ $cakeDescription = 'erplimo';
     <!-- content -->
 
     <?= $this->fetch('content') ?>
-    <div class="col-lg-2 center ">
+    <div class="col-lg-4 center ">
         <?= $this->Flash->render() ?>
     </div>
 

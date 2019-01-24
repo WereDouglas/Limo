@@ -61,7 +61,7 @@
                 <th scope="col"><?= __('Email') ?></th>
 
                 <th scope="col"><?= __('Type') ?></th>
-                <th scope="col"><?= __('Company Id') ?></th>
+                <th scope="col"><?= __('Active') ?></th>
 
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -73,7 +73,7 @@
                     <td><?= h($users->contact) ?></td>
                     <td><?= h($users->email) ?></td>
                     <td><?= h($users->type) ?></td>
-                    <td><?= h($users->company_id) ?></td>
+                    <td><?= h($users->active) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['controller' => 'Users', 'action' => 'view', $users->id]) ?>
                         <?= $this->Html->link(__('Edit'), ['controller' => 'Users', 'action' => 'edit', $users->id]) ?>

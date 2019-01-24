@@ -56,10 +56,14 @@ class UsersTable extends Table
             'foreignKey' => 'user_id'
         ]);
         $this->hasOne('Drivers', [
-            'foreignKey' => 'user_id'
+            'foreignKey' => 'user_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true
         ]);
         $this->hasMany('Trips', [
-            'foreignKey' => 'user_id'
+            'foreignKey' => 'user_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true
         ]);
         $this->belongsToMany('Roles', [
             'foreignKey' => 'user_id',
@@ -170,25 +174,53 @@ class UsersTable extends Table
             $entity->plain_password,
             env('SERVER_NAME')
         );
-
         return true;
     }
 
     public function findPermissions(Query $query, $options = [])
     {
-        $id = $options['id'] ?? null;
+
+        $id = ($options['id']) ? $options['id'] : null;
         $permissions = Array();
         $query->find('all')->contain(['Roles'])
             ->where(['Users.id' => $id]);
-        foreach ($query as $u) {
-            $perms = TableRegistry::getTableLocator()->get('Permissions')->find('all')
-                ->where(['Permissions.role_id' => $u->roles[0]->id]);
-            foreach ($perms as $p) {
-                array_push($permissions, $p->name);
+        $results = $query->all();
+        foreach ($results as $u) {
+            $roles = $u->roles;
+            foreach ($roles as $r) {
+                $permsQuery = TableRegistry::getTableLocator()->get('Roles')->find()->contain(['Permissions'])
+                    ->where(['id' => $r->id]);
+                $allowing = $permsQuery->all();
+                foreach ($allowing as $pm) {
+                    $list_of_allowed = $pm->permissions;
+                    foreach ($list_of_allowed as $l) {
+                        array_push($permissions, $l->name);
+                    }
+                }
+
             }
+
         }
         return $permissions;
 
+    }
+
+    public function findRoles(Query $query, $options = [])
+    {
+        $id = ($options['id']) ? $options['id'] : null;
+        $information = Array();
+        $query->find('all')->contain(['Roles'])
+            ->where(['Users.id' => $id]);
+        $results = $query->all();
+
+        foreach ($results as $u) {
+            $roles = $u->roles;
+            foreach ($roles as $r) {
+                array_push($information, $r->name);
+            }
+        }
+
+        return $information;
     }
 
     public function findLogin(Query $query, array $options)

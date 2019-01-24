@@ -71,4 +71,49 @@ $this->extend('/Common/viewPage');
         </table>
     <?php endif; ?>
 </div>
+<div class="table-responsive">
+    <h4><?= __('Related Permissions') ?></h4>
+    <?php if (!empty($role->permissions)): ?>
+        <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+            <th scope="col"><?= __('Id') ?></th>
+            <th scope="col"><?= __('Name') ?></th>
+            <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </thead>
+            <tbody>
+            <?php foreach ($role->permissions as $p): ?>
+                <tr>
+                    <td><?= h($p->id) ?></td>
+                    <td><?= h($p->name) ?></td>
+                    <td class="actions">
+                        <?= $this->Html->link(__('View'),
+                            [
+                                'controller' => 'Roles',
+                                'action' => 'view',
+                                $p->id
+                            ]) ?>
+                        <?= $this->Html->link(__('Edit'),
+                            [
+                                'controller' => 'Roles',
+                                'action' => 'edit',
+                                $p->id
+                            ]) ?>
+                        <?= $this->Form->postLink(__('Delete'),
+                            [
+                                'controller' => 'Roles',
+                                'action' => 'delete',
+                                $p->id
+                            ],
+                            [
+                                'confirm' => __('Are you sure you want to delete # {0}?',
+                                    $p->id)
+                            ]) ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+</div>
+
 <?php $this->end(); ?>

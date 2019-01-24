@@ -260,12 +260,6 @@
                 </div>
                 <div class="modal-body">
                     <?php
-                    foreach ($this->session->read('roles') as $p):
-                        echo '<br>' . str_replace('_', ' ', $p);
-                    endforeach;
-                    echo '<br>-----------------------';
-                    ?>
-                    <?php
 
                     foreach ($this->session->read('permissions') as $p):
                         echo '<br>' . str_replace('_', ' ', $p);

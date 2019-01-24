@@ -24,7 +24,7 @@ $this->assign('title', 'Companies');
     <th scope="col"></th>
     <th scope="col"><?= $this->Paginator->sort('id') ?></th>
     <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('photo') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('Active') ?></th>
     <th scope="col"><?= $this->Paginator->sort('address') ?></th>
     <th scope="col"><?= $this->Paginator->sort('contact') ?></th>
     <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -50,7 +50,7 @@ $this->assign('title', 'Companies');
         </td>
         <td><?= $this->Number->format($company->id) ?></td>
         <td><?= h($company->name) ?></td>
-        <td><?= h($company->photo) ?></td>
+        <td><?= h($company->activated) ?></td>
         <td><?= h($company->address) ?></td>
         <td><?= h($company->contact) ?></td>
         <td class="actions">

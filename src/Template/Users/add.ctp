@@ -31,10 +31,15 @@ $this->extend('/Common/addPage');
     echo $this->Form->control('contact');
     echo $this->Form->control('email');
     echo $this->Form->control('password');
-    echo $this->Form->select('type', ['Driver', 'Administrator', 'Management', 'Other'], ['empty' => '(choose one)']);
-    echo $this->Form->control('company_id', ['class' => 'form-control', 'options' => $companies, 'empty' => true]);
-    echo $this->Form->control('roles._ids', ['class' => 'form-control', 'options' => $roles]);
+    echo $this->Form->label('*type of user');
+    echo $this->Form->control('type',
+        ['options' =>$types, 'empty' =>'(choose one)', 'class' => 'form-control']);
+     echo $this->Form->control('roles._ids', ['class' => 'form-control', 'options' => $roles]);
     echo $this->Form->control('photo', ['type' => 'file', 'class' => 'form-control']);
+
+    echo $this->Form->control('activated',
+        ['options' =>$active, 'empty' =>'yes', 'class' => 'form-control']);
+
     ?>
 </fieldset>
 <?php echo $this->Form->submit('Submit'); ?>

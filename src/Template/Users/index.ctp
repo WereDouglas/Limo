@@ -32,6 +32,7 @@ $this->assign('title', 'Users');
 <tr>
     <th scope="col">#</th>
     <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('activated') ?></th>
     <th scope="col"><?= $this->Paginator->sort('first_name') ?></th>
     <th scope="col"><?= $this->Paginator->sort('last_name') ?></th>
     <th scope="col"><?= $this->Paginator->sort('contact') ?></th>
@@ -59,6 +60,7 @@ $this->assign('title', 'Users');
             </div>
         </td>
         <td><?= $this->Number->format($user->id) ?></td>
+        <td><?= h($user->activated) ?></td>
         <td><?= h($user->first_name) ?></td>
         <td><?= h($user->last_name) ?></td>
         <td><?= h($user->contact) ?></td>

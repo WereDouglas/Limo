@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -55,11 +56,14 @@ class CompaniesController extends AppController
             $new_user = $data['users'];
 
             $company = $this->Companies->patchEntity($company, $this->request->getData());
+            $company->active = 'yes';
             if ($this->Companies->save($company)) {
 
                 $users = TableRegistry::getTableLocator()->get('Users');
-                $user = $users->newEntity( $new_user);
+                $user = $users->newEntity($new_user);
                 $user->company_id = $company->id;
+                $user->type = 'Administrator';
+                $user->activated = 'yes';
                 if ($users->save($user)) {
                     $this->Flash->success(__('User has been saved.'));
                 }
@@ -71,7 +75,8 @@ class CompaniesController extends AppController
         }
         $this->loadModel('Roles');
         $roles = $this->Roles->find('list', ['limit' => 200]);
-        $this->set(compact('company','roles'));
+        $active = $this->active;
+        $this->set(compact('company', 'roles','active'));
     }
 
 
@@ -89,7 +94,7 @@ class CompaniesController extends AppController
         }
         $this->loadModel('Roles');
         $roles = $this->Roles->find('list', ['limit' => 200]);
-        $this->set(compact('company','roles'));
+        $this->set(compact('company', 'roles'));
     }
 
     /**
@@ -113,7 +118,9 @@ class CompaniesController extends AppController
             }
             $this->Flash->error(__('The company could not be saved. Please, try again.'));
         }
-        $this->set(compact('company'));
+        $active = $this->active;
+        $this->set(compact('company', 'active'));
+
     }
 
     /**
@@ -135,36 +142,15 @@ class CompaniesController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
     public function isAuthorized($user)
     {
-        $action = $this->request->getParam('action');
         $id = $user['id'];
-        $permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $id]);
 
-        /* print_r($permissions);
-         exit;*/
-        if (in_array('add_companies', $permissions) && $action === 'add') {
+        if ($user['type'] == 'Management') {
             return true;
-        }
-        if (in_array('view_companies', $permissions) && $action === 'view') {
-            return true;
-        }
-        if (in_array('delete_companies', $permissions) && $action === 'delete') {
-            return true;
-        }
-        if (in_array('edit_companies', $permissions) && $action === 'edit') {
-            return true;
-        }
-        if (in_array('list_companies', $permissions) && $action === 'index') {
-            return true;
-        }
-        if (in_array('update_companies', $permissions) && $action === 'update') {
-            return true;
-        }
-        {
-
-            return false;
         }
 
+        return false;
     }
 }

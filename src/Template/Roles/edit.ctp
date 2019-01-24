@@ -26,6 +26,7 @@
     echo $this->Form->control('name');
     echo $this->Form->control('users._ids', ['options' => $users, 'class' => 'form-control']);
     //echo $this->Form->radio('gender', ['Masculine', 'Feminine', 'Neuter']);
+    echo $this->Form->control('permissions._ids', ['options' => $permissions,'class' => 'form-control']);
     ?>
 </fieldset>
 <?php echo $this->Form->submit('Submit'); ?>

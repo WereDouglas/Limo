@@ -36,7 +36,7 @@ class RolesController extends AppController
     public function view($id = null)
     {
         $role = $this->Roles->get($id, [
-            'contain' => ['Users']
+            'contain' => ['Users','Permissions']
         ]);
 
         $this->set('role', $role);
@@ -60,7 +60,8 @@ class RolesController extends AppController
             $this->Flash->error(__('The role could not be saved. Please, try again.'));
         }
         $users = $this->Roles->Users->find('list', ['limit' => 200]);
-        $this->set(compact('role', 'users'));
+        $permissions = $this->Roles->Permissions->find('list', ['limit' => 200]);
+        $this->set(compact('role', 'users','permissions'));
     }
 
     /**
@@ -84,9 +85,9 @@ class RolesController extends AppController
             }
             $this->Flash->error(__('The role could not be saved. Please, try again.'));
         }
-
+        $permissions = $this->Roles->Permissions->find('list', ['limit' => 200]);
         $users = $this->Roles->Users->find('list', ['limit' => 200]);
-        $this->set(compact('role', 'users'));
+        $this->set(compact('role', 'users','permissions'));
     }
 
     /**
@@ -114,8 +115,9 @@ class RolesController extends AppController
         $id = $user['id'];
         $permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $id]);
 
-        /* print_r($permissions);
-         exit;*/
+        if ($user['type'] == 'Management') {
+            return true;
+        }
         if (in_array('add_roles', $permissions) && $action === 'add') {
             return true;
         }

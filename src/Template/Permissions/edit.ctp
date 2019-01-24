@@ -23,7 +23,7 @@
     <legend><?= __('Edit Permission') ?></legend>
     <?php
     echo $this->Form->control('name');
-    echo $this->Form->control('role_id', ['options' => $roles]);
+    echo $this->Form->control('roles._ids', ['options' => $roles,'class' => 'form-control']);
     ?>
 </fieldset>
 <?php  echo $this->Form->submit('Submit'); ?>

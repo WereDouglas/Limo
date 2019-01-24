@@ -486,8 +486,9 @@ class TripsController extends AppController
         $id = $user['id'];
         $permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $id]);
 
-        /* print_r($permissions);
-         exit;*/
+        if ($user['type'] == 'Management') {
+            return true;
+        }
         if (in_array('import_trips', $permissions) && $action === 'import') {
             return true;
         }

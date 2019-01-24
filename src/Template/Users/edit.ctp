@@ -46,14 +46,17 @@
         <legend><?= __('Edit User') ?></legend>
 
         <?php
+
         echo $this->Form->control('first_name');
         echo $this->Form->control('last_name');
         echo $this->Form->control('contact');
         echo $this->Form->control('email');
-        echo $this->Form->select('type', ['Driver', 'Administrator', 'Other'], ['empty' => '(choose one)']);
-        echo $this->Form->control('company_id', ['options' => $companies, 'empty' => true]);
-
+        echo $this->Form->label('*type of user');
+        echo $this->Form->select('type',$types, ['empty' =>'(choose one)', 'class' => 'form-control']);
         echo $this->Form->control('roles._ids', ['options' => $roles, 'class' => 'form-control']);
+        echo $this->Form->control('activated',
+            ['options' => $active, 'empty' =>'yes', 'class' => 'form-control']);
+
 
         ?>
     </fieldset>

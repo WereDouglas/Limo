@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * Permissions Model
  *
- * @property \App\Model\Table\RolesTable|\Cake\ORM\Association\BelongsTo $Roles
+ * @property \App\Model\Table\RolesTable|\Cake\ORM\Association\BelongsToMany $Roles
  *
  * @method \App\Model\Entity\Permission get($primaryKey, $options = [])
  * @method \App\Model\Entity\Permission newEntity($data = null, array $options = [])
@@ -37,9 +37,10 @@ class PermissionsTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Roles', [
-            'foreignKey' => 'role_id',
-            'joinType' => 'INNER'
+        $this->belongsToMany('Roles', [
+            'foreignKey' => 'permission_id',
+            'targetForeignKey' => 'role_id',
+            'joinTable' => 'permissions_roles'
         ]);
     }
 
@@ -61,19 +62,5 @@ class PermissionsTable extends Table
             ->allowEmpty('name');
 
         return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->existsIn(['role_id'], 'Roles'));
-
-        return $rules;
     }
 }

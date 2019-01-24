@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -42,7 +43,9 @@ class CompaniesTable extends Table
             'foreignKey' => 'company_id'
         ]);
         $this->hasMany('Users', [
-            'foreignKey' => 'company_id'
+            'foreignKey' => 'company_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
         ]);
         $this->addBehavior('Josegonzalez/Upload.Upload', [
             'photo' => [

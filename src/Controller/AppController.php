@@ -30,6 +30,9 @@ use Cake\ORM\TableRegistry;
  * @property  array $permissions
  * @property  string $action
  * @property bool $api
+ *
+ * @property  array $types
+ * @property  array $active
  */
 class AppController extends Controller
 {
@@ -66,6 +69,9 @@ class AppController extends Controller
             && !in_array('text/html', $acceptsContentTypes);
 
 
+        $this->types = [ 'Administrator'=>'Administrator', 'Employee'=>'Employee'];
+        $this->active = ['yes'=>'yes', 'no'=>'no'];
+
             $this->loadComponent('Auth', [
                 'authenticate' => [
                     'Form' => [
@@ -86,14 +92,12 @@ class AppController extends Controller
                 'unauthorizedRedirect' => $this->referer()
             ]);
 
-        $this->Auth->allow(['logout', 'login', 'register']);
+       $this->Auth->allow(['logout', 'login', 'register']);
+       // $this->Auth->allow(['logout', 'login', 'register','index'.'view','add','delete','edit']);
     }
-
     public function beforeFilter(Event $event)
     {
        // $this->Auth->allow(['index']);
         $this->set('loggedIn', $this->Auth->user());
     }
-
-
 }

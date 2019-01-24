@@ -16110,13 +16110,12 @@ button.section-darker:focus
     left: 10rem;
 }
 
-.center
-{
-    left: 50%;
 
-    transform: translateX(-50%);
+.center {
+    left: 36%;
+    transform: translateX(0%);
+    transform: translateY(-255%);
 }
-
 .h-100vh
 {
     height: 100vh !important;
@@ -19502,7 +19501,7 @@ textarea[resize='horizontal']
         width: 100%;
         max-width: 250px;
         padding-right: 1.5rem;
-        padding-left: 1.5rem;
+
     }
     .navbar-vertical.navbar-expand-md > [class*='container']
     {
@@ -19560,7 +19559,7 @@ textarea[resize='horizontal']
     }
     .navbar-vertical.navbar-expand-md .navbar-nav .nav-link
     {
-        padding: .65rem 1.5rem;
+        padding: .65rem 0.5rem;
     }
     .navbar-vertical.navbar-expand-md .navbar-nav .nav-link.active:before
     {

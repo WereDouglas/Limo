@@ -2,6 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Role $role
+ *  @var \App\Model\Entity\Role $permission
  */
 ?>
 <?php $this->extend('/Common/addPage'); ?>
@@ -18,6 +19,7 @@
     <?php
     echo $this->Form->control('name');
     echo $this->Form->control('users._ids', ['options' => $users,'class' => 'form-control']);
+    echo $this->Form->control('permissions._ids', ['options' => $permissions,'class' => 'form-control']);
     ?>
 </fieldset>
 <?php  echo $this->Form->submit('Submit'); ?>

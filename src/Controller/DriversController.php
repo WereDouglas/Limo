@@ -64,13 +64,13 @@ class DriversController extends AppController
 
             $users = TableRegistry::getTableLocator()->get('Users');
             $user = $users->newEntity($data);
-
+            $user->company_id = $this->Auth->user('company_id');
             if ($users->save($user)) {
 
                 $drivers = TableRegistry::getTableLocator()->get('Drivers');
                 $driver = $drivers->newEntity($driving);
-                $driver->user_id =   $user->id;
-                $driver->expires = date('Y-m-d',strtotime($expire));
+                $driver->user_id = $user->id;
+                $driver->expires = date('Y-m-d', strtotime($expire));
 
                 if ($drivers->save($driver)) {
                     $this->Flash->success(__('The driver has been saved.'));
@@ -87,9 +87,13 @@ class DriversController extends AppController
         $companies = $this->Companies->find('list', ['limit' => 200]);
         $roles = $this->Roles->find('list', ['limit' => 200]);
         $users = $this->Drivers->Users->find('list', ['limit' => 200]);
+        $active = $this->active;
+        $types = $this->types;
+        if ($this->Auth->user('type') == 'Management') {
+            $types['Management'] = 'Management';
+        }
 
-
-        $this->set(compact('driver', 'users', 'roles', 'companies'));
+        $this->set(compact('driver', 'users', 'roles', 'companies', 'active', 'types'));
     }
 
 
@@ -135,7 +139,10 @@ class DriversController extends AppController
             $this->Flash->error(__('The driver could not be saved. Please, try again.'));
         }
         $users = $this->Drivers->Users->find('list', ['limit' => 200]);
+
+
         $this->set(compact('driver', 'users'));
+
     }
 
     /**
@@ -163,10 +170,9 @@ class DriversController extends AppController
         $action = $this->request->getParam('action');
         $id = $user['id'];
         $permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $id]);
-        $controller = strtolower($this->getName()) . 's';
-
-        /* print_r($permissions);
-         exit;*/
+        if ($user['type'] == 'Management') {
+            return true;
+        }
         if (in_array('add_drivers', $permissions) && $action === 'add') {
             return true;
         }

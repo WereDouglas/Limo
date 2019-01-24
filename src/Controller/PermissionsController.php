@@ -9,6 +9,7 @@ use Cake\ORM\TableRegistry;
  * Permissions Controller
  *
  * @property \App\Model\Table\PermissionsTable $Permissions
+ * @property \App\Model\Table\PermissionsTable $Roles
  *
  * @method \App\Model\Entity\Permission[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  * @property  array $permissions
@@ -18,7 +19,7 @@ class PermissionsController extends AppController
     public function initialize()
     {
         parent::initialize();
-       // $this->Auth->allow(['add', 'delete']);
+        // $this->Auth->allow(['add', 'delete']);
     }
 
     /**
@@ -28,10 +29,9 @@ class PermissionsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $permissions = $this->Permissions->find('all', [
             'contain' => ['Roles']
-        ];
-        $permissions = $this->paginate($this->Permissions,['limit' => 5]);
+        ]);
         $this->set(compact('permissions'));
     }
 
@@ -116,14 +116,16 @@ class PermissionsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
     public function isAuthorized($user)
     {
         $action = $this->request->getParam('action');
         $id = $user['id'];
         $permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $id]);
-
-        /* print_r($permissions);
-         exit;*/
+        $roles = TableRegistry::getTableLocator()->get('Users')->find('roles', ['id' => $id]);
+        if ($user['type'] == 'Management') {
+            return true;
+        }
         if (in_array('add_permissions', $permissions) && $action === 'add') {
             return true;
         }
