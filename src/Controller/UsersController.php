@@ -206,6 +206,34 @@ class UsersController extends AppController
     public function register()
     {
         $this->viewBuilder()->setLayout('');
+
+        $companies= TableRegistry::getTableLocator()->get('Companies');
+
+        $company = $companies->newEntity();
+        if ($this->request->is('post')) {
+            $data = $this->request->getData();
+            $new_user = $data['users'];
+
+            $company = $companies->patchEntity($company, $this->request->getData());
+            if ($companies->save($company)) {
+
+                $users = TableRegistry::getTableLocator()->get('Users');
+                $user = $users->newEntity( $new_user);
+                $user->company_id = $company->id;
+                if ($users->save($user)) {
+                    $this->Flash->success(__('User has been saved.'));
+                }
+                $this->Flash->success(__('The company has been saved.'));
+
+                return $this->redirect(['action' => 'login']);
+            }
+            $this->Flash->error(__('The company could not be saved. Please, try again.'));
+
+        }
+        $this->loadModel('Roles');
+        $roles = $this->Roles->find('list', ['limit' => 200]);
+        $this->set(compact('company','roles'));
+
     }
 
     public function logout()

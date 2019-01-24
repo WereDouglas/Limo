@@ -45,6 +45,14 @@ class TripsController extends AppController
     public function index()
     {
 
+        $this->paginate = [ 'contain' => ['Users', 'Companies']];
+
+        $trips = $this->paginate($this->Trips, ['maxLimit' => 5]);
+
+        $this->set(compact('trips', 'day'));
+    }
+    public function form()
+    {
 
         $values = $this->request->getData();
         $day = ($values['date'] != '') ? date('Y-m-d', strtotime($values['date'])) : date('Y-m-d');
@@ -53,10 +61,11 @@ class TripsController extends AppController
             'contain' => ['Users', 'Companies']
         ])
             ->where(['Trips.date' => $day]);
-        $trips = $this->paginate($trips, ['maxLimit' => 5]);
+
 
         $this->set(compact('trips', 'day'));
     }
+
 
     /**
      * View method
@@ -495,6 +504,9 @@ class TripsController extends AppController
             return true;
         }
         if (in_array('list_trips', $permissions) && $action === 'index') {
+            return true;
+        }
+        if (in_array('list_trips', $permissions) && $action === 'form') {
             return true;
         }
 

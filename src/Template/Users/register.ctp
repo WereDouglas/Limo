@@ -5,57 +5,29 @@ $this->assign('header', 'Or sign up with credentials');
 ?>
 <!-- Navbar -->
 <?php $this->start('form'); ?>
-<?php echo $this->Form->create('users', array(
-    'inputDefaults' => array(
-        'div' => 'form-group',
-        'label' => false,
-        'wrapInput' => false,
-        'class' => 'form-control',
-        'role' => 'form'
-    ),
+<?= $this->Form->create($company, ['type' => 'file']) ?>
+<fieldset>
 
-)); ?>
-    <div class="form-group">
-        <div class="input-group input-group-alternative mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-            </div>
-            <input class="form-control" placeholder="Name" type="text">
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="input-group input-group-alternative mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="ni ni-email-83"></i></span>
-            </div>
-            <input class="form-control" placeholder="Email" type="email">
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="input-group input-group-alternative">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-            </div>
-            <input class="form-control" placeholder="Password" type="password">
-        </div>
-    </div>
-    <div class="text-muted font-italic">
-        <small>password strength: <span class="text-success font-weight-700">strong</span></small>
-    </div>
-    <div class="row my-4">
-        <div class="col-12">
-            <div class="custom-control custom-control-alternative custom-checkbox">
-                <input class="custom-control-input" id="customCheckRegister" type="checkbox">
-                <label class="custom-control-label" for="customCheckRegister">
-                    <span class="text-muted">I agree with the <a href="#!">Privacy Policy</a></span>
-                </label>
-            </div>
-        </div>
-    </div>
-    <div class="text-center">
-        <button type="button" class="btn btn-primary mt-4">Create account</button>
-    </div>
+    <?php
+    echo '<h1 class="mb--1"><span class="badge badge-pill badge-info">Company information</span></h1>';
+    echo $this->Form->control('name');
+    echo $this->Form->control('address');
+    echo $this->Form->control('contact');
+    echo $this->Form->control('photo', ['type' => 'file', 'class' => 'form-control']);
+    echo '<h1><span class="badge badge-pill badge-info">User Information</span></h1>';
+    echo $this->Form->control('users.first_name');
+    echo $this->Form->control('users.last_name');
+    echo $this->Form->control('users.contact');
+    echo $this->Form->control('users.email');
+    echo $this->Form->control('users.password');
+    echo $this->Form->select('users.type', ['Driver', 'Administrator','Management','Other'], ['empty' => '(choose one)']);
+    echo $this->Form->control('users.roles._ids', ['class' => 'form-control', 'options' => $roles]);
+
+    ?>
+</fieldset>
+<?php echo $this->Form->submit('Submit'); ?>
 <?= $this->Form->end() ?>
+
 <?php $this->end(); ?>
 <?php $this->start('links');?>
 <div class="row mt-3">

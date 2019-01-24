@@ -92,7 +92,6 @@
                         </h3>
                         <div class="text-left">
 
-
                             <hr class="my-4"/>
                             <h3><?= h($user->id) ?></h3>
                             <table class="vertical-table">

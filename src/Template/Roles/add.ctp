@@ -17,7 +17,7 @@
     <legend><?= __('Add Role') ?></legend>
     <?php
     echo $this->Form->control('name');
-    echo $this->Form->control('users._ids', ['options' => $users]);
+    echo $this->Form->control('users._ids', ['options' => $users,'class' => 'form-control']);
     ?>
 </fieldset>
 <?php  echo $this->Form->submit('Submit'); ?>

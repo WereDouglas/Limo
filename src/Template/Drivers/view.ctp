@@ -13,12 +13,17 @@
 <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?> </li>
 <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?> </li>
 
-
 <?php $this->end();?>
+<?php $this->start('counter'); ?>
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+
+</div>
+<?php $this->end(); ?>
 <?php $this->start('form');?>
 
 <h3><?= h($driver->id) ?></h3>
-<table class="vertical-table">
+
+<table class="vertical-table table-responsive">
     <tr>
         <th scope="row"><?= __('License') ?></th>
         <td><?= h($driver->license) ?></td>

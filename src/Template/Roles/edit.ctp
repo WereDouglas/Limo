@@ -5,7 +5,7 @@
  */
 ?>
 <?php $this->extend('/Common/addPage'); ?>
-<?php $this->start('links');?>
+<?php $this->start('links'); ?>
 <li><?= $this->Form->postLink(
         __('Delete'),
         ['action' => 'delete', $role->id],
@@ -17,17 +17,18 @@
 <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
 
 
-<?php $this->end();?>
-<?php $this->start('form');?>
+<?php $this->end(); ?>
+<?php $this->start('form'); ?>
 <?= $this->Form->create($role) ?>
 <fieldset>
     <legend><?= __('Edit Role') ?></legend>
     <?php
     echo $this->Form->control('name');
-    echo $this->Form->control('users._ids', ['options' => $users]);
+    echo $this->Form->control('users._ids', ['options' => $users, 'class' => 'form-control']);
+    //echo $this->Form->radio('gender', ['Masculine', 'Feminine', 'Neuter']);
     ?>
 </fieldset>
-<?php  echo $this->Form->submit('Submit'); ?>
+<?php echo $this->Form->submit('Submit'); ?>
 <?= $this->Form->end() ?>
 
-<?php $this->end();?>
+<?php $this->end(); ?>

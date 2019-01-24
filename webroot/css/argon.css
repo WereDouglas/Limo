@@ -6165,19 +6165,16 @@ input[type='button'].btn-block
 
 .badge
 {
-    font-size: 66%;
-    font-weight: 600;
-    line-height: 1;
-
+    font-size: 106%;
+    font-weight: 100;
     display: inline-block;
-
     padding: .35rem .375rem;
-
     text-align: center;
     vertical-align: baseline;
     white-space: nowrap;
-
+    margin: 20px 0px 20px 0px;
     border-radius: .375rem;
+    width:100%;
 }
 .badge:empty
 {
@@ -6194,8 +6191,6 @@ input[type='button'].btn-block
 {
     padding-right: .875em;
     padding-left: .875em;
-
-    border-radius: 10rem;
 }
 
 .badge-primary

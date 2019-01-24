@@ -8,7 +8,7 @@ use Cake\ORM\TableRegistry;
  * Roles Controller
  *
  * @property \App\Model\Table\RolesTable $Roles
- *
+ *@property \App\Model\Table\RolesTable $Permissions
  * @method \App\Model\Entity\Role[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class RolesController extends AppController
@@ -73,7 +73,7 @@ class RolesController extends AppController
     public function edit($id = null)
     {
         $role = $this->Roles->get($id, [
-            'contain' => ['Users']
+            'contain' => ['Users','Permissions']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $role = $this->Roles->patchEntity($role, $this->request->getData());
@@ -84,6 +84,7 @@ class RolesController extends AppController
             }
             $this->Flash->error(__('The role could not be saved. Please, try again.'));
         }
+
         $users = $this->Roles->Users->find('list', ['limit' => 200]);
         $this->set(compact('role', 'users'));
     }

@@ -5,6 +5,10 @@
  */
 ?>
 
+<?php if ($this->fetch('cssTop')) { ?>
+    <?= $this->fetch('cssTop') ?>
+<?php } ?>
+
 <!-- Top navbar -->
 <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
     <div class="container-fluid">
@@ -130,8 +134,8 @@
             </div>
 
 
-
-            <button class="btn btn-icon btn-3 btn-default btn-sm" type="button" data-toggle="modal" data-target="#roleModal">
+            <button class="btn btn-icon btn-3 btn-default btn-sm" type="button" data-toggle="modal"
+                    data-target="#roleModal">
                 <span class="btn-inner--icon"><i class="ni ni-user-run"></i></span>
                 <span class="btn-inner--text">Roles</span>
             </button>
@@ -157,6 +161,17 @@
 <?php if ($this->fetch('counter')): ?>
     <?= $this->fetch('counter') ?>
 <?php else: ?>
+    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+         style="min-height: 50px; background-image: url(<?= $this->Url->image('theme/profile-cover.jpg') ?>; background-size: cover; background-position: center top;">
+        <!-- Mask -->
+        <span class="mask bg-gradient-default opacity-8"></span>
+        <!-- Header container -->
+        <div class="container-fluid d-flex align-items-center">
+            <div class="row">
+
+            </div>
+        </div>
+    </div>
 
 <?php endif ?>
 <!-- Page content -->
@@ -176,7 +191,6 @@
                             <?php } ?>
                         </div>
                         <div class="col-3">
-
                             <button class="btn-icon btn btn-secondary" role="button" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
                                 <span class="btn-inner--icon"><i class="ni ni-active-40"></i></span>
@@ -193,71 +207,85 @@
                         </div>
                     </div>
                 </div>
-
-                <?php if ($this->fetch('th')) { ?>
-                    <div class="table-responsive">
-                        <?php if ($this->fetch('modal')): ?>
-                            <?= $this->fetch('modal') ?>
-                        <?php endif; ?>
-                        <table class="table align-items-center table-flush">
-                            <thead class="thead-light">
-
-                            <?= $this->fetch('th') ?>
-
-                            </thead>
-                            <tbody>
-                            <?= $this->fetch('tr') ?>
-                            </tbody>
-                        </table>
-                    </div>
-                <?php } ?>
-                <?php if ($this->fetch('pagination')) { ?>
-                    <div class="card-footer py-4">
-                        <nav aria-label="...">
-                            <div class="paginator">
-                                <?= $this->fetch('pagination') ?>
+                <?php if ($this->fetch('table')) { ?>
+                <div class="table-responsive ">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?= $this->fetch('table') ?>
                             </div>
-
-                        </nav>
+                        </div>
                     </div>
-                <?php } ?>
+                    <?php } ?>
+                    <?php if ($this->fetch('th')) { ?>
+                        <div class="table-responsive">
+                            <?php if ($this->fetch('modal')): ?>
+                                <?= $this->fetch('modal') ?>
+                            <?php endif; ?>
+                            <table class="table align-items-center table-flush">
+                                <thead class="thead-light">
+
+                                <?= $this->fetch('th') ?>
+
+                                </thead>
+                                <tbody>
+                                <?= $this->fetch('tr') ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php } ?>
+                    <?php if ($this->fetch('pagination')) { ?>
+                        <div class="card-footer py-4">
+                            <nav aria-label="...">
+                                <div class="paginator">
+                                    <?= $this->fetch('pagination') ?>
+                                </div>
+
+                            </nav>
+                        </div>
+                    <?php } ?>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="modal fade" id="roleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">List of your roles </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <?php
-                foreach ($this->session->read('roles') as $p):
-                    echo  '<br>' . str_replace('_', ' ', $p);
-                endforeach;
-                echo  '<br>-----------------------';
-                ?>
-                <?php
+    <div class="modal fade" id="roleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">List of your roles </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <?php
+                    foreach ($this->session->read('roles') as $p):
+                        echo '<br>' . str_replace('_', ' ', $p);
+                    endforeach;
+                    echo '<br>-----------------------';
+                    ?>
+                    <?php
 
-                foreach ($this->session->read('permissions') as $p):
-                   echo  '<br>' . str_replace('_', ' ', $p);
-                endforeach;
+                    foreach ($this->session->read('permissions') as $p):
+                        echo '<br>' . str_replace('_', ' ', $p);
+                    endforeach;
+                    ?>
 
-                ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
-<?= $this->Html->script(['jquery.min', 'bootstrap-datepicker.min.js']); ?>
+    <?= $this->Html->script(['jquery.min', 'bootstrap-datepicker.min.js']); ?>
+    <?php if ($this->fetch('scriptBottom')) { ?>
+        <?= $this->fetch('scriptBottom') ?>
+    <?php } ?>
+    <?php if ($this->fetch('inlineScript')) { ?>
+        <?= $this->fetch('inlineScript') ?>
+    <?php } ?>

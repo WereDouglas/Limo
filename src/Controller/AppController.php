@@ -59,6 +59,8 @@ class AppController extends Controller
         $this->loadComponent('Flash');
         $this->loadComponent('Paginator');
 
+
+
         $acceptsContentTypes = $this->getRequest()->accepts();
         $this->api = !empty(array_intersect(['application/json', 'application/xml'], $acceptsContentTypes))
             && !in_array('text/html', $acceptsContentTypes);

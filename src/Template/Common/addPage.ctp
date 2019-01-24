@@ -1,3 +1,6 @@
+<?php if ($this->fetch('wizardCss')) { ?>
+    <?= $this->fetch('wizardCss') ?>
+<?php } ?>
 <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
     <div class="container-fluid">
         <!-- Brand -->
@@ -54,6 +57,23 @@
             </div>
         </div>
     </div>
-
-
+    <?= $this->Html->script(['jquery.min']); ?>
+    <?php if ($this->fetch('dateScript')) { ?>
+        <?= $this->fetch('dateScript') ?>
+    <?php } ?>
+    <?php if ($this->fetch('wizardScript')) { ?>
+        <?= $this->fetch('wizardScript') ?>
+    <?php } ?>
+    <?php if ($this->fetch('bootstrapMinScript')) { ?>
+        <?= $this->fetch('bootstrapMinScript') ?>
+    <?php } ?>
+    <?php if ($this->fetch('bootstrapJqueryScript')) { ?>
+        <?= $this->fetch('bootstrapJqueryScript') ?>
+    <?php } ?>
+    <?php if ($this->fetch('materialScript')) { ?>
+        <?= $this->fetch('materialScript') ?>
+    <?php } ?>
+    <?php if ($this->fetch('validateScript')) { ?>
+        <?= $this->fetch('validateScript') ?>
+    <?php } ?>
 

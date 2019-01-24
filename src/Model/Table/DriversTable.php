@@ -34,7 +34,7 @@ class DriversTable extends Table
         parent::initialize($config);
 
         $this->setTable('drivers');
-        $this->setDisplayField('id');
+        $this->setDisplayField('license');
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Users', [
@@ -61,7 +61,7 @@ class DriversTable extends Table
             ->allowEmpty('license');
 
         $validator
-            ->date('expires')
+            ->scalar('expires')
             ->allowEmpty('expires');
 
         return $validator;

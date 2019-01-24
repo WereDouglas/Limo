@@ -36,33 +36,36 @@ $this->assign('title', 'All trips :' . $day);
 
 
 <?php $this->end(); ?>
-<?php $this->start('th'); ?>
-<tr>
-    <th scope="col"></th>
-    <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('client') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('phone') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('date') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('pick_up_time') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('appointment_time') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('pick_up_address') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('pick_up_city') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('drop_off_address') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('drop_off_city') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('distance') . '(Miles)' ?></th>
-    <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('company_id') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('complete') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('start_lat') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('start_long') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('drop_lat') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('drop_long') ?></th>
-    <th scope="col" class="actions"><?= __('Actions') ?></th>
-</tr>
-<?php $this->end(); ?>
-<?php $this->start('tr'); ?>
-<?php foreach ($trips as $trip): ?>
+<?php $this->start('table'); ?>
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css">
+<table class="table align-items-center table-flush"  id="example" >
+    <thead class="thead-light">
+    <tr>
+        <th scope="col"></th>
+        <th scope="col"><?= 'id' ?></th>
+        <th scope="col"><?= 'client' ?></th>
+        <th scope="col"><?= 'phone' ?></th>
+        <th scope="col"><?= 'date' ?></th>
+        <th scope="col"><?= 'pick_up_time' ?></th>
+        <th scope="col"><?= 'appointment_time' ?></th>
+        <th scope="col"><?= 'pick_up_address' ?></th>
+        <th scope="col"><?= 'pick_up_city' ?></th>
+        <th scope="col"><?= 'drop_off_address' ?></th>
+        <th scope="col"><?= 'drop_off_city' ?></th>
+        <th scope="col"><?= 'distance' . '(Miles)' ?></th>
+        <th scope="col"><?= 'created' ?></th>
+        <th scope="col"><?= 'user_id' ?></th>
+        <th scope="col"><?= 'company_id' ?></th>
+        <th scope="col"><?= 'complete' ?></th>
+        <th scope="col"><?= 'start_lat' ?></th>
+        <th scope="col"><?= 'start_long' ?></th>
+        <th scope="col"><?= 'drop_lat' ?></th>
+        <th scope="col"><?= 'drop_long' ?></th>
+        <th scope="col" class="actions"><?= __('Actions') ?></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($trips as $trip): ?>
     <tr>
         <td>
             <?php
@@ -137,21 +140,27 @@ $this->assign('title', 'All trips :' . $day);
                     </ul>
                 </div>
             </div>
-
         </td>
     </tr>
-<?php endforeach; ?>
-<?php $this->end(); ?>
-<?php $this->start('pagination'); ?>
-<ul class="pagination">
-    <?= $this->Paginator->first('<< ') ?>
-    <?= $this->Paginator->prev('< ') ?>
-    <?= $this->Paginator->numbers() ?>
-    <?= $this->Paginator->next(' >') ?>
-    <?= $this->Paginator->last(' >>') ?>
-</ul>
-<p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-
+    <?php endforeach; ?>
+    </tbody>
+</table>
+<?php $this->Html->css('bootstrap.css', ['block' => 'bootstrap']);?>
+<?php $this->Html->css('jquery.dataTables.min.css', ['block' => 'cssTop']);?>
+<?php $this->Html->script('jquery.dataTables.min.js', ['block' => 'scriptBottom']);?>
+<?php
+$this->Html->scriptStart(['block' => 'inlineScript']); ?>
+$(document).ready(function () {
+    $('#example')
+    .addClass('nowrap')
+    .dataTable({
+                responsive: true,
+                columnDefs: [
+                    {targets: [-1, -3], className: 'dt-body-right'}
+                ]
+            });
+    });
+<?php $this->Html->scriptEnd();?>
 <?php $this->end(); ?>
 <?php $this->start('modal'); ?>
 <!-- Modal -->
@@ -170,7 +179,6 @@ $this->assign('title', 'All trips :' . $day);
                 <?= $this->Form->create($trip,
                     ['type' => 'file', 'controller' => 'trips', 'action' => 'import']) ?>
                 <legend><?= __('Import trips') ?></legend>
-
                 <?php echo $this->Form->control('start_address', ['class' => 'form-control']); ?>
                 <br>
                 <div class="form-group">
@@ -203,7 +211,6 @@ $this->assign('title', 'All trips :' . $day);
 <?php $this->end(); ?>
 <?php $this->start('date'); ?>
 <?php $list = null; ?>
-
 <?= $this->Form->create($list, ['action' => 'form', 'class' => 'form-horizontal']) ?>
 <div class="row">
     <div class="col">
@@ -220,7 +227,9 @@ $this->assign('title', 'All trips :' . $day);
             <span class="btn-inner--icon"><i class="ni ni-bullet-list-67"></i></span>
             <span class="btn-inner--text">filter</span>
         </button>
+
     </div>
+
 </div>
 <?= $this->Form->end() ?>
 <?php $this->end(); ?>

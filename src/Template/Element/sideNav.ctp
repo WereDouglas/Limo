@@ -156,7 +156,7 @@
                             'action' => 'index'
                         ),
                         array(
-                            'class' => 'nav-link active',
+                            'class' => 'nav-link ',
                             'escape' => false
                         )
                     );
@@ -171,7 +171,7 @@
                             'action' => 'index'
                         ),
                         array(
-                            'class' => 'nav-link active',
+                            'class' => 'nav-link ',
                             'escape' => false
                         )
                     );
@@ -186,7 +186,7 @@
                             'action' => 'index'
                         ),
                         array(
-                            'class' => 'nav-link active',
+                            'class' => 'nav-link ',
                             'escape' => false
                         )
                     );
@@ -201,7 +201,7 @@
                             'action' => 'index'
                         ),
                         array(
-                            'class' => 'nav-link active',
+                            'class' => 'nav-link',
                             'escape' => false
                         )
                     );
@@ -216,7 +216,7 @@
                             'action' => 'index'
                         ),
                         array(
-                            'class' => 'nav-link active',
+                            'class' => 'nav-link ',
                             'escape' => false
                         )
                     );
@@ -231,7 +231,7 @@
                             'action' => 'index'
                         ),
                         array(
-                            'class' => 'nav-link active',
+                            'class' => 'nav-link ',
                             'escape' => false
                         )
                     );
