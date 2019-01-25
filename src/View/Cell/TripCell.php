@@ -32,7 +32,7 @@ class TripCell extends Cell
      *
      * @return void
      */
-    public function display()
+    public function display($company_id)
     {
         $counts = Array();
         /**
@@ -44,7 +44,8 @@ class TripCell extends Cell
 
         $objects = new \stdClass();
         $this->loadModel('Trips');
-        $trips = $this->Trips->find();
+        $trips = $this->Trips->find('all')
+        ->where(['company_id'=>$company_id]);
         $objects->count = $trips->count();
         $objects->title = 'Trip(s)';
         $objects->icon = 'fa-road';
@@ -58,7 +59,7 @@ class TripCell extends Cell
         /*users*/
         $objects = new \stdClass();
         $this->loadModel('Users');
-        $users = $this->Users->find();
+        $users = $this->Users->find() ->where(['company_id'=>$company_id]);
         $objects->count = $users->count();
         $objects->title = 'User(s)';
         $objects->icon = 'fa-users';

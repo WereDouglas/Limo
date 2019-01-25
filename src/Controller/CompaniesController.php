@@ -150,6 +150,10 @@ class CompaniesController extends AppController
         if ($user['type'] == 'Management') {
             return true;
         }
+        $session = $this->getRequest()->getSession();
+        if ( $session->read('session_type')=='advanced'){
+            return true;
+        }
 
         return false;
     }

@@ -22,8 +22,8 @@ class RolesController extends AppController
     public function index()
     {
         $roles = $this->paginate($this->Roles);
-
-        $this->set(compact('roles'));
+        $cid = $this->Auth->user('company_id');
+        $this->set(compact('roles','cid'));
     }
 
     /**
@@ -114,7 +114,10 @@ class RolesController extends AppController
         $action = $this->request->getParam('action');
         $id = $user['id'];
         $permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $id]);
-
+        $session = $this->getRequest()->getSession();
+        if ( $session->read('session_type')=='advanced'){
+            return true;
+        }
         if ($user['type'] == 'Management') {
             return true;
         }

@@ -27,8 +27,8 @@ class CarsController extends AppController
             'contain' => ['Users']
         ];
         $cars = $this->paginate($this->Cars);
-
-        $this->set(compact('cars'));
+        $cid = $this->Auth->user('company_id');
+        $this->set(compact('cars','cid'));
     }
 
     /**
@@ -43,7 +43,6 @@ class CarsController extends AppController
         $car = $this->Cars->get($id, [
             'contain' => ['Users']
         ]);
-
         $this->set('car', $car);
     }
 
@@ -122,7 +121,10 @@ class CarsController extends AppController
         $action = $this->request->getParam('action');
         $id = $user['id'];
         $permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $id]);
-
+        $session = $this->getRequest()->getSession();
+        if ( $session->read('session_type')=='advanced'){
+            return true;
+        }
         if ($user['type'] == 'Management') {
             return true;
         }

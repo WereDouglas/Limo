@@ -32,7 +32,8 @@ class PermissionsController extends AppController
         $permissions = $this->Permissions->find('all', [
             'contain' => ['Roles']
         ]);
-        $this->set(compact('permissions'));
+        $cid = $this->Auth->user('company_id');
+        $this->set(compact('permissions','cid'));
     }
 
     /**
@@ -124,6 +125,10 @@ class PermissionsController extends AppController
         $permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $id]);
         $roles = TableRegistry::getTableLocator()->get('Users')->find('roles', ['id' => $id]);
         if ($user['type'] == 'Management') {
+            return true;
+        }
+        $session = $this->getRequest()->getSession();
+        if ( $session->read('session_type')=='advanced'){
             return true;
         }
         if (in_array('add_permissions', $permissions) && $action === 'add') {

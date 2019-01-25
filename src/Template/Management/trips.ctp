@@ -12,7 +12,7 @@ $this->assign('title', 'All trips :' . $day);
 <!-- Header -->
 <?php $this->start('counter'); ?>
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-    <?php echo $cell = $this->cell('Trip',['company_id'=>$cid]); ?>
+    <?php echo $cell = $this->cell('Count'); ?>
 </div>
 <?php $this->end(); ?>
 <!-- Page content -->
@@ -122,18 +122,17 @@ $this->assign('title', 'All trips :' . $day);
                     <ul class="side-nav">
 
                         <li> <?= $this->Html->link(__('View'),
-                                ['action' => 'view', $trip->id]) ?></li>
+                                ['controller'=>'trips','action' => 'view', $trip->id]) ?></li>
                         <li> <?= $this->Html->link(__('Edit'),
-                                ['action' => 'edit', $trip->id]) ?></li>
+                                ['controller'=>'trips','action' => 'edit', $trip->id]) ?></li>
                         <li>
                             <?= $this->Form->postLink(__('Delete'),
-                                ['action' => 'delete', $trip->id],
+                                ['controller'=>'trips','action' => 'delete', $trip->id],
                                 [
                                     'confirm' => __('Are you sure you want to delete # {0}?',
                                         $trip->id)
                                 ]) ?>
                         </li>
-
                     </ul>
                 </div>
             </div>

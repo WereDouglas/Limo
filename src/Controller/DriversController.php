@@ -26,8 +26,8 @@ class DriversController extends AppController
             'contain' => ['Users']
         ];
         $drivers = $this->paginate($this->Drivers);
-
-        $this->set(compact('drivers'));
+        $cid = $this->Auth->user('company_id');
+        $this->set(compact('drivers','cid'));
     }
 
     /**
@@ -171,6 +171,10 @@ class DriversController extends AppController
         $id = $user['id'];
         $permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $id]);
         if ($user['type'] == 'Management') {
+            return true;
+        }
+        $session = $this->getRequest()->getSession();
+        if ( $session->read('session_type')=='advanced'){
             return true;
         }
         if (in_array('add_drivers', $permissions) && $action === 'add') {

@@ -8,7 +8,7 @@ $this->assign('title', 'Companies');
 ?>
 <?php $this->start('counter'); ?>
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-    <?php echo $cell = $this->cell('Trip',['company_id'=>$cid]); ?>
+    <?php echo $cell = $this->cell('Count'); ?>
 </div>
 <?php $this->end(); ?>
 <?php $this->start('links'); ?>
@@ -54,9 +54,9 @@ $this->assign('title', 'Companies');
         <td><?= h($company->address) ?></td>
         <td><?= h($company->contact) ?></td>
         <td class="actions">
-            <?= $this->Html->link(__('View'), ['action' => 'view', $company->id]) ?>
-            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $company->id]) ?>
-            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $company->id],
+            <?= $this->Html->link(__('View'), ['controller'=>'companies','action' => 'view', $company->id]) ?>
+            <?= $this->Html->link(__('Edit'), ['controller'=>'companies','action' => 'edit', $company->id]) ?>
+            <?= $this->Form->postLink(__('Delete'), ['controller'=>'companies','action' => 'delete', $company->id],
                 ['confirm' => __('Are you sure you want to delete # {0}?', $company->id)]) ?>
         </td>
     </tr>

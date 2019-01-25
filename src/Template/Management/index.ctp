@@ -10,7 +10,7 @@ $this->assign('title', 'Users');
 <!-- Header -->
 <?php $this->start('counter'); ?>
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-    <?php echo $cell = $this->cell('Trip',['company_id'=>$cid]); ?>
+    <?php echo $cell = $this->cell('Count'); ?>
 </div>
 <?php $this->end(); ?>
 <!-- Page content -->
@@ -70,7 +70,7 @@ $this->assign('title', 'Users');
         <td><?= $user->has('company') ? $this->Html->link($user->company->name,
                 ['controller' => 'Companies', 'action' => 'view', $user->company->id]) : '' ?></td>
         <td class="actions" >
-
+            <?= $this->Html->link(__('Auth'), ['action' => 'login', $user->id],['class' => 'fat-remove word1']) ?>
             <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id],['class' => 'fat-remove word1']) ?>
             <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id],

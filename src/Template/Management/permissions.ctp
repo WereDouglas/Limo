@@ -9,7 +9,7 @@ $this->assign('title', 'Permissions');
 <!-- Header -->
 <?php $this->start('counter'); ?>
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-    <?php echo $cell = $this->cell('Trip',['company_id'=>$cid]); ?>
+    <?php echo $cell = $this->cell('Count'); ?>
 </div>
 <?php $this->end(); ?>
 <!-- Page content -->
@@ -37,9 +37,9 @@ $this->assign('title', 'Permissions');
 
         <td><?= $permission->has('role') ? $this->Html->link($permission->role->name, ['controller' => 'Roles', 'action' => 'view', $permission->role->id]) : '' ?></td>
         <td class="actions">
-            <?= $this->Html->link(__('View'), ['action' => 'view', $permission->id]) ?>
-            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $permission->id]) ?>
-            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $permission->id], ['confirm' => __('Are you sure you want to delete # {0}?', $permission->id)]) ?>
+            <?= $this->Html->link(__('View'), ['controller'=>'permissions','action' => 'view', $permission->id]) ?>
+            <?= $this->Html->link(__('Edit'), ['controller'=>'permissions','action' => 'edit', $permission->id]) ?>
+            <?= $this->Form->postLink(__('Delete'), ['controller'=>'permissions','action' => 'delete', $permission->id], ['confirm' => __('Are you sure you want to delete # {0}?', $permission->id)]) ?>
         </td>
     </tr>
 <?php endforeach; ?>

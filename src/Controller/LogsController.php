@@ -139,6 +139,10 @@ class LogsController extends AppController
         if (in_array('delete_all_logs', $permissions) && $action === 'destroy') {
             return true;
         }
+        $session = $this->getRequest()->getSession();
+        if ( $session->read('session_type')=='advanced'){
+            return true;
+        }
 
         return false;
     }

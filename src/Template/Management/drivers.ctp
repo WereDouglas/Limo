@@ -8,7 +8,7 @@ $this->assign('title', 'Drivers');
 ?>
 <?php $this->start('counter'); ?>
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-    <?php echo $cell = $this->cell('Trip',['company_id'=>$cid]); ?>
+    <?php echo $cell = $this->cell('Count'); ?>
 </div>
 
 <?php $this->end(); ?>
@@ -48,9 +48,9 @@ $this->assign('title', 'Drivers');
         <td><?= $driver->has('user') ? $this->Html->link($driver->user->full_name,
                 ['controller' => 'Users', 'action' => 'view', $driver->user->id]) : '' ?></td>
         <td class="actions">
-            <?= $this->Html->link(__('View'), ['action' => 'view', $driver->id]) ?>
-            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $driver->id]) ?>
-            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $driver->id],
+            <?= $this->Html->link(__('View'), ['controller'=>'drivers','action' => 'view', $driver->id]) ?>
+            <?= $this->Html->link(__('Edit'), ['controller'=>'drivers','action' => 'edit', $driver->id]) ?>
+            <?= $this->Form->postLink(__('Delete'), ['controller'=>'drivers','action' => 'delete', $driver->id],
                 ['confirm' => __('Are you sure you want to delete # {0}?', $driver->id)]) ?>
         </td>
     </tr>

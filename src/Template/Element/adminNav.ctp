@@ -66,7 +66,7 @@
                             echo $this->Html->link(
                                 'Sign out',
                                 array(
-                                    'controller' => 'users',
+                                    'controller' => 'management',
                                     'action' => 'login'
                                 ),
                                 array(
@@ -118,8 +118,8 @@
                     echo $this->Html->link(
                         ' <i class="ni ni-tv-2"></i>Dashboard',
                         array(
-                            'controller' => 'users',
-                            'action' => 'index'
+                            'controller' => 'management',
+                            'action' => 'dashboard'
                         ),
                         array(
                             'class' => 'nav-link word1 green ',
@@ -128,7 +128,21 @@
                     );
                     ?>
                 </li>
-
+                <li class="nav-item">
+                    <?php
+                    echo $this->Html->link(
+                        ' <i class="ni ni-briefcase-24 "></i>Companies',
+                        array(
+                            'controller' => 'management',
+                            'action' => 'companies'
+                        ),
+                        array(
+                            'class' => 'nav-link word1',
+                            'escape' => false
+                        )
+                    );
+                    ?>
+                </li>
                 <li class="nav-item">
 
                     <hr class="my-3">
@@ -136,13 +150,13 @@
                     <h6 class="navbar-heading text-muted">View</h6>
                     <?php
                     echo $this->Html->link(
-                        ' <i class="ni ni-pin-3 text-orange"></i>Trips',
+                        ' <i class="ni ni-pin-3 "></i>Trips',
                         array(
-                            'controller' => 'trips',
-                            'action' => 'index'
+                            'controller' => 'management',
+                            'action' => 'trips'
                         ),
                         array(
-                            'class' => 'nav-link ',
+                            'class' => 'nav-link word1 ',
                             'escape' => false
                         )
                     );
@@ -153,11 +167,11 @@
                     echo $this->Html->link(
                         ' <i class="ni ni-circle-08 "></i>Users',
                         array(
-                            'controller' => 'users',
-                            'action' => 'index'
+                            'controller' => 'management',
+                            'action' => 'users'
                         ),
                         array(
-                            'class' => 'nav-link ',
+                            'class' => 'nav-link word1 ',
                             'escape' => false
                         )
                     );
@@ -166,13 +180,13 @@
                 <li class="nav-item">
                     <?php
                     echo $this->Html->link(
-                        ' <i class="ni ni-delivery-fast text-indigo"></i>Cars',
+                        ' <i class="ni ni-delivery-fast "></i>Cars',
                         array(
-                            'controller' => 'cars',
-                            'action' => 'index'
+                            'controller' => 'management',
+                            'action' => 'cars'
                         ),
                         array(
-                            'class' => 'nav-link ',
+                            'class' => 'nav-link word1 ',
                             'escape' => false
                         )
                     );
@@ -181,13 +195,13 @@
                 <li class="nav-item">
                     <?php
                     echo $this->Html->link(
-                        ' <i class="ni ni-single-02 text-green"></i>Drivers',
+                        ' <i class="ni ni-single-02 "></i>Drivers',
                         array(
-                            'controller' => 'drivers',
-                            'action' => 'index'
+                            'controller' => 'management',
+                            'action' => 'drivers'
                         ),
                         array(
-                            'class' => 'nav-link',
+                            'class' => 'nav-link word1',
                             'escape' => false
                         )
                     );
@@ -196,13 +210,13 @@
                 <li class="nav-item">
                     <?php
                     echo $this->Html->link(
-                        ' <i class="ni ni-badge text-gray"></i>Roles',
+                        ' <i class="ni ni-badge "></i>Roles',
                         array(
-                            'controller' => 'roles',
-                            'action' => 'index'
+                            'controller' => 'management',
+                            'action' => 'roles'
                         ),
                         array(
-                            'class' => 'nav-link ',
+                            'class' => 'nav-link  word1',
                             'escape' => false
                         )
                     );
@@ -211,13 +225,13 @@
                 <li class="nav-item">
                     <?php
                     echo $this->Html->link(
-                        ' <i class="ni ni-lock-circle-open text-red"></i>Permissions',
+                        ' <i class="ni ni-lock-circle-open"></i>Permissions',
                         array(
-                            'controller' => 'permissions',
-                            'action' => 'index'
+                            'controller' => 'management',
+                            'action' => 'permissions'
                         ),
                         array(
-                            'class' => 'nav-link ',
+                            'class' => 'nav-link word1 ',
                             'escape' => false
                         )
                     );
@@ -236,7 +250,21 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#"><i class="ni ni-palette"></i> Foundation </a>
                         </li>
-
+                        <li class="nav-item">
+                            <?php
+                            echo $this->Html->link(
+                                ' <i class="ni ni-notification-70 text-red"></i>Logs',
+                                array(
+                                    'controller' => 'management',
+                                    'action' => 'logs'
+                                ),
+                                array(
+                                    'class' => 'nav-link word1',
+                                    'escape' => false
+                                )
+                            );
+                            ?>
+                        </li>
                     </ul>
 
                 </li>
