@@ -18,7 +18,7 @@ $this->assign('title', 'All trips');
 <!-- Header -->
 <?php $this->start('counter'); ?>
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-    <?php echo $cell = $this->cell('Trip'); ?>
+    <?php echo $cell = $this->cell('Trip',['company_id'=>$cid]); ?>
 </div>
 <?php $this->end(); ?>
 <!-- Page content -->

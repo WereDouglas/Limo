@@ -50,10 +50,11 @@ class TripsController extends AppController
             'where' => ['company_id' => $this->Auth->user('company_id')]
 
         ];
-
+        $users = $this->Trips->Users->find('list',
+            ['limit' => 200])->where(['company_id' => $this->Auth->user('company_id')]);
         $trips = $this->paginate($this->Trips, ['maxLimit' => 5]);
         $cid = $this->Auth->user('company_id');
-        $this->set(compact('trips', 'day', 'cid'));
+        $this->set(compact('trips', 'day', 'cid','users'));
     }
 
     public function form()
@@ -78,11 +79,12 @@ class TripsController extends AppController
      */
     public function view($id = null)
     {
+        $cid = $this->Auth->user('company_id');
         $trip = $this->Trips->get($id, [
             'contain' => ['Users', 'Companies']
-        ]);
-
-        $this->set('trip', $trip);
+        ])->where([ 'Users.company_id' => $cid]);
+        $cid = $this->Auth->user('company_id');
+        $this->set('trip', $trip,'cid',$cid);
     }
 
     /**

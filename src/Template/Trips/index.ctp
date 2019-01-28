@@ -12,7 +12,7 @@ $this->assign('title', 'All trips :' . $day);
 <!-- Header -->
 <?php $this->start('counter'); ?>
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-    <?php echo $cell = $this->cell('Trip',['company_id'=>$cid]); ?>
+    <?php echo $cell = $this->cell('Trip', ['company_id' => $cid]); ?>
 </div>
 <?php $this->end(); ?>
 <!-- Page content -->
@@ -40,6 +40,7 @@ $this->assign('title', 'All trips :' . $day);
 <tr>
     <th scope="col"></th>
     <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('driver') ?></th>
     <th scope="col"><?= $this->Paginator->sort('client') ?></th>
     <th scope="col"><?= $this->Paginator->sort('phone') ?></th>
     <th scope="col"><?= $this->Paginator->sort('date') ?></th>
@@ -83,6 +84,20 @@ $this->assign('title', 'All trips :' . $day);
             </div>
         </td>
         <td><?= $this->Number->format($trip->id) ?></td>
+        <td><?= h($trip->user->full_name) ?>
+            <?php
+
+            echo $this->Form->control('user_id',
+                ['options' => $users, 'empty' => true, 'class' => 'form-control',]);
+
+            ?>
+            <select class="form-control" name="cat_id" onChange="ajaxFunction()">
+                <?php foreach ($users as $u) {  ?>
+
+                    <option value="<?= $u['id'] ?>" class="form-control"><?php echo  $u['first_name'] ?></option>
+                <?php } ?>
+            </select>
+        </td>
         <td><?= h($trip->client) ?></td>
         <td><?= h($trip->phone) ?></td>
         <td><?= h($trip->date) ?></td>
@@ -141,6 +156,216 @@ $this->assign('title', 'All trips :' . $day);
         </td>
     </tr>
 <?php endforeach; ?>
+
+
+<script>
+    $(document).ready(function () {
+        $("#status").hide();
+        $(function () {
+            //acknowledgement message
+            var message_status = $("#status");
+            $("h1[contenteditable=true]").blur(function () {
+                // message_status.show();
+                var field_id = $(this).attr("id");
+                var value = $(this).text();
+                //   alert(field_id);
+                console.log(field_id);
+                console.log(value);
+                $.post('<?php echo base_url() . "index.php/manage/update/"; ?>', field_id + "=" + value, function (data) {
+                    if (data != '')
+                    {
+                        message_status.show();
+                        message_status.text(data);
+                        //hide the message
+                        setTimeout(function () {
+                            message_status.hide()
+                        }, 4000);
+                    }
+                });
+            });
+            $("p[contenteditable=true]").blur(function () {
+                // message_status.show();
+                var field_id = $(this).attr("id");
+                var value = $(this).text();
+                //   alert(field_id);
+                console.log(field_id);
+                console.log(value);
+                $.post('<?php echo base_url() . "index.php/manage/update/"; ?>', field_id + "=" + value, function (data) {
+                    if (data != '')
+                    {
+
+                        message_status.show();
+                        message_status.text(data);
+                        //hide the message
+                        setTimeout(function () {
+                            message_status.hide()
+                        }, 4000);
+                    }
+                });
+            });
+            $("span[contenteditable=true]").blur(function () {
+                // message_status.show();
+                var field_id = $(this).attr("id");
+                var value = $(this).text();
+                //   alert(field_id);
+                console.log(field_id);
+                console.log(value);
+                $.post('<?php echo base_url() . "index.php/manage/update/"; ?>', field_id + "=" + value, function (data) {
+                    if (data != '')
+                    {
+
+                        message_status.show();
+                        message_status.text(data);
+                        //hide the message
+                        setTimeout(function () {
+                            message_status.hide()
+                        }, 4000);
+                    }
+                });
+            });
+            $("h2[contenteditable=true]").blur(function () {
+                // message_status.show();
+                var field_id = $(this).attr("id");
+                var value = $(this).text();
+                //   alert(field_id);
+                console.log(field_id);
+                console.log(value);
+                $.post('<?php echo base_url() . "index.php/manage/update/"; ?>', field_id + "=" + value, function (data) {
+                    if (data != '')
+                    {
+
+                        message_status.show();
+                        message_status.text(data);
+                        //hide the message
+                        setTimeout(function () {
+                            message_status.hide()
+                        }, 4000);
+                    }
+                });
+            });
+            $("h3[contenteditable=true]").blur(function () {
+                // message_status.show();
+                var field_id = $(this).attr("id");
+                var value = $(this).text();
+                //   alert(field_id);
+                console.log(field_id);
+                console.log(value);
+                $.post('<?php echo base_url() . "index.php/manage/update/"; ?>', field_id + "=" + value, function (data) {
+                    if (data != '')
+                    {
+                        message_status.show();
+                        message_status.text(data);
+                        //hide the message
+                        setTimeout(function () {
+                            message_status.hide()
+                        }, 4000);
+                    }
+                });
+            });
+            $("h3[contenteditable=true]").blur(function () {
+                // message_status.show();
+                var field_id = $(this).attr("id");
+                var value = $(this).text();
+                //   alert(field_id);
+                console.log(field_id);
+                console.log(value);
+                $.post('<?php echo base_url() . "index.php/manage/update/"; ?>', field_id + "=" + value, function (data) {
+                    if (data != '')
+                    {
+                        message_status.show();
+                        message_status.text(data);
+                        //hide the message
+                        setTimeout(function () {
+                            message_status.hide()
+                        }, 4000);
+                    }
+                });
+            });
+            $("li[contenteditable=true]").blur(function () {
+                // message_status.show();
+                var field_id = $(this).attr("id");
+                var value = $(this).text();
+                //   alert(field_id);
+                console.log(field_id);
+                console.log(value);
+                $.post('<?php echo base_url() . "index.php/manage/update/"; ?>', field_id + "=" + value, function (data) {
+                    if (data != '')
+                    {
+
+                        message_status.show();
+                        message_status.text(data);
+                        //hide the message
+                        setTimeout(function () {
+                            message_status.hide()
+                        }, 4000);
+                    }
+                });
+            });
+            $("li[contenteditable=true]").blur(function () {
+                // message_status.show();
+                var field_id = $(this).attr("id");
+                var value = $(this).text();
+                //   alert(field_id);
+                console.log(field_id);
+                console.log(value);
+                $.post('<?php echo base_url() . "index.php/manage/update/"; ?>', field_id + "=" + value, function (data) {
+                    if (data != '')
+                    {
+
+                        message_status.show();
+                        message_status.text(data);
+                        //hide the message
+                        setTimeout(function () {
+                            message_status.hide()
+                        }, 4000);
+                    }
+                });
+            });
+            $("a[contenteditable=true]").blur(function () {
+                // message_status.show();
+                var field_id = $(this).attr("id");
+                var value = $(this).text();
+                //   alert(field_id);
+                console.log(field_id);
+                console.log(value);
+                $.post('<?php echo base_url() . "index.php/manage/update/"; ?>', field_id + "=" + value, function (data) {
+                    if (data != '')
+                    {
+                        message_status.show();
+                        message_status.text(data);
+                        //hide the message
+                        setTimeout(function () {
+                            message_status.hide()
+                        }, 4000);
+                    }
+                });
+            });
+            $("td[contenteditable=true]").blur(function () {
+                // message_status.show();
+                var field_id = $(this).attr("id");
+                var value = $(this).text();
+                //   alert(field_id);
+                console.log(field_id);
+                console.log(value);
+                $.post('<?php echo base_url() . "index.php/manage/update/"; ?>', field_id + "=" + value, function (data) {
+                    if (data != '')
+                    {
+                        message_status.show();
+                        message_status.text(data);
+                        //hide the message
+                        setTimeout(function () {
+                            message_status.hide()
+                        }, 4000);
+                    }
+                });
+            });
+
+        });
+    });
+
+</script>
+
+
 <?php $this->end(); ?>
 <?php $this->start('pagination'); ?>
 <ul class="pagination">
@@ -151,6 +376,8 @@ $this->assign('title', 'All trips :' . $day);
     <?= $this->Paginator->last(' >>') ?>
 </ul>
 <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+
+
 
 <?php $this->end(); ?>
 <?php $this->start('modal'); ?>

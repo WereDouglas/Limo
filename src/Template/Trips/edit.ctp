@@ -38,8 +38,7 @@
     echo $this->Form->control('distance', ['class' => 'form-control']);
     echo $this->Form->control('user_id',
         ['options' => $users, 'empty' => true, 'class' => 'form-control']);
-    echo $this->Form->control('company_id', ['options' => $companies, 'class' => 'form-control']);
-    echo $this->Form->control('complete', ['class' => 'form-control']);
+     echo $this->Form->control('complete', ['class' => 'form-control']);
     echo $this->Form->control('start_lat', ['class' => 'form-control']);
     echo $this->Form->control('start_long', ['class' => 'form-control']);
     echo $this->Form->control('drop_lat', ['class' => 'form-control']);
