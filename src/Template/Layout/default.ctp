@@ -51,10 +51,12 @@ $cakeDescription = 'erplimo';
     <?= $this->element('footer') ?>
 
 
-<footer>
-</footer>
+    <footer>
+    </footer>
 
-<?= $this->Html->script(['jquery.min', 'bootstrap.bundle.min', 'argon']); ?>
+    <?= $this->Html->script(['jquery.min', 'bootstrap.bundle.min', 'argon']); ?>
+
 
 </body>
 </html>
+

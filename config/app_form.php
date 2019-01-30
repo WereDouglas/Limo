@@ -4,7 +4,7 @@ return [
     'input' => '<div class="form-group"><input type="{{type}}" name="{{name}}" class="form-control form-control-alternative"{{attrs}}/></div> ',
     'inputSubmit' => '<input type="{{type}}" class="btn btn-primary mt-4"{{attrs}}/>',
     'submitContainer' => ' <div class="text-center">{{content}}</div>',
-    'select' => '<div class="form-group" ><select name="{{name}}" class="form-control form-control-alternative"{{attrs}}>{{content}}</select></div> ',
+    'select' => '<div class="form-group long" ><select name="{{name}}" class="form-control form-control-alternative"{{attrs}}>{{content}}</select></div> ',
     'number' => ' <li class="page-item"> <a class="page-link" href="{{url}}"><span class="sr-only">{{text}}</span>{{text}}</a></li>',
     'prev' => '<li class="page-item disabled">
       <a class="page-link " href="{{url}}" tabindex="-1">

@@ -39,6 +39,43 @@ class InformationController extends RestController
         $this->set(compact('id', 'date', 'data', 'token'));
 
     }
+    public function change()
+    {
+       // $payload = $this->request->getQueryParams();
+          $id =$this->request->getQuery(['id']);
+        $id = $this->request->getData('id');
+
+      //  $id = $payload['id'];
+        if ($id) {
+            /*post man request**/
+            $id = $this->request->getQuery(['id']);
+            $user_id = $this->request->getQuery(['user_id']);
+        } else {
+            /*android request**/
+            $id = $this->request->getData('id');
+            $user_id = $this->request->getData('user_id');
+        }
+        //echo json_encode($payload);
+        //  echo $this->set('_serialize', $payload);
+        $this->set(compact( 'id'));
+
+        // Specify which view vars JsonView should serialize.
+
+
+
+        $trip = $this->Trips->get($id);
+        $trip->user_id = $user_id;
+        if ($this->Trips->save($trip)) {
+            $m = 'Information changed.';
+            $this->set('_serialize', $m);
+            return;
+        }
+
+        $m = 'Information could not be changed. Please, try again.';
+        $this->set('_serialize', $m);
+        return;
+    }
+
 
     public function update()
     {

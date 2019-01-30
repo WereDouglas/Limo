@@ -89,10 +89,14 @@ Router::scope('/', function (RouteBuilder $routes) {
      * You can remove these routes once you've connected the
      * routes you want in your application.
      */
-    $routes->connect('/information/trips', ['controller' => 'Information', 'action' => 'trips', 'isRest' => true,'requireAuthorization' => true]);
+    $routes->connect('/information/trips',
+        ['controller' => 'Information', 'action' => 'trips', 'isRest' => true, 'requireAuthorization' => true]);
     $routes->connect('/information/login', ['controller' => 'Information', 'action' => 'login', 'isRest' => true]);
-    $routes->connect('/information/users', ['controller' => 'Information', 'action' => 'users', 'isRest' => true,'requireAuthorization' => true]);
-    $routes->connect('/information/update', ['controller' => 'Information', 'action' => 'update', 'isRest' => true,'requireAuthorization' => true]);
+    $routes->connect('/information/users',
+        ['controller' => 'Information', 'action' => 'users', 'isRest' => true, 'requireAuthorization' => true]);
+    $routes->connect('/information/update',
+        ['controller' => 'Information', 'action' => 'update', 'isRest' => true, 'requireAuthorization' => true]);
+    $routes->connect('/information/change', ['controller' => 'Information', 'action' => 'change', 'isRest' => true]);
 
     Router::scope('/here', function (RouteBuilder $routes) {
         $routes->applyMiddleware('csrf');
