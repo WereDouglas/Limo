@@ -48,8 +48,8 @@ class TripsController extends AppController
         $cid = $this->Auth->user('company_id');
         $this->paginate = [
             'contain' => ['Users', 'Companies'],
-            'where' => ['Trips.company_id' => $cid]
-
+            'where' => ['Trips.company_id' => $cid],
+             'order'=>['Trips.id' => 'DESC'],
         ];
         $users = $this->Trips->Users->find('list')->where(['company_id' => $cid]);
         $trips = $this->paginate($this->Trips, ['maxLimit' => 5]);
@@ -64,11 +64,11 @@ class TripsController extends AppController
         $day = ($values['date'] != '') ? date('Y-m-d', strtotime($values['date'])) : date('Y-m-d');
 
         $trips = $this->Trips->find('all', [
-            'contain' => ['Users', 'Companies']
+            'contain' => ['Users', 'Companies'],
+            'order'=>['Trips.id' => 'DESC'],
         ])->where(['Trips.date' => $day, 'Trips.company_id' => $cid]);
         $this->set(compact('trips', 'day', 'cid'));
     }
-
 
     /**
      * View method
@@ -207,19 +207,20 @@ class TripsController extends AppController
                 }
                 $tripping->client = $sheetData[$i]['A'];
                 $tripping->phone = $sheetData[$i]['B'];
-                $tripping->pick_up_time = $this->time($sheetData[$i]['C']);
-                $tripping->appointment_time = $this->time($sheetData[$i]['D']);
-                $tripping->pick_up_address = $this->clean($sheetData[$i]['E'] . ' ' . $sheetData[$i]['F']);
-                $tripping->pick_up_city = $sheetData[$i]['F'];
-                $tripping->drop_off_address = $this->clean($sheetData[$i]['G'] . ' ' . $sheetData[$i]['H']);
+                // $tripping->date = $sheetData[$i]['C'];
+                $tripping->pick_up_time = $this->time($sheetData[$i]['D']);
+                $tripping->appointment_time = $this->time($sheetData[$i]['E']);
+                $tripping->pick_up_address = $this->clean($sheetData[$i]['F'] . ' ' . $sheetData[$i]['G']);
+                $tripping->pick_up_city = $sheetData[$i]['G'];
+                $tripping->drop_off_address = $this->clean($sheetData[$i]['H'] . ' ' . $sheetData[$i]['I']);
                 // $distance = "";
                 global $latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo;
-                $distance = $this->getDistance($this->clean($sheetData[$i]['E']) . ' ' . $sheetData[$i]['F'],
-                    $this->clean($sheetData[$i]['G']) . ' ' . $this->clean($sheetData[$i]['H']), $unit = '');
+                $distance = $this->getDistance($this->clean($sheetData[$i]['F']) . ' ' . $sheetData[$i]['G'],
+                    $this->clean($sheetData[$i]['H']) . ' ' . $this->clean($sheetData[$i]['I']), $unit = '');
                 //  $tripping->distance_from_start = $this->getDistance($start_address, $this->clean($sheetData[$i]['G']) . ' ' . $sheetData[$i]['H'], $unit = '');
                 $tripping->distance = $distance;
-                $tripping->drop_off_city = $sheetData[$i]['H'];
-                $tripping->comments = $sheetData[$i]['I'];
+                $tripping->drop_off_city = $sheetData[$i]['I'];
+                $tripping->comments = $sheetData[$i]['Q'];
                 $tripping->user_id = "1";
                 $tripping->company_id = $session->read('company_id');
                 $tripping->date = $date;
@@ -227,6 +228,16 @@ class TripsController extends AppController
                 $tripping->start_long = $longitudeFrom;
                 $tripping->drop_lat = $latitudeTo;
                 $tripping->drop_long = $longitudeTo;
+
+                $tripping->miles = $sheetData[$i]['J'];
+                $tripping->vehicle_type = $sheetData[$i]['K'];
+                $tripping->escort = $sheetData[$i]['L'];
+                $tripping->trip_num = $sheetData[$i]['M'];
+                $tripping->shared_group = $sheetData[$i]['N'];
+                $tripping->outbound = $sheetData[$i]['O'];
+                $tripping->one_way = $sheetData[$i]['P'];
+                $tripping->priority = 'medium';
+
                 array_push($trip_objects, $tripping);
             }
             usort($trip_objects, function ($a, $b) {
@@ -236,7 +247,7 @@ class TripsController extends AppController
             //   $this->loop($trip_objects);
 
             /****getting all the users who are active and have trips  ****/
-            $query = TableRegistry::getTableLocator()->get('Users')->find();
+            $query = TableRegistry::getTableLocator()->get('Users')->find()->where(['Users.company_id' => $this->Auth->user(['company_id'])]);
             $query->select([
                 'user_id' => 'Users.id',
                 'total_trips' => $query->func()->count('Trips.id')
@@ -249,16 +260,16 @@ class TripsController extends AppController
 
             $available_drivers = [];
             foreach ($users as $u) {
-                echo $u['user_id'] . ' :' . $u['total_trips'];
+              //  echo $u['user_id'] . ' :' . $u['total_trips'];
                 if ($u['total_trips'] == 0) {
                     $available_drivers [] = $u['user_id'];
                 }
-                echo '<br>';
+
             }
-            echo '<pre>';
+
             if (count($available_drivers) > 0) {
                 $each = count($t) / count($available_drivers);
-                echo '@ :' . $each;
+            //    echo '@ :' . $each;
                 $each = round($each, 0);
                 $distributed = array_chunk($t, $each);
                 // print_r($distributed);
@@ -291,6 +302,17 @@ class TripsController extends AppController
                         $trip->start_long = $tp[$index]->start_long;
                         $trip->drop_lat = $tp[$index]->drop_lat;
                         $trip->drop_long = $tp[$index]->drop_long;
+
+                        $trip->miles = $tp[$index]->miles;
+                        $trip->vehicle_type = $tp[$index]->vehicle_type;
+                        $trip->escort = $tp[$index]->escort;
+                        $trip->trip_num = $tp[$index]->trip_num;
+                        $trip->shared_group = $tp[$index]->shared_group;
+                        $trip->outbound = $tp[$index]->outbound;
+                        $trip->one_way = $tp[$index]->one_way;
+                        $trip->priority = 'medium';
+
+
                         if (!$this->Trips->save($trip)) {
                             var_dump($trip->getErrors());
                             exit;

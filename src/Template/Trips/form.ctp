@@ -61,6 +61,14 @@ $this->assign('title', 'All trips :' . $day);
         <th scope="col"><?= 'start_long' ?></th>
         <th scope="col"><?= 'drop_lat' ?></th>
         <th scope="col"><?= 'drop_long' ?></th>
+        <th scope="col"><?= 'miles' ?></th>
+        <th scope="col"><?='vehicle_type' ?></th>
+        <th scope="col"><?= 'escort' ?></th>
+        <th scope="col"><?= 'trip_num' ?></th>
+        <th scope="col"><?= 'shared_group' ?></th>
+        <th scope="col"><?= 'outbound' ?></th>
+        <th scope="col"><?= 'one_way' ?></th>
+        <th scope="col"><?= 'priority' ?></th>
         <th scope="col" class="actions"><?= __('Actions') ?></th>
     </tr>
     </thead>
@@ -115,6 +123,14 @@ $this->assign('title', 'All trips :' . $day);
         <td><?= $this->Number->format($trip->start_long) ?></td>
         <td><?= $this->Number->format($trip->drop_lat) ?></td>
         <td><?= $this->Number->format($trip->drop_long) ?></td>
+        <td><?= $this->Number->format($trip->miles) ?></td>
+        <td><?= h($trip->vehicle_type) ?></td>
+        <td><?= h($trip->escort) ?></td>
+        <td><?= h($trip->trip_num) ?></td>
+        <td><?= h($trip->shared_group) ?></td>
+        <td><?= h($trip->outbound) ?></td>
+        <td><?= h($trip->one_way) ?></td>
+        <td><?= h($trip->priority) ?></td>
         <td class="actions">
             <div class="dropdown">
                 <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"

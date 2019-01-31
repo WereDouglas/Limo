@@ -26,6 +26,14 @@ use Cake\ORM\Entity;
  * @property float|null $start_long
  * @property float|null $drop_lat
  * @property float|null $drop_long
+ * @property string|null $miles
+ * @property string|null $vehicle_type
+ * @property int|null $escort
+ * @property string|null $trip_num
+ * @property string|null $shared_group
+ * @property string|null $outbound
+ * @property string|null $one_way
+ * @property string|null $priority
  *
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Company $company
@@ -43,7 +51,6 @@ class Trip extends Entity
      * @var array
      */
     protected $_accessible = [
-        'id' => true,
         'client' => true,
         'phone' => true,
         'date' => true,
@@ -62,6 +69,14 @@ class Trip extends Entity
         'start_long' => true,
         'drop_lat' => true,
         'drop_long' => true,
+        'miles' => true,
+        'vehicle_type' => true,
+        'escort' => true,
+        'trip_num' => true,
+        'shared_group' => true,
+        'outbound' => true,
+        'one_way' => true,
+        'priority' => true,
         'user' => true,
         'company' => true
     ];

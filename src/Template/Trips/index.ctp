@@ -60,6 +60,14 @@ $this->assign('title', 'All trips :' . $day);
     <th scope="col"><?= $this->Paginator->sort('start_long') ?></th>
     <th scope="col"><?= $this->Paginator->sort('drop_lat') ?></th>
     <th scope="col"><?= $this->Paginator->sort('drop_long') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('miles') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('vehicle_type') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('escort') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('trip_num') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('shared_group') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('outbound') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('one_way') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('priority') ?></th>
     <th scope="col" class="actions"><?= __('Actions') ?></th>
 </tr>
 <?php $this->end(); ?>
@@ -142,6 +150,14 @@ $this->assign('title', 'All trips :' . $day);
         <td><?= $this->Number->format($trip->start_long) ?></td>
         <td><?= $this->Number->format($trip->drop_lat) ?></td>
         <td><?= $this->Number->format($trip->drop_long) ?></td>
+        <td><?= $this->Number->format($trip->miles) ?></td>
+        <td><?= h($trip->vehicle_type) ?></td>
+        <td><?= h($trip->escort) ?></td>
+        <td><?= h($trip->trip_num) ?></td>
+        <td><?= h($trip->shared_group) ?></td>
+        <td><?= h($trip->outbound) ?></td>
+        <td><?= h($trip->one_way) ?></td>
+        <td><?= h($trip->priority) ?></td>
         <td class="actions">
             <div class="dropdown">
                 <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"

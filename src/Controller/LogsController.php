@@ -21,7 +21,8 @@ class LogsController extends AppController
     public function index()
     {
         $logs = $this->paginate($this->Logs,[
-            'limit' => 10
+            'limit' => 10,
+             'order'=>['id' => 'DESC'],
         ]);
 
         $this->set(compact('logs'));

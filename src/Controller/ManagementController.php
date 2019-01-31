@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use PhpParser\Node\Expr\Array_;
 
@@ -68,7 +69,7 @@ class ManagementController extends AppController
             'Users',
             'Companies'
 
-        ]);
+        ])->order(['Trips.id' => 'DESC']);
         $trips = $this->paginate($trips);
         $this->set(compact('trips', 'day'));
     }
@@ -81,7 +82,8 @@ class ManagementController extends AppController
         $day = ($values['date'] != '') ? date('Y-m-d', strtotime($values['date'])) : date('Y-m-d');
 
         $trips = $this->Trips->find('all', [
-            'contain' => ['Users', 'Companies']
+            'contain' => ['Users', 'Companies'],
+            'order'=>['Trips.id' => 'DESC'],
         ])->where(['Trips.date' => $day]);
 
         $this->set(compact('trips', 'day'));
@@ -119,7 +121,7 @@ class ManagementController extends AppController
     {
         $this->viewBuilder()->setLayout('management');
         $this->loadModel('Logs');
-        $logs = $this->Logs->find();
+        $logs = $this->Logs->find() ->order(['id' => 'DESC'], Query::OVERWRITE);
         $logs = $this->paginate($logs);
         $this->set(compact('logs'));
     }
@@ -277,6 +279,13 @@ class ManagementController extends AppController
         } else {
             $this->Flash->error(__('Could not log you in !'));
         }
+    }
+    public function destroy()
+    {
+        $this->loadModel('Logs');
+        $this->Logs->deleteAll(array('1 = 1'));
+        //$this->Logs->query('TRUNCATE TABLE logs;');
+        return $this->redirect(['action' => 'logs']);
     }
 
     public function logout()

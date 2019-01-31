@@ -45,6 +45,13 @@
     echo $this->Form->control('start_long', ['class' => 'form-control']);
     echo $this->Form->control('drop_lat', ['class' => 'form-control']);
     echo $this->Form->control('drop_long', ['class' => 'form-control']);
+    echo $this->Form->control('miles', ['class' => 'form-control']);
+    echo $this->Form->control('vehicle_type', ['class' => 'form-control']);
+    echo $this->Form->control('escort', ['class' => 'form-control']);
+    echo $this->Form->control('trip_num', ['class' => 'form-control']);
+    echo $this->Form->control('shared_group', ['class' => 'form-control']);
+    echo $this->Form->control('outbound', ['class' => 'form-control']);
+    echo $this->Form->control('priority', ['class' => 'form-control']);
     ?>
 </fieldset>
 <?php  echo $this->Form->submit('Submit'); ?>
