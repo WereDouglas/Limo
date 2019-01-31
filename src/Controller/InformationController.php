@@ -92,6 +92,9 @@ class InformationController extends RestController
         if ($complete == 'no') {
             $status = 'yes';
         }
+        if ($complete == 'cancelled') {
+            $status = 'cancelled';
+        }
         $trip->complete = $status;
         $tripsTable->save($trip);
 

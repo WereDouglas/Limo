@@ -69,6 +69,7 @@ $this->assign('title', 'All trips :' . $day);
         <th scope="col"><?= 'outbound' ?></th>
         <th scope="col"><?= 'one_way' ?></th>
         <th scope="col"><?= 'priority' ?></th>
+        <th scope="col"><?= 're_route' ?></th>
         <th scope="col" class="actions"><?= __('Actions') ?></th>
     </tr>
     </thead>
@@ -131,6 +132,7 @@ $this->assign('title', 'All trips :' . $day);
         <td><?= h($trip->outbound) ?></td>
         <td><?= h($trip->one_way) ?></td>
         <td><?= h($trip->priority) ?></td>
+        <td><?= h($trip->re_route) ?></td>
         <td class="actions">
             <div class="dropdown">
                 <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"

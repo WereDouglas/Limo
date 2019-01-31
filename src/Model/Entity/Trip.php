@@ -14,7 +14,7 @@ use Cake\ORM\Entity;
  * @property string|null $appointment_time
  * @property string|null $pick_up_address
  * @property string|null $pick_up_city
- * @property string|null $drop_off_address
+ * @property string $drop_off_address
  * @property string|null $drop_off_city
  * @property string|null $comments
  * @property \Cake\I18n\FrozenTime|null $created
@@ -34,6 +34,7 @@ use Cake\ORM\Entity;
  * @property string|null $outbound
  * @property string|null $one_way
  * @property string|null $priority
+ * @property string $re_route
  *
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Company $company
@@ -58,7 +59,6 @@ class Trip extends Entity
         'appointment_time' => true,
         'pick_up_address' => true,
         'pick_up_city' => true,
-        'drop_off_address' => true,
         'drop_off_city' => true,
         'comments' => true,
         'created' => true,
@@ -77,6 +77,7 @@ class Trip extends Entity
         'outbound' => true,
         'one_way' => true,
         'priority' => true,
+        're_route' => true,
         'user' => true,
         'company' => true
     ];

@@ -40,8 +40,10 @@ $this->assign('title', 'All trips :' . $day);
 <tr>
     <th scope="col"></th>
     <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('complete') ?></th>
 
     <th scope="col"><?= $this->Paginator->sort('driver') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('re_route') ?></th>
     <th scope="col"><?= $this->Paginator->sort('client') ?></th>
     <th scope="col"><?= $this->Paginator->sort('phone') ?></th>
     <th scope="col"><?= $this->Paginator->sort('date') ?></th>
@@ -55,7 +57,6 @@ $this->assign('title', 'All trips :' . $day);
     <th scope="col"><?= $this->Paginator->sort('created') ?></th>
     <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
     <th scope="col"><?= $this->Paginator->sort('company_id') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('complete') ?></th>
     <th scope="col"><?= $this->Paginator->sort('start_lat') ?></th>
     <th scope="col"><?= $this->Paginator->sort('start_long') ?></th>
     <th scope="col"><?= $this->Paginator->sort('drop_lat') ?></th>
@@ -68,6 +69,7 @@ $this->assign('title', 'All trips :' . $day);
     <th scope="col"><?= $this->Paginator->sort('outbound') ?></th>
     <th scope="col"><?= $this->Paginator->sort('one_way') ?></th>
     <th scope="col"><?= $this->Paginator->sort('priority') ?></th>
+
     <th scope="col" class="actions"><?= __('Actions') ?></th>
 </tr>
 <?php $this->end(); ?>
@@ -107,6 +109,18 @@ $this->assign('title', 'All trips :' . $day);
             </div>
         </td>
         <td><?= $this->Number->format($trip->id) ?></td>
+        <td>
+            <?= h($trip->complete) ?>
+            <?php if ($trip->complete === 'no'): ?>
+                <i class="fas fa-car text-blue"></i>
+            <?php elseif ($trip->complete === 'yes'): ?>
+                <i class="fas fa-car text-green"></i>
+            <?php elseif ($trip->complete === 'cancelled'): ?>
+                <i class="fas fa-car text-red"></i>
+            <?php else: ?>
+                <i class="fas fa-car text-gray"></i>
+            <?php endif; ?>
+        </td>
 
         <td class="edit_td">
             <?php
@@ -120,6 +134,13 @@ $this->assign('title', 'All trips :' . $day);
                 ]);
 
             ?>
+        </td>
+        <td><?= h($trip->re_route) ?>
+
+            <?php if ($trip->re_route === 'yes'): ?>
+                <i class="fas fa-exclamation-triangle text-blue"></i>
+            <?php endif; ?>
+
         </td>
         <td><?= h($trip->client) ?></td>
         <td><?= h($trip->phone) ?></td>
@@ -136,16 +157,7 @@ $this->assign('title', 'All trips :' . $day);
                 ['controller' => 'Users', 'action' => 'view', $trip->user->id]) : '' ?></td>
         <td><?= $trip->has('company') ? $this->Html->link($trip->company->name,
                 ['controller' => 'Companies', 'action' => 'view', $trip->company->id]) : '' ?></td>
-        <td>
-            <?= h($trip->complete) ?>
-            <?php if ($trip->complete === 'no'): ?>
-                <span class="badge badge-dot mr-4"> <i class="bg-warning"></i> pending</span>
-            <?php elseif ($trip->complete === 'yes'): ?>
-                <span class="badge badge-dot mr-4"><i class="bg-success"></i> completed</span>
-            <?php else: ?>
-                <span class="badge badge-dot"><i class="bg-info"></i>en route</span>
-            <?php endif; ?>
-        </td>
+
         <td><?= $this->Number->format($trip->start_lat) ?></td>
         <td><?= $this->Number->format($trip->start_long) ?></td>
         <td><?= $this->Number->format($trip->drop_lat) ?></td>
@@ -158,6 +170,7 @@ $this->assign('title', 'All trips :' . $day);
         <td><?= h($trip->outbound) ?></td>
         <td><?= h($trip->one_way) ?></td>
         <td><?= h($trip->priority) ?></td>
+
         <td class="actions">
             <div class="dropdown">
                 <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
@@ -218,12 +231,12 @@ $this->assign('title', 'All trips :' . $day);
                     success: function (data) {
                         console.log('success: ' + data);
                         message_status.show();
-                        message_status.text(data);
+                        message_status.text('success: '+ data);
                     },
                     error: function (xhr, textStatus, errorThrown) {
                         console.log(textStatus, errorThrown);
                         message_status.show();
-                        message_status.text(textStatus);
+                        message_status.text(textStatus +' '+ errorThrown);
                     }
                 });
             }

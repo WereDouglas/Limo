@@ -119,14 +119,14 @@ class TripsController extends AppController
         $user_id = $payload['user_id'];
         $trip = $this->Trips->get($id);
         $trip->user_id = $user_id;
+        $trip->re_route = 'yes';
         if ($this->Trips->save($trip)) {
-
-            echo json_encode($id);
+            $m = 'Information could not be changed. Please, try again.';
+            echo json_encode($m);
             return;
         }
         $m = 'Information could not be changed. Please, try again.';
-
-        echo json_encode($payload);
+        echo json_encode($m);
     }
 
     /**
@@ -238,6 +238,7 @@ class TripsController extends AppController
                 $tripping->outbound = $sheetData[$i]['O'];
                 $tripping->one_way = $sheetData[$i]['P'];
                 $tripping->priority = 'medium';
+                $tripping->re_route = 'no';
 
                 array_push($trip_objects, $tripping);
             }
@@ -294,7 +295,7 @@ class TripsController extends AppController
                         $trip->drop_off_address = $tp[$index]->drop_off_address;
                         $trip->distance = $tp[$index]->distance;
                         $trip->drop_off_city = $tp[$index]->drop_off_city;
-                        $trip->comments = $tp[$index]->comments;
+                        $trip->comments = $tp[$index]->comments.' ';
                         $trip->date = $tp[$index]->date;
                         $trip->complete = 'no';
                         $trip->user_id = $available_drivers[$k];
@@ -311,7 +312,8 @@ class TripsController extends AppController
                         $trip->shared_group = $tp[$index]->shared_group;
                         $trip->outbound = $tp[$index]->outbound;
                         $trip->one_way = $tp[$index]->one_way;
-                        $trip->priority = 'medium';
+                        $trip->priority = 'low';
+                        $trip->re_route = 'no';
 
 
                         if (!$this->Trips->save($trip)) {

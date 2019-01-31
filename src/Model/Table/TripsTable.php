@@ -100,7 +100,7 @@ class TripsTable extends Table
         $validator
             ->scalar('drop_off_address')
             ->maxLength('drop_off_address', 100)
-            ->allowEmptyString('drop_off_address');
+            ->allowEmptyString('drop_off_address', 'create');
 
         $validator
             ->scalar('drop_off_city')
@@ -171,6 +171,11 @@ class TripsTable extends Table
         $validator
             ->scalar('priority')
             ->allowEmptyString('priority');
+
+        $validator
+            ->scalar('re_route')
+            ->requirePresence('re_route', 'create')
+            ->allowEmptyString('re_route', false);
 
         return $validator;
     }
