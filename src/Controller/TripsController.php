@@ -81,8 +81,9 @@ class TripsController extends AppController
     {
         $cid = $this->Auth->user('company_id');
         $trip = $this->Trips->get($id, [
-            'contain' => ['Users', 'Companies']
-        ])->where(['Users.company_id' => $cid]);
+            'contain' => ['Users', 'Companies'],
+            'conditions'=>['Trips.company_id' => $cid]
+        ]);
         $cid = $this->Auth->user('company_id');
         $this->set('trip', $trip, 'cid', $cid);
     }
