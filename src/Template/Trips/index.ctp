@@ -138,7 +138,7 @@ $this->assign('title', 'All trips :' . $day);
         <td><?= h($trip->re_route) ?>
 
             <?php if ($trip->re_route === 'yes'): ?>
-                <i class="fas fa-exclamation-triangle text-blue"></i>
+                <i class="fas fa-exclamation-triangle text-red"></i>
             <?php endif; ?>
 
         </td>
