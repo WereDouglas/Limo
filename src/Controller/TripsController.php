@@ -67,7 +67,8 @@ class TripsController extends AppController
             'contain' => ['Users', 'Companies'],
             'order'=>['Trips.id' => 'DESC'],
         ])->where(['Trips.date' => $day, 'Trips.company_id' => $cid]);
-        $this->set(compact('trips', 'day', 'cid'));
+        $users = $this->Trips->Users->find('list')->where(['company_id' => $cid]);
+        $this->set(compact('trips', 'day', 'cid', 'users'));
     }
 
     /**
@@ -117,11 +118,14 @@ class TripsController extends AppController
 
         $id = $payload['id'];
         $user_id = $payload['user_id'];
+        $priority = $payload['priority'];
+
         $trip = $this->Trips->get($id);
         $trip->user_id = $user_id;
         $trip->re_route = 'yes';
+        $trip->priority =  $priority;
         if ($this->Trips->save($trip)) {
-            $m = 'Information could not be changed. Please, try again.';
+            $m = 'Information saved.';
             echo json_encode($m);
             return;
         }

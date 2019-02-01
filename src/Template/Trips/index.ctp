@@ -45,6 +45,7 @@ $this->assign('title', 'All trips :' . $day);
     <th scope="col"><?= $this->Paginator->sort('driver') ?></th>
     <th scope="col"><?= $this->Paginator->sort('re_route') ?></th>
     <th scope="col"><?= $this->Paginator->sort('client') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('priority') ?></th>
     <th scope="col"><?= $this->Paginator->sort('phone') ?></th>
     <th scope="col"><?= $this->Paginator->sort('date') ?></th>
     <th scope="col"><?= $this->Paginator->sort('pick_up_time') ?></th>
@@ -68,8 +69,6 @@ $this->assign('title', 'All trips :' . $day);
     <th scope="col"><?= $this->Paginator->sort('shared_group') ?></th>
     <th scope="col"><?= $this->Paginator->sort('outbound') ?></th>
     <th scope="col"><?= $this->Paginator->sort('one_way') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('priority') ?></th>
-
     <th scope="col" class="actions"><?= __('Actions') ?></th>
 </tr>
 <?php $this->end(); ?>
@@ -135,7 +134,8 @@ $this->assign('title', 'All trips :' . $day);
 
             ?>
         </td>
-        <td><?= h($trip->re_route) ?>
+        <td>
+            <?= h($trip->re_route) ?>
 
             <?php if ($trip->re_route === 'yes'): ?>
                 <i class="fas fa-exclamation-triangle text-red"></i>
@@ -143,6 +143,27 @@ $this->assign('title', 'All trips :' . $day);
 
         </td>
         <td><?= h($trip->client) ?></td>
+        <td class="edit_td">
+
+            <?php if ($trip->priority === 'low'): ?>
+                <i class="fas fa-info-circle text-gray"></i>
+            <?php elseif ($trip->priority === 'medium'): ?>
+                <i class="fas fa-info-circle text-orange"></i>
+            <?php elseif ($trip->priority === 'high'): ?>
+                <i class="fas fa-info-circle text-green"></i>
+            <?php endif; ?>
+            <span id="last_<?php echo $id; ?>" class="text"><?php echo $trip->priority; ?></span>
+
+            <select class="editbox" id="last_input_<?php echo $id; ?>">
+                <option value="<?php echo $trip->priority; ?>" <?php echo $trip->priority; ?>i
+                </option>
+                <option value="low">low</option>
+                <option value="medium">medium</option>
+                <option value="high">high</option>
+
+            </select>
+
+        </td>
         <td><?= h($trip->phone) ?></td>
         <td><?= h($trip->date) ?></td>
         <td><?= h($trip->pick_up_time) ?></td>
@@ -169,7 +190,7 @@ $this->assign('title', 'All trips :' . $day);
         <td><?= h($trip->shared_group) ?></td>
         <td><?= h($trip->outbound) ?></td>
         <td><?= h($trip->one_way) ?></td>
-        <td><?= h($trip->priority) ?></td>
+
 
         <td class="actions">
             <div class="dropdown">
@@ -209,19 +230,22 @@ $this->assign('title', 'All trips :' . $day);
             var ID = $(this).attr('id');
             console.log('trip ID:' + ID);
             $("#first_" + ID).hide();
+            $("#last_" + ID).hide();
             $("#first_input_" + ID).show();
+            $("#last_input_" + ID).show();
 
         }).change(function () {
             var message_status = $("#status");
             var ID = $(this).attr('id');
             var first = $("#first_input_" + ID).val();
+            var last = $("#last_input_" + ID).val();
             console.log('User ID ' + first);
-            var dataString = 'id=' + ID + '&user_id=' + first;
+            var dataString = 'id=' + ID + '&user_id=' + first + '&priority=' + last;
             $("#first_" + ID).html('<img src="load.gif" />'); // Loading image
             if (first.length > 0) {
                 $.ajax({
                     method: "POST",
-                    url: "trips/change?id=" + ID + "&user_id=" + first,
+                    url: "trips/change?id=" + ID + "&user_id=" + first + '&priority=' + last,
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
@@ -231,12 +255,12 @@ $this->assign('title', 'All trips :' . $day);
                     success: function (data) {
                         console.log('success: ' + data);
                         message_status.show();
-                        message_status.text('success: '+ data);
+                        message_status.text('success: ' + data);
                     },
                     error: function (xhr, textStatus, errorThrown) {
                         console.log(textStatus, errorThrown);
                         message_status.show();
-                        message_status.text(textStatus +' '+ errorThrown);
+                        message_status.text(textStatus + ' ' + errorThrown);
                     }
                 });
             }

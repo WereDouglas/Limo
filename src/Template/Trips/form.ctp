@@ -37,132 +37,246 @@ $this->assign('title', 'All trips :' . $day);
 
 <?php $this->end(); ?>
 <?php $this->start('table'); ?>
-
+<?= $this->Html->css('editable.css') ?>
 <table class="table align-items-center table-flush"  id="example" >
     <thead class="thead-light">
     <tr>
         <th scope="col"></th>
-        <th scope="col"><?= 'id' ?></th>
-        <th scope="col"><?= 'client' ?></th>
-        <th scope="col"><?= 'phone' ?></th>
-        <th scope="col"><?= 'date' ?></th>
-        <th scope="col"><?= 'pick_up_time' ?></th>
-        <th scope="col"><?= 'appointment_time' ?></th>
-        <th scope="col"><?= 'pick_up_address' ?></th>
-        <th scope="col"><?= 'pick_up_city' ?></th>
-        <th scope="col"><?= 'drop_off_address' ?></th>
-        <th scope="col"><?= 'drop_off_city' ?></th>
-        <th scope="col"><?= 'distance' . '(Miles)' ?></th>
-        <th scope="col"><?= 'created' ?></th>
-        <th scope="col"><?= 'user_id' ?></th>
-        <th scope="col"><?= 'company_id' ?></th>
-        <th scope="col"><?= 'complete' ?></th>
-        <th scope="col"><?= 'start_lat' ?></th>
-        <th scope="col"><?= 'start_long' ?></th>
-        <th scope="col"><?= 'drop_lat' ?></th>
-        <th scope="col"><?= 'drop_long' ?></th>
-        <th scope="col"><?= 'miles' ?></th>
-        <th scope="col"><?='vehicle_type' ?></th>
-        <th scope="col"><?= 'escort' ?></th>
-        <th scope="col"><?= 'trip_num' ?></th>
-        <th scope="col"><?= 'shared_group' ?></th>
-        <th scope="col"><?= 'outbound' ?></th>
-        <th scope="col"><?= 'one_way' ?></th>
-        <th scope="col"><?= 'priority' ?></th>
-        <th scope="col"><?= 're_route' ?></th>
+        <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('complete') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('driver') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('re_route') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('client') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('priority') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('phone') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('date') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('pick_up_time') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('appointment_time') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('pick_up_address') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('pick_up_city') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('drop_off_address') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('drop_off_city') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('distance') . '(Miles)' ?></th>
+        <th scope="col"><?= $this->Paginator->sort('created') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('company_id') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('start_lat') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('start_long') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('drop_lat') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('drop_long') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('miles') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('vehicle_type') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('escort') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('trip_num') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('shared_group') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('outbound') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('one_way') ?></th>
         <th scope="col" class="actions"><?= __('Actions') ?></th>
     </tr>
     </thead>
     <tbody>
+
     <?php foreach ($trips as $trip): ?>
-    <tr>
-        <td>
-            <?php
-            // echo '<pre>';
-            // var_dump($trip->user);
-            $image = $this->Url->image('user.png');
-            if ($trip->user->photo != "") {
-                $image = $this->Url->build($trip->user->full_url);
-            }
-            ?>
-            <div class="avatar-group">
-                <a href="#" class="avatar avatar-sm" data-toggle="tooltip"
-                   data-original-title="<?= $trip->user->full_url ?>">
-                    <img alt="Image placeholder"
-                         src="<?= $image ?>"
-                         class="rounded-circle">
-                </a>
-            </div>
-        </td>
-        <td><?= $this->Number->format($trip->id) ?></td>
-        <td><?= h($trip->client) ?></td>
-        <td><?= h($trip->phone) ?></td>
-        <td><?= h($trip->date) ?></td>
-        <td><?= h($trip->pick_up_time) ?></td>
-        <td><?= h($trip->appointment_time) ?></td>
-        <td><?= h($trip->pick_up_address) ?></td>
-        <td><?= h($trip->pick_up_city) ?></td>
-        <td><?= h($trip->drop_off_address) ?></td>
-        <td><?= h($trip->drop_off_city) ?></td>
-        <td><?= h($trip->distance) ?></td>
-        <td><?= h($trip->created) ?></td>
-        <td><?= $trip->has('user') ? $this->Html->link($trip->user->id,
-                ['controller' => 'Users', 'action' => 'view', $trip->user->id]) : '' ?></td>
-        <td><?= $trip->has('company') ? $this->Html->link($trip->company->name,
-                ['controller' => 'Companies', 'action' => 'view', $trip->company->id]) : '' ?></td>
-        <td>
-            <?= h($trip->complete) ?>
-            <?php if ($trip->complete === 'no'): ?>
-                <span class="badge badge-dot mr-4"> <i class="bg-warning"></i> pending</span>
-            <?php elseif ($trip->complete === 'yes'): ?>
-                <span class="badge badge-dot mr-4"><i class="bg-success"></i> completed</span>
-            <?php else: ?>
-                <span class="badge badge-dot"><i class="bg-info"></i>en route</span>
-            <?php endif; ?>
-        </td>
-        <td><?= $this->Number->format($trip->start_lat) ?></td>
-        <td><?= $this->Number->format($trip->start_long) ?></td>
-        <td><?= $this->Number->format($trip->drop_lat) ?></td>
-        <td><?= $this->Number->format($trip->drop_long) ?></td>
-        <td><?= $this->Number->format($trip->miles) ?></td>
-        <td><?= h($trip->vehicle_type) ?></td>
-        <td><?= h($trip->escort) ?></td>
-        <td><?= h($trip->trip_num) ?></td>
-        <td><?= h($trip->shared_group) ?></td>
-        <td><?= h($trip->outbound) ?></td>
-        <td><?= h($trip->one_way) ?></td>
-        <td><?= h($trip->priority) ?></td>
-        <td><?= h($trip->re_route) ?></td>
-        <td class="actions">
-            <div class="dropdown">
-                <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-v"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                    <ul class="side-nav">
-
-                        <li> <?= $this->Html->link(__('View'),
-                                ['action' => 'view', $trip->id]) ?></li>
-                        <li> <?= $this->Html->link(__('Edit'),
-                                ['action' => 'edit', $trip->id]) ?></li>
-                        <li>
-                            <?= $this->Form->postLink(__('Delete'),
-                                ['action' => 'delete', $trip->id],
-                                [
-                                    'confirm' => __('Are you sure you want to delete # {0}?',
-                                        $trip->id)
-                                ]) ?>
-                        </li>
-
-                    </ul>
+        <?php
+        $id = $trip->id;
+        ?>
+        <tr id="<?= $trip->id ?>" class="edit_tr">
+            <td>
+                <?php
+                // echo '<pre>';
+                // var_dump($trip->user);
+                $image = $this->Url->image('user.png');
+                if ($trip->user->photo != "") {
+                    $image = $this->Url->build($trip->user->full_url);
+                }
+                ?>
+                <div class="avatar-group">
+                    <a href="#" class="avatar avatar-sm" data-toggle="tooltip"
+                       data-original-title="<?= $trip->user->full_url ?>">
+                        <img alt="Image placeholder"
+                             src="<?= $image ?>"
+                             class="rounded-circle">
+                    </a>
                 </div>
-            </div>
-        </td>
-    </tr>
+            </td>
+            <td><?= $this->Number->format($trip->id) ?></td>
+            <td>
+                <?= h($trip->complete) ?>
+                <?php if ($trip->complete === 'no'): ?>
+                    <i class="fas fa-car text-blue"></i>
+                <?php elseif ($trip->complete === 'yes'): ?>
+                    <i class="fas fa-car text-green"></i>
+                <?php elseif ($trip->complete === 'cancelled'): ?>
+                    <i class="fas fa-car text-red"></i>
+                <?php else: ?>
+                    <i class="fas fa-car text-gray"></i>
+                <?php endif; ?>
+            </td>
+
+            <td class="edit_td">
+                <?php
+                echo $this->Form->control('user_id',
+                    [
+                        'options' => $users,
+                        'default' => $trip->user->id,
+                        'class' => 'form-control long',
+                        'label' => false,
+                        'id' => 'first_input_' . $id
+                    ]);
+
+                ?>
+            </td>
+            <td>
+                <?= h($trip->re_route) ?>
+
+                <?php if ($trip->re_route === 'yes'): ?>
+                    <i class="fas fa-exclamation-triangle text-red"></i>
+                <?php endif; ?>
+
+            </td>
+            <td><?= h($trip->client) ?></td>
+            <td class="edit_td">
+
+                <?php if ($trip->priority === 'low'): ?>
+                    <i class="fas fa-info-circle text-gray"></i>
+                <?php elseif ($trip->priority === 'medium'): ?>
+                    <i class="fas fa-info-circle text-orange"></i>
+                <?php elseif ($trip->priority === 'high'): ?>
+                    <i class="fas fa-info-circle text-green"></i>
+                <?php endif; ?>
+                <span id="last_<?php echo $id; ?>" class="text"><?php echo $trip->priority; ?></span>
+
+                <select class="editbox" id="last_input_<?php echo $id; ?>">
+                    <option value="<?php echo $trip->priority; ?>" <?php echo $trip->priority; ?>i
+                    </option>
+                    <option value="low">low</option>
+                    <option value="medium">medium</option>
+                    <option value="high">high</option>
+
+                </select>
+
+            </td>
+            <td><?= h($trip->phone) ?></td>
+            <td><?= h($trip->date) ?></td>
+            <td><?= h($trip->pick_up_time) ?></td>
+            <td><?= h($trip->appointment_time) ?></td>
+            <td><?= h($trip->pick_up_address) ?></td>
+            <td><?= h($trip->pick_up_city) ?></td>
+            <td><?= h($trip->drop_off_address) ?></td>
+            <td><?= h($trip->drop_off_city) ?></td>
+            <td><?= h($trip->distance) ?></td>
+            <td><?= h($trip->created) ?></td>
+            <td><?= $trip->has('user') ? $this->Html->link($trip->user->id,
+                    ['controller' => 'Users', 'action' => 'view', $trip->user->id]) : '' ?></td>
+            <td><?= $trip->has('company') ? $this->Html->link($trip->company->name,
+                    ['controller' => 'Companies', 'action' => 'view', $trip->company->id]) : '' ?></td>
+
+            <td><?= $this->Number->format($trip->start_lat) ?></td>
+            <td><?= $this->Number->format($trip->start_long) ?></td>
+            <td><?= $this->Number->format($trip->drop_lat) ?></td>
+            <td><?= $this->Number->format($trip->drop_long) ?></td>
+            <td><?= $this->Number->format($trip->miles) ?></td>
+            <td><?= h($trip->vehicle_type) ?></td>
+            <td><?= h($trip->escort) ?></td>
+            <td><?= h($trip->trip_num) ?></td>
+            <td><?= h($trip->shared_group) ?></td>
+            <td><?= h($trip->outbound) ?></td>
+            <td><?= h($trip->one_way) ?></td>
+
+
+            <td class="actions">
+                <div class="dropdown">
+                    <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                        <ul class="side-nav">
+
+                            <li> <?= $this->Html->link(__('View'),
+                                    ['action' => 'view', $trip->id]) ?></li>
+                            <li> <?= $this->Html->link(__('Edit'),
+                                    ['action' => 'edit', $trip->id]) ?></li>
+                            <li>
+                                <?= $this->Form->postLink(__('Delete'),
+                                    ['action' => 'delete', $trip->id],
+                                    [
+                                        'confirm' => __('Are you sure you want to delete # {0}?',
+                                            $trip->id)
+                                    ]) ?>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+
+            </td>
+        </tr>
     <?php endforeach; ?>
     </tbody>
 </table>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#status").hide();
+        $(".edit_tr").click(function () {
+            var ID = $(this).attr('id');
+            console.log('trip ID:' + ID);
+            $("#first_" + ID).hide();
+            $("#last_" + ID).hide();
+            $("#first_input_" + ID).show();
+            $("#last_input_" + ID).show();
+
+        }).change(function () {
+            var message_status = $("#status");
+            var ID = $(this).attr('id');
+            var first = $("#first_input_" + ID).val();
+            var last = $("#last_input_" + ID).val();
+            console.log('User ID ' + first);
+            var dataString = 'id=' + ID + '&user_id=' + first + '&priority=' + last;
+            $("#first_" + ID).html('<img src="load.gif" />'); // Loading image
+            if (first.length > 0) {
+                $.ajax({
+                    method: "POST",
+                    url: "trips/change?id=" + ID + "&user_id=" + first + '&priority=' + last,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    contentType: 'json',
+                    data: dataString,
+                    success: function (data) {
+                        console.log('success: ' + data);
+                        message_status.show();
+                        message_status.text('success: ' + data);
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log(textStatus, errorThrown);
+                        message_status.show();
+                        message_status.text(textStatus + ' ' + errorThrown);
+                    }
+                });
+            }
+            else {
+                alert('Enter something.');
+            }
+
+        });
+
+// Edit input box click action
+        $(".editbox").mouseup(function () {
+            return false
+        });
+
+// Outside click action
+        $(document).mouseup(function () {
+            $(".editbox").hide();
+            $(".text").show();
+        });
+
+    });
+</script>
 <?php $this->Html->css('bootstrap.css', ['block' => 'bootstrap']);?>
 <?php $this->Html->css('jquery.dataTables.min.css', ['block' => 'cssTop']);?>
 <?php $this->Html->script('jquery.dataTables.min.js', ['block' => 'scriptBottom']);?>
