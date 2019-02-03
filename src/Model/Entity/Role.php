@@ -8,7 +8,9 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string|null $name
+ * @property int|null $company_id
  *
+ * @property \App\Model\Entity\Company $company
  * @property \App\Model\Entity\Permission[] $permissions
  * @property \App\Model\Entity\User[] $users
  */
@@ -25,8 +27,9 @@ class Role extends Entity
      * @var array
      */
     protected $_accessible = [
-        'id'=>true,
         'name' => true,
+        'company_id' => true,
+        'company' => true,
         'permissions' => true,
         'users' => true
     ];

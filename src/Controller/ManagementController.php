@@ -20,7 +20,6 @@ class ManagementController extends AppController
     public function dashboard()
     {
         $this->viewBuilder()->setLayout('management');
-        $this->viewBuilder()->setLayout('management');
         $this->loadModel('Companies');
         $companies = $this->Companies->find();
         $companies = $this->paginate($companies);
@@ -32,7 +31,6 @@ class ManagementController extends AppController
     {
         $this->viewBuilder()->setLayout('management');
         $users = TableRegistry::getTableLocator()->get('Users')->find('all');
-
         $users = $this->paginate($users);
 
         $this->set(compact('users'));

@@ -20,6 +20,7 @@ $this->assign('title', 'Roles');
 <tr>
     <th scope="col"><?= $this->Paginator->sort('id') ?></th>
     <th scope="col"><?= $this->Paginator->sort('name') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('companies') ?></th>
     <th scope="col" class="actions"><?= __('Actions') ?></th>
 </tr>
 <?php $this->end(); ?>
@@ -28,6 +29,7 @@ $this->assign('title', 'Roles');
     <tr>
         <td><?= $this->Number->format($role->id) ?></td>
         <td><?= h($role->name) ?></td>
+        <td><?= $role->companies->name ?></td>
         <td class="actions">
             <?= $this->Html->link(__('View'), ['action' => 'view', $role->id]) ?>
             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $role->id]) ?>

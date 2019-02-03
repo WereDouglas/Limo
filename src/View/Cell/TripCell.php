@@ -73,7 +73,7 @@ class TripCell extends Cell
         /*cars*/
         $objects = new \stdClass();
         $this->loadModel('Cars');
-        $cars = $this->Cars->find();
+        $cars = $this->Cars->find()->contain(['Users']) ->where(['Users.company_id'=>$company_id]);
         $objects->count = $cars->count();
         $objects->title = 'Car(s)';
         $objects->icon = 'fa-car';
@@ -87,7 +87,7 @@ class TripCell extends Cell
         /*drivers*/
         $objects = new \stdClass();
         $this->loadModel('Drivers');
-        $drivers = $this->Drivers->find();
+        $drivers = $this->Drivers->find()->contain(['Users']) ->where(['Users.company_id'=>$company_id]);
         $objects->count = $drivers->count();
         $objects->title = 'Driver(s)';
         $objects->icon = 'fa-user';

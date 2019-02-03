@@ -31,12 +31,25 @@ class UsersController extends AppController
 
     public function index()
     {
+        $cid = $this->Auth->user('company_id');
         $this->paginate = [
-            'contain' => ['Companies']
+            'contain' => ['Companies'],
+            'conditions' => ['Users.company_id' => $cid]
         ];
         $users = $this->paginate($this->Users);
-        $cid = $this->Auth->user('company_id');
+
         $this->set(compact('users', 'cid'));
+    }
+
+    public function dashboard()
+    {
+        $cid = $this->Auth->user('company_id');
+
+        $this->loadModel('Companies');
+        $companies = $this->Companies->find();
+        $companies = $this->paginate($companies);
+        $this->set(compact('companies', 'cid'));
+
     }
 
     /**
@@ -214,8 +227,17 @@ class UsersController extends AppController
                     //echo $this->Cookie->read('remember_me_cookie');
                 }
                 if ($this->Auth->user('type') == 'Management') {
-                    $this->redirect(array('controller' => 'Management', 'action' => 'index'));
+                    $this->Flash->success(__('Welcome'));
+
+                    return $this->redirect(array('controller' => 'Management', 'action' => 'index'));
+                } else {
+                    $this->Flash->success(__('Welcome'));
+
+                    return $this->redirect(array('controller' => 'Users', 'action' => 'dashboard'));
+
+
                 }
+
 
             } else {
                 $this->Flash->error(__('Invalid username or password, try again'));
@@ -235,16 +257,41 @@ class UsersController extends AppController
             $new_user = $data['users'];
             $company = $companies->patchEntity($company, $this->request->getData());
             $company->active = 'yes';
+            /**saving the company  **/
             if ($companies->save($company)) {
+                /**saving the user **/
+                $usersTable = TableRegistry::getTableLocator()->get('Users');
+                $user = $usersTable->newEntity($new_user);
 
-                $users = TableRegistry::getTableLocator()->get('Users');
-                $user = $users->newEntity($new_user);
                 $user->company_id = $company->id;
                 $user->type = 'Administrator';
                 $user->active = 'yes';
-                if ($users->save($user)) {
+                /***saving a role ***/
+                $rolesTable = TableRegistry::getTableLocator()->get('Roles');
+                $role = $rolesTable->newEntity();
+
+                $role->name = 'Administrator';
+                $role->company_id = $company->id;
+
+                $rolesTable->save($role);
+
+
+
+                /**Adding all permissions to the new administrator permissions**/
+                $permissionsTable = TableRegistry::getTableLocator()->get('Permissions');
+                $permissions = $permissionsTable->find('all')->toArray();
+
+
+                $user->roles = [$role];
+
+                if ($this->Users->save($user)) {
+
+                    $rolesTable->Permissions->link($role, $permissions);
+
                     $this->Flash->success(__('User has been saved.'));
                 }
+                $this->Flash->success(__('Primary role created.'));
+
                 $this->Flash->success(__('The company has been saved.'));
                 return $this->redirect(['action' => 'login']);
             }
@@ -273,7 +320,7 @@ class UsersController extends AppController
         $permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $id]);
         // $roles = TableRegistry::getTableLocator()->get('Users')->find('roles', ['id' => $id]);
         $session = $this->getRequest()->getSession();
-        if ( $session->read('session_type')=='advanced'){
+        if ($session->read('session_type') == 'advanced') {
             return true;
         }
 
@@ -282,6 +329,9 @@ class UsersController extends AppController
         }
         // print_r($permissions);
         if (in_array('add_users', $permissions) && $action === 'add') {
+            return true;
+        }
+        if (in_array('dashboard', $permissions) && $action === 'dashboard') {
             return true;
         }
 

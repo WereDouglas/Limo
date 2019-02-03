@@ -25,6 +25,7 @@ class RolesTableTest extends TestCase
      */
     public $fixtures = [
         'app.Roles',
+        'app.Companies',
         'app.Permissions',
         'app.Users'
     ];
@@ -69,6 +70,16 @@ class RolesTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildRules method
+     *
+     * @return void
+     */
+    public function testBuildRules()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

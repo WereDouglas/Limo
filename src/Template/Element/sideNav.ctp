@@ -119,7 +119,7 @@
                         ' <i class="ni ni-tv-2"></i>Dashboard',
                         array(
                             'controller' => 'users',
-                            'action' => 'index'
+                            'action' => 'dashboard'
                         ),
                         array(
                             'class' => 'nav-link word1 green ',

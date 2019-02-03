@@ -4,8 +4,6 @@
  * @var \App\Model\Entity\Trip[]|\Cake\Collection\CollectionInterface $trips
  * @var \App\Model\Entity\Trip $trip
  */
-?>
-<?php
 $this->extend('/Common/subPage');
 $this->assign('title', 'All trips :' . $day);
 ?>
@@ -76,17 +74,18 @@ $this->assign('title', 'All trips :' . $day);
 
 <div class="alert alert-success alert-dismissible fade show" role="alert" id="status">
     <span class="alert-icon"><i class="ni ni-like-2"></i></span>
-
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 <?= $this->Html->css('editable.css') ?>
 
-<?php foreach ($trips as $trip): ?>
+<?php foreach ($trips as $trip):
+    $id = $trip->id;
+    ?>
 
     <?php
-    $id = $trip->id;
+
     ?>
     <tr id="<?= $trip->id ?>" class="edit_tr">
         <td>
@@ -221,7 +220,8 @@ $this->assign('title', 'All trips :' . $day);
         </td>
     </tr>
 <?php endforeach; ?>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<?= $this->Html->script('jquery1.2.min') ?>
+
 
 <script type="text/javascript">
     $(document).ready(function () {

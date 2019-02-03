@@ -23,11 +23,12 @@ class CarsController extends AppController
      */
     public function index()
     {
+        $cid = $this->Auth->user('company_id');
         $this->paginate = [
-            'contain' => ['Users']
+            'contain' => ['Users'],
+            'conditions' => ['Users.company_id' => $cid],
         ];
         $cars = $this->paginate($this->Cars);
-        $cid = $this->Auth->user('company_id');
         $this->set(compact('cars','cid'));
     }
 

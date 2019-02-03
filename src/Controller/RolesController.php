@@ -7,7 +7,8 @@ use Cake\ORM\TableRegistry;
 /**
  * Roles Controller
  *
- * @property \App\Model\Table\RolesTable $Roles
+ *@property \App\Model\Table\RolesTable $Roles
+ *@property \App\Model\Table\CompaniesTable $Companies
  *@property \App\Model\Table\RolesTable $Permissions
  * @method \App\Model\Entity\Role[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
@@ -21,8 +22,13 @@ class RolesController extends AppController
      */
     public function index()
     {
-        $roles = $this->paginate($this->Roles);
+
         $cid = $this->Auth->user('company_id');
+        $this->paginate = [
+            'contain' => ['Companies'],
+            'conditions' => ['Roles.company_id' => $cid],
+        ];
+        $roles = $this->paginate($this->Roles);
         $this->set(compact('roles','cid'));
     }
 
@@ -36,7 +42,7 @@ class RolesController extends AppController
     public function view($id = null)
     {
         $role = $this->Roles->get($id, [
-            'contain' => ['Users','Permissions']
+            'contain' => ['Users','Permissions','companies']
         ]);
 
         $this->set('role', $role);
@@ -50,6 +56,11 @@ class RolesController extends AppController
     public function add()
     {
         $role = $this->Roles->newEntity();
+        /*echo '<pre>';
+        var_dump($this->request->getData());
+
+        exit;*/
+
         if ($this->request->is('post')) {
             $role = $this->Roles->patchEntity($role, $this->request->getData());
             if ($this->Roles->save($role)) {
@@ -61,7 +72,8 @@ class RolesController extends AppController
         }
         $users = $this->Roles->Users->find('list', ['limit' => 200]);
         $permissions = $this->Roles->Permissions->find('list', ['limit' => 200]);
-        $this->set(compact('role', 'users','permissions'));
+        $companies = $this->Roles->Companies->find('list', ['limit' => 200]);
+        $this->set(compact('role', 'users','permissions','companies'));
     }
 
     /**
@@ -85,9 +97,11 @@ class RolesController extends AppController
             }
             $this->Flash->error(__('The role could not be saved. Please, try again.'));
         }
+
         $permissions = $this->Roles->Permissions->find('list', ['limit' => 200]);
         $users = $this->Roles->Users->find('list', ['limit' => 200]);
-        $this->set(compact('role', 'users','permissions'));
+        $companies = $this->Roles->Companies->find('list', ['limit' => 200]);
+        $this->set(compact('role', 'users','permissions','companies'));
     }
 
     /**

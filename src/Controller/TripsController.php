@@ -16,7 +16,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Cake\Event\Event;
 use PhpParser\Node\Expr\Array_;
 
-require ROOT . DS . 'vendor' . DS . 'phpoffice\phpspreadsheet\src\Bootstrap.php';
+require_once ROOT . DS . 'vendor' . DS . 'phpoffice\phpspreadsheet\src\Bootstrap.php';
 
 /**
  * Trips Controller
@@ -48,8 +48,8 @@ class TripsController extends AppController
         $cid = $this->Auth->user('company_id');
         $this->paginate = [
             'contain' => ['Users', 'Companies'],
-            'where' => ['Trips.company_id' => $cid],
-             'order'=>['Trips.id' => 'DESC'],
+            'conditions' => ['Trips.company_id' => $cid],
+            'order'=>['Trips.id' => 'DESC'],
         ];
         $users = $this->Trips->Users->find('list')->where(['company_id' => $cid]);
         $trips = $this->paginate($this->Trips, ['maxLimit' => 5]);
@@ -85,7 +85,7 @@ class TripsController extends AppController
             'contain' => ['Users', 'Companies'],
             'conditions'=>['Trips.company_id' => $cid]
         ]);
-        $cid = $this->Auth->user('company_id');
+
         $this->set('trip', $trip, 'cid', $cid);
     }
 

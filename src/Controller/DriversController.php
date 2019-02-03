@@ -14,7 +14,6 @@ use Cake\ORM\TableRegistry;
  */
 class DriversController extends AppController
 {
-
     /**
      * Index method
      *
@@ -22,11 +21,12 @@ class DriversController extends AppController
      */
     public function index()
     {
+        $cid = $this->Auth->user('company_id');
         $this->paginate = [
-            'contain' => ['Users']
+            'contain' => ['Users'],
+            'conditions' => ['Users.company_id' => $cid],
         ];
         $drivers = $this->paginate($this->Drivers);
-        $cid = $this->Auth->user('company_id');
         $this->set(compact('drivers','cid'));
     }
 
