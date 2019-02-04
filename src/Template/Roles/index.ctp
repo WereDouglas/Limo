@@ -29,7 +29,7 @@ $this->assign('title', 'Roles');
     <tr>
         <td><?= $this->Number->format($role->id) ?></td>
         <td><?= h($role->name) ?></td>
-        <td><?= $role->companies->name ?></td>
+        <td> <?php  echo   $role->company->name;?> </td>
         <td class="actions">
             <?= $this->Html->link(__('View'), ['action' => 'view', $role->id]) ?>
             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $role->id]) ?>

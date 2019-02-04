@@ -275,8 +275,6 @@ class UsersController extends AppController
 
                 $rolesTable->save($role);
 
-
-
                 /**Adding all permissions to the new administrator permissions**/
                 $permissionsTable = TableRegistry::getTableLocator()->get('Permissions');
                 $permissions = $permissionsTable->find('all')->toArray();

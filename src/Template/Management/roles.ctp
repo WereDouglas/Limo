@@ -5,6 +5,7 @@
  */
 $this->extend('/Common/subPage');
 $this->assign('title', 'Roles');
+
 ?>
 <?php $this->start('counter'); ?>
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
@@ -20,6 +21,7 @@ $this->assign('title', 'Roles');
 <tr>
     <th scope="col"><?= $this->Paginator->sort('id') ?></th>
     <th scope="col"><?= $this->Paginator->sort('name') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('Companies') ?></th>
     <th scope="col" class="actions"><?= __('Actions') ?></th>
 </tr>
 <?php $this->end(); ?>
@@ -28,10 +30,12 @@ $this->assign('title', 'Roles');
     <tr>
         <td><?= $this->Number->format($role->id) ?></td>
         <td><?= h($role->name) ?></td>
+        <td> <?= $role->Companies['name'];?> </td>
         <td class="actions">
-            <?= $this->Html->link(__('View'), ['controller'=>'roles','action' => 'view', $role->id]) ?>
-            <?= $this->Html->link(__('Edit'), ['controller'=>'roles','action' => 'edit', $role->id]) ?>
-            <?= $this->Form->postLink(__('Delete'), ['controller'=>'roles','action' => 'delete', $role->id], ['confirm' => __('Are you sure you want to delete # {0}?', $role->id)]) ?>
+            <?= $this->Html->link(__('View'), ['controller' => 'roles', 'action' => 'view', $role->id]) ?>
+            <?= $this->Html->link(__('Edit'), ['controller' => 'roles', 'action' => 'edit', $role->id]) ?>
+            <?= $this->Form->postLink(__('Delete'), ['controller' => 'roles', 'action' => 'delete', $role->id],
+                ['confirm' => __('Are you sure you want to delete # {0}?', $role->id)]) ?>
         </td>
     </tr>
 <?php endforeach; ?>
@@ -42,8 +46,8 @@ $this->assign('title', 'Roles');
         <?= $this->Paginator->first('<< ') ?>
         <?= $this->Paginator->prev('< ') ?>
         <?= $this->Paginator->numbers() ?>
-        <?= $this->Paginator->next( ' >') ?>
-        <?= $this->Paginator->last( ' >>') ?>
+        <?= $this->Paginator->next(' >') ?>
+        <?= $this->Paginator->last(' >>') ?>
     </ul>
     <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
 </div>

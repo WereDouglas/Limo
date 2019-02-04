@@ -100,7 +100,7 @@ class ManagementController extends AppController
     {
         $this->viewBuilder()->setLayout('management');
         $this->loadModel('Roles');
-        $roles = $this->Roles->find();
+        $roles = $this->Roles->find()->contain('companies');
         $roles = $this->paginate($roles);
         $this->set(compact('roles'));
     }

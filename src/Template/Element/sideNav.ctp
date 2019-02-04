@@ -208,9 +208,9 @@
                     );
                     ?>
                 </li>
-                <li class="nav-item">
+               <!-- <li class="nav-item">
                     <?php
-                    echo $this->Html->link(
+/*                    echo $this->Html->link(
                         ' <i class="ni ni-lock-circle-open text-red"></i>Permissions',
                         array(
                             'controller' => 'permissions',
@@ -221,8 +221,8 @@
                             'escape' => false
                         )
                     );
-                    ?>
-                </li>
+                    */?>
+                </li>-->
 
                 <li class="nav-item">
                     <!-- Divider -->

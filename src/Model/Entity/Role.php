@@ -13,6 +13,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Company $company
  * @property \App\Model\Entity\Permission[] $permissions
  * @property \App\Model\Entity\User[] $users
+ *
  */
 class Role extends Entity
 {
