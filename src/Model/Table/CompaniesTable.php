@@ -12,7 +12,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\TripsTable|\Cake\ORM\Association\HasMany $Trips
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\HasMany $Users
- *@property \App\Model\Table\RolesTable|\Cake\ORM\Association\HasMany $Roles
+ * @property \App\Model\Table\RolesTable|\Cake\ORM\Association\HasMany $Roles
  *
  * @method \App\Model\Entity\Company get($primaryKey, $options = [])
  * @method \App\Model\Entity\Company newEntity($data = null, array $options = [])
@@ -41,7 +41,9 @@ class CompaniesTable extends Table
         $this->setPrimaryKey('id');
 
         $this->hasMany('Trips', [
-            'foreignKey' => 'company_id'
+            'foreignKey' => 'company_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
         ]);
         $this->hasMany('Users', [
             'foreignKey' => 'company_id',

@@ -270,9 +270,7 @@ class TripsController extends AppController
                 if ($u['total_trips'] == 0) {
                     $available_drivers [] = $u['user_id'];
                 }
-
             }
-
             if (count($available_drivers) > 0) {
                 $each = count($t) / count($available_drivers);
             //    echo '@ :' . $each;
@@ -283,12 +281,12 @@ class TripsController extends AppController
                     // var_dump($distributed[$k]);
                     $tp = $distributed[$k];
                     // var_dump($tp);
-                    echo '<br>';
+
 
                     for ($index = 0; $index < count($tp); $index++) {
 
-                        echo $available_drivers[$k] . '--->' . $tp[$index]->pick_up_time;
-                        echo '<br>';
+                      /*  echo $available_drivers[$k] . '--->' . $tp[$index]->pick_up_time;
+                        echo '<br>';*/
                         $trip = $this->Trips->newEntity();
                         $trip->client = $tp[$index]->client;
                         $trip->phone = $tp[$index]->phone;
@@ -327,13 +325,13 @@ class TripsController extends AppController
                     }
 
                 }
-
+                $this->Flash->success(__('Upload complete.'));
+                return $this->redirect(['action' => 'index']);
 
             } else {
                 $this->Flash->error(__('No Drivers available loaded'));
                 return $this->redirect(['action' => 'index']);
             }
-
 
             $this->Flash->success(__('Upload complete.'));
             return $this->redirect(['action' => 'index']);

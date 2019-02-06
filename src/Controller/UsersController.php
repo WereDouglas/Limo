@@ -75,6 +75,7 @@ class UsersController extends AppController
      */
     public function add()
     {
+        $cid = $this->Auth->user('company_id');
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
@@ -87,7 +88,7 @@ class UsersController extends AppController
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
 
-        $roles = $this->Users->Roles->find('list', ['limit' => 200]);
+        $roles = $this->Users->Roles->find('list', ['limit' => 200])->where(['company_id' => $cid]);
         $types = $this->types;
         if ($this->Auth->user('type') == 'Management') {
             $types['Management'] = 'Management';
@@ -106,8 +107,10 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
+        $cid = $this->Auth->user('company_id');
         $user = $this->Users->get($id, [
             'contain' => ['Roles']
+
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
@@ -120,14 +123,13 @@ class UsersController extends AppController
         }
 
 
-        $roles = $this->Users->Roles->find('list', ['limit' => 200]);
+        $roles = $this->Users->Roles->find('list', ['limit' => 200])->where(['company_id' => $cid]);
         $types = $this->types;
         if ($this->Auth->user('type') == 'Management') {
             $types['Management'] = 'Management';
         }
 
         $active = $this->active;
-
         $this->set(compact('user', 'roles', 'types', 'active'));
     }
 
@@ -189,7 +191,10 @@ class UsersController extends AppController
             if ($user) {
                 $this->Auth->setUser($user);
                 $current_user = $this->Auth->user('first_name') . ' ' . $this->Auth->user('last_name');
-                $user_image = '/' . $this->Auth->user('photo_dir') . '' . $this->Auth->user('photo');
+                $user_image = '';
+               if ($this->Auth->user('photo')!='') {
+                   $user_image = '/' . $this->Auth->user('photo_dir') . '' . $this->Auth->user('photo');
+               }
                 $user_id = $this->Auth->user('id');
                 $user_type = $this->Auth->user('type');
                 $user_contact = $this->Auth->user('contact');
@@ -197,13 +202,16 @@ class UsersController extends AppController
 
                 $companies = TableRegistry::get('Companies');
                 $company = $companies->get($company_id);
+
+                $company_image = '/' . $company['photo_dir'] . '' .$company['photo'];
+
                 $permissions = TableRegistry::getTableLocator()->get('Users')->find('roles', ['id' => $user_id]);
                 $session->write([
                     'name' => $current_user,
                     'image' => $user_image,
                     'contact' => $user_contact,
                     'id' => $user_id,
-                    'company_image' => '/' . $company['photo_dir'] . ' ' . $company['photo'],
+                    'company_image' => $company_image,
                     'company_name' => $company['name'],
                     'company_id' => $company_id,
                     'permissions' => $permissions,
@@ -259,32 +267,34 @@ class UsersController extends AppController
             $company->active = 'yes';
             /**saving the company  **/
             if ($companies->save($company)) {
+                $cid = $company->id;
                 /**saving the user **/
                 $usersTable = TableRegistry::getTableLocator()->get('Users');
                 $user = $usersTable->newEntity($new_user);
 
-                $user->company_id = $company->id;
+                $user->company_id = $cid;
                 $user->type = 'Administrator';
                 $user->active = 'yes';
                 /***saving a role ***/
+                $this->loadModel('Roles');
                 $rolesTable = TableRegistry::getTableLocator()->get('Roles');
-                $role = $rolesTable->newEntity();
+                $newRole = $rolesTable->newEntity();
 
-                $role->name = 'Administrator';
-                $role->company_id = $company->id;
+                $newRole->name = 'Administrator';
+                $newRole->company_id = $cid;
 
-                $rolesTable->save($role);
+
+                $this->Roles->save($newRole);
 
                 /**Adding all permissions to the new administrator permissions**/
                 $permissionsTable = TableRegistry::getTableLocator()->get('Permissions');
                 $permissions = $permissionsTable->find('all')->toArray();
 
-
-                $user->roles = [$role];
+                $user->roles = [$newRole];
 
                 if ($this->Users->save($user)) {
 
-                    $rolesTable->Permissions->link($role, $permissions);
+                    $rolesTable->Permissions->link($newRole, $permissions);
 
                     $this->Flash->success(__('User has been saved.'));
                 }

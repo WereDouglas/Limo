@@ -19,6 +19,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Trip[] $trips
  * @property \App\Model\Entity\User[] $users
+ * @property \App\Model\Entity\Role[] $roles
  */
 class Company extends Entity
 {
@@ -33,6 +34,7 @@ class Company extends Entity
      * @var array
      */
     protected $_accessible = [
+        'id'=> true,
         'name' => true,
         'photo' => true,
         'address' => true,
@@ -43,6 +45,7 @@ class Company extends Entity
         'email' => true,
         'trips' => true,
         'users' => true,
+        'roles' => true,
         'activated' => true
     ];
     protected function _getFullUrl()

@@ -32,9 +32,9 @@ $this->assign('title', 'Roles');
         <td><?= h($role->name) ?></td>
         <td> <?= $role->Companies['name'];?> </td>
         <td class="actions">
-            <?= $this->Html->link(__('View'), ['controller' => 'roles', 'action' => 'view', $role->id]) ?>
-            <?= $this->Html->link(__('Edit'), ['controller' => 'roles', 'action' => 'edit', $role->id]) ?>
-            <?= $this->Form->postLink(__('Delete'), ['controller' => 'roles', 'action' => 'delete', $role->id],
+            <?= $this->Html->link(__('View'), ['action' => 'viewRoles', $role->id]) ?>
+            <?= $this->Html->link(__('Edit'), ['action' => 'editRoles', $role->id]) ?>
+            <?= $this->Form->postLink(__('Delete'), ['action' => 'deleteRoles', $role->id],
                 ['confirm' => __('Are you sure you want to delete # {0}?', $role->id)]) ?>
         </td>
     </tr>

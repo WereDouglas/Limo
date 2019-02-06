@@ -10,6 +10,7 @@ use PhpParser\Node\Expr\Array_;
 
 class ManagementController extends AppController
 {
+
     /**
      * Users Controller
      *
@@ -17,6 +18,8 @@ class ManagementController extends AppController
      *
      * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
      */
+
+
     public function dashboard()
     {
         $this->viewBuilder()->setLayout('management');
@@ -81,10 +84,35 @@ class ManagementController extends AppController
 
         $trips = $this->Trips->find('all', [
             'contain' => ['Users', 'Companies'],
-            'order'=>['Trips.id' => 'DESC'],
+            'order' => ['Trips.id' => 'DESC'],
         ])->where(['Trips.date' => $day]);
 
         $this->set(compact('trips', 'day'));
+    }
+    public function editUsers($id = null)
+    {
+        $user = $this->Users->get($id, [
+            'contain' => ['Roles']
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $user = $this->Users->patchEntity($user, $this->request->getData());
+            $user->company_id = $this->Auth->user('company_id');
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('The user has been saved.'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+        }
+
+        $roles = $this->Users->Roles->find('list', ['limit' => 200]);
+        $types = $this->types;
+        if ($this->Auth->user('type') == 'Management') {
+            $types['Management'] = 'Management';
+        }
+
+        $active = $this->active;
+
+        $this->set(compact('user', 'roles', 'types', 'active'));
     }
 
     public function permissions()
@@ -105,6 +133,55 @@ class ManagementController extends AppController
         $this->set(compact('roles'));
     }
 
+    public function deleteRoles($id = null)
+    {
+        $this->viewBuilder()->setLayout('management');
+        $this->loadModel('Roles');
+        $this->request->allowMethod(['post', 'delete']);
+        $role = $this->Roles->get($id);
+        if ($this->Roles->delete($role)) {
+            $this->Flash->success(__('The role has been deleted.'));
+        } else {
+            $this->Flash->error(__('The role could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'index']);
+    }
+
+    public function viewRoles($id = null)
+    {
+        $this->viewBuilder()->setLayout('management');
+        $this->loadModel('Roles');
+        $role = $this->Roles->get($id, [
+            'contain' => ['Users', 'Permissions', 'companies']
+        ]);
+
+        $this->set('role', $role);
+    }
+
+    public function editRoles($id = null)
+    {
+        $this->viewBuilder()->setLayout('management');
+        $this->loadModel('Roles');
+        $role = $this->Roles->get($id, [
+            'contain' => ['Users', 'Permissions']
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $role = $this->Roles->patchEntity($role, $this->request->getData());
+            if ($this->Roles->save($role)) {
+                $this->Flash->success(__('The role has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The role could not be saved. Please, try again.'));
+        }
+
+        $permissions = $this->Roles->Permissions->find('list', ['limit' => 200]);
+        $users = $this->Roles->Users->find('list', ['limit' => 200]);
+        $companies = $this->Roles->Companies->find('list', ['limit' => 200]);
+        $this->set(compact('role', 'users', 'permissions', 'companies'));
+    }
+
     public function cars()
     {
         $this->viewBuilder()->setLayout('management');
@@ -119,7 +196,7 @@ class ManagementController extends AppController
     {
         $this->viewBuilder()->setLayout('management');
         $this->loadModel('Logs');
-        $logs = $this->Logs->find() ->order(['id' => 'DESC'], Query::OVERWRITE);
+        $logs = $this->Logs->find()->order(['id' => 'DESC'], Query::OVERWRITE);
         $logs = $this->paginate($logs);
         $this->set(compact('logs'));
     }
@@ -278,6 +355,7 @@ class ManagementController extends AppController
             $this->Flash->error(__('Could not log you in !'));
         }
     }
+
     public function destroy()
     {
         $this->loadModel('Logs');

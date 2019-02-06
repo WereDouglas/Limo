@@ -119,6 +119,9 @@
                     <div class="copyright text-center text-xl-center text-muted">
                         &copy; <?php echo date('Y'); ?> <a href="https://www.omnierps.com" class="font-weight-bold ml-1" target="_blank">Omnierps</a>
                     </div>
+                    <div class="copyright text-center text-xl-center text-muted">
+                         <a href="https://www.elimo.com/apk/limo.apk" class="font-weight-bold ml-1" target="_blank">Mobile</a>
+                    </div>
                 </div>
 
             </div>

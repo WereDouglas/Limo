@@ -365,3 +365,25 @@ $(document).ready(function () {
 </div>
 <?= $this->Form->end() ?>
 <?php $this->end(); ?>
+<?php $this->start('date'); ?>
+<?php $list = null; ?>
+<?= $this->Form->create($list, ['action' => 'form', 'class' => 'form-horizontal']) ?>
+<div class="row">
+    <div class="col">
+        <div class="input-group input-group-alternative">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+            </div>
+            <input name="date" class="form-control datepicker" placeholder="Select date" type="text"
+                   value="<?= date('m/d/Y') ?>">
+        </div>
+    </div>
+    <div class="col">
+        <button class="btn-icon btn btn-secondary" type="submit">
+            <span class="btn-inner--icon"><i class="ni ni-bullet-list-67"></i></span>
+            <span class="btn-inner--text">filter</span>
+        </button>
+    </div>
+</div>
+<?= $this->Form->end() ?>
+<?php $this->end(); ?>

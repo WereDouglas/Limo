@@ -23,6 +23,7 @@ class RolesController extends AppController
     public function index()
     {
 
+
         $cid = $this->Auth->user('company_id');
         $this->paginate = [
             'contain' => ['Companies'],
@@ -85,6 +86,7 @@ class RolesController extends AppController
      */
     public function edit($id = null)
     {
+        $cid = $this->Auth->user('company_id');
         $role = $this->Roles->get($id, [
             'contain' => ['Users','Permissions']
         ]);
@@ -99,9 +101,9 @@ class RolesController extends AppController
         }
 
         $permissions = $this->Roles->Permissions->find('list', ['limit' => 200]);
-        $users = $this->Roles->Users->find('list', ['limit' => 200]);
-        $companies = $this->Roles->Companies->find('list', ['limit' => 200]);
-        $this->set(compact('role', 'users','permissions','companies'));
+        $users = $this->Roles->Users->find('list', ['limit' => 200])->where(['company_id' => $cid]);
+
+        $this->set(compact('role', 'users','permissions'));
     }
 
     /**

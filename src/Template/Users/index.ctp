@@ -49,7 +49,8 @@ $this->assign('title', 'Users');
         <td>
             <?php
             $image = $this->Url->image('user.png');
-            if (h($user->photo != "")) {
+
+            if (h($user->photo != "" )) {
                 $image = $this->Url->build($user->full_url);
             }
             ?>

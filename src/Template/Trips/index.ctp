@@ -32,7 +32,6 @@ $this->assign('title', 'All trips :' . $day);
     </button>
 </li>
 
-
 <?php $this->end(); ?>
 <?php $this->start('th'); ?>
 <tr>
@@ -347,7 +346,6 @@ $this->assign('title', 'All trips :' . $day);
 <?php $this->end(); ?>
 <?php $this->start('date'); ?>
 <?php $list = null; ?>
-
 <?= $this->Form->create($list, ['action' => 'form', 'class' => 'form-horizontal']) ?>
 <div class="row">
     <div class="col">
