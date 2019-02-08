@@ -53,6 +53,7 @@ class DriversController extends AppController
      */
     public function add()
     {
+        $cid = $this->Auth->user('company_id');
         $driver = $this->Drivers->newEntity();
         if ($this->request->is('post')) {
 
@@ -85,8 +86,8 @@ class DriversController extends AppController
         $this->loadModel('Companies');
         $this->loadModel('Roles');
         $companies = $this->Companies->find('list', ['limit' => 200]);
-        $roles = $this->Roles->find('list', ['limit' => 200]);
-        $users = $this->Drivers->Users->find('list', ['limit' => 200]);
+        $roles = $this->Roles->find('list', ['limit' => 200])->where(['company_id' => $cid]);
+        $users = $this->Drivers->Users->find('list', ['limit' => 200])->where(['company_id' => $cid]);
         $active = $this->active;
         $types = $this->types;
         if ($this->Auth->user('type') == 'Management') {

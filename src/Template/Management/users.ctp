@@ -71,9 +71,9 @@ $this->assign('title', 'Users');
                 ['controller' => 'Companies', 'action' => 'view', $user->company->id]) : '' ?></td>
         <td class="actions" >
             <?= $this->Html->link(__('Auth'), ['action' => 'login', $user->id],['class' => 'fat-remove word1']) ?>
-            <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
-            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id],['class' => 'fat-remove word1']) ?>
-            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id],
+            <?= $this->Html->link(__('View'), ['action' => 'viewUsers', $user->id]) ?>
+            <?= $this->Html->link(__('Edit'), ['action' => 'editUsers', $user->id],['class' => 'fat-remove word1']) ?>
+            <?= $this->Form->postLink(__('Delete'), ['action' => 'deleteUsers', $user->id],
                 ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
 
         </td>

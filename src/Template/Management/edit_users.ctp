@@ -54,6 +54,8 @@
         echo $this->Form->label('*type of user');
         echo $this->Form->select('type',$types, ['empty' =>'(choose one)', 'class' => 'form-control']);
         echo $this->Form->control('roles._ids', ['options' => $roles, 'class' => 'form-control']);
+        echo $this->Form->control('companies._ids', ['options' => $companies,'class' => 'form-control']);
+
         echo $this->Form->control('activated',
             ['options' => $active, 'empty' =>'yes', 'class' => 'form-control']);
 

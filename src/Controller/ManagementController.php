@@ -91,6 +91,8 @@ class ManagementController extends AppController
     }
     public function editUsers($id = null)
     {
+        $this->viewBuilder()->setLayout('management');
+        $this->loadModel('Users');
         $user = $this->Users->get($id, [
             'contain' => ['Roles']
         ]);
@@ -111,8 +113,8 @@ class ManagementController extends AppController
         }
 
         $active = $this->active;
-
-        $this->set(compact('user', 'roles', 'types', 'active'));
+        $companies = $this->Users->Companies->find('list', ['limit' => 200]);
+        $this->set(compact('user', 'roles', 'types', 'active','companies'));
     }
 
     public function permissions()
@@ -157,6 +159,30 @@ class ManagementController extends AppController
         ]);
 
         $this->set('role', $role);
+    }
+    public function viewUsers($id = null)
+    {
+        $this->viewBuilder()->setLayout('management');
+        $this->loadModel('Users');
+        $user = $this->Users->get($id, [
+            'contain' => ['Companies', 'Roles', 'Cars', 'Drivers', 'Trips']
+        ]);
+
+        $this->set('user', $user);
+    }
+    public function deleteUsers($id = null)
+    {
+        $this->viewBuilder()->setLayout('management');
+        $this->loadModel('Users');
+        $this->request->allowMethod(['post', 'delete']);
+        $user = $this->Users->get($id);
+        if ($this->Users->delete($user)) {
+            $this->Flash->success(__('The user has been deleted.'));
+        } else {
+            $this->Flash->error(__('The user could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'users']);
     }
 
     public function editRoles($id = null)
