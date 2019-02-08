@@ -9,7 +9,8 @@ use Cake\Validation\Validator;
 /**
  * Roles Model
  *
- * @property \App\Model\Table\PermissionsTable|\Cake\ORM\Association\HasMany $Permissions
+ * @property \App\Model\Table\CompaniesTable|\Cake\ORM\Association\BelongsTo $Companies
+ * @property \App\Model\Table\PermissionsTable|\Cake\ORM\Association\BelongsToMany $Permissions
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsToMany $Users
  *
  * @method \App\Model\Entity\Role get($primaryKey, $options = [])
@@ -38,8 +39,13 @@ class RolesTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->hasMany('Permissions', [
-            'foreignKey' => 'role_id'
+        $this->belongsTo('Companies', [
+            'foreignKey' => 'company_id'
+        ]);
+        $this->belongsToMany('Permissions', [
+            'foreignKey' => 'role_id',
+            'targetForeignKey' => 'permission_id',
+            'joinTable' => 'permissions_roles'
         ]);
         $this->belongsToMany('Users', [
             'foreignKey' => 'role_id',
@@ -58,13 +64,27 @@ class RolesTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->scalar('name')
             ->maxLength('name', 45)
-            ->allowEmpty('name');
+            ->allowEmptyString('name');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->existsIn(['company_id'], 'Companies'));
+
+        return $rules;
     }
 }

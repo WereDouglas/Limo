@@ -17,6 +17,7 @@
  * @link          https://cakephp.org CakePHP(tm) Project
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
+
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
@@ -55,7 +56,7 @@ Router::scope('/', function (RouteBuilder $routes) {
      * Apply a middleware to the current route scope.
      * Requires middleware to be registered via `Application::routes()` with `registerMiddleware()`
      */
-    $routes->applyMiddleware('csrf');
+
 
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
@@ -88,6 +89,20 @@ Router::scope('/', function (RouteBuilder $routes) {
      * You can remove these routes once you've connected the
      * routes you want in your application.
      */
+    $routes->connect('/information/trips',
+        ['controller' => 'Information', 'action' => 'trips', 'isRest' => true, 'requireAuthorization' => true]);
+    $routes->connect('/information/login', ['controller' => 'Information', 'action' => 'login', 'isRest' => true]);
+    $routes->connect('/information/users',
+        ['controller' => 'Information', 'action' => 'users', 'isRest' => true, 'requireAuthorization' => true]);
+    $routes->connect('/information/update',
+        ['controller' => 'Information', 'action' => 'update', 'isRest' => true, 'requireAuthorization' => true]);
+    $routes->connect('/information/change', ['controller' => 'Information', 'action' => 'change', 'isRest' => true]);
+
+    Router::scope('/here', function (RouteBuilder $routes) {
+        $routes->applyMiddleware('csrf');
+
+    });
+
     $routes->fallbacks(DashedRoute::class);
 });
 

@@ -61,79 +61,121 @@ class TripsTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->scalar('client')
             ->maxLength('client', 45)
-            ->allowEmpty('client');
+            ->allowEmptyString('client');
 
         $validator
             ->scalar('phone')
             ->maxLength('phone', 45)
-            ->allowEmpty('phone');
+            ->allowEmptyString('phone');
 
         $validator
             ->date('date')
-            ->allowEmpty('date');
+            ->allowEmptyDate('date');
 
         $validator
             ->scalar('pick_up_time')
             ->maxLength('pick_up_time', 10)
-            ->allowEmpty('pick_up_time');
+            ->allowEmptyString('pick_up_time');
 
         $validator
             ->scalar('appointment_time')
             ->maxLength('appointment_time', 10)
-            ->allowEmpty('appointment_time');
+            ->allowEmptyString('appointment_time');
 
         $validator
             ->scalar('pick_up_address')
-            ->maxLength('pick_up_address', 45)
-            ->allowEmpty('pick_up_address');
+            ->maxLength('pick_up_address', 100)
+            ->allowEmptyString('pick_up_address');
 
         $validator
             ->scalar('pick_up_city')
-            ->maxLength('pick_up_city', 45)
-            ->allowEmpty('pick_up_city');
+            ->maxLength('pick_up_city', 100)
+            ->allowEmptyString('pick_up_city');
 
         $validator
             ->scalar('drop_off_address')
-            ->maxLength('drop_off_address', 45)
-            ->allowEmpty('drop_off_address');
+            ->maxLength('drop_off_address', 100)
+            ->allowEmptyString('drop_off_address', 'create');
 
         $validator
             ->scalar('drop_off_city')
             ->maxLength('drop_off_city', 45)
-            ->allowEmpty('drop_off_city');
+            ->allowEmptyString('drop_off_city');
 
         $validator
             ->scalar('comments')
-            ->allowEmpty('comments');
+            ->allowEmptyString('comments');
 
         $validator
             ->scalar('distance')
-            ->allowEmpty('distance');
+            ->allowEmptyString('distance');
 
         $validator
             ->scalar('complete')
-            ->allowEmpty('complete');
+            ->allowEmptyString('complete');
 
         $validator
             ->decimal('start_lat')
-            ->allowEmpty('start_lat');
+            ->allowEmptyString('start_lat');
 
         $validator
             ->decimal('start_long')
-            ->allowEmpty('start_long');
+            ->allowEmptyString('start_long');
 
         $validator
             ->decimal('drop_lat')
-            ->allowEmpty('drop_lat');
+            ->allowEmptyString('drop_lat');
 
         $validator
             ->decimal('drop_long')
-            ->allowEmpty('drop_long');
+            ->allowEmptyString('drop_long');
+
+        $validator
+            ->scalar('miles')
+            ->maxLength('miles', 10)
+            ->allowEmptyString('miles');
+
+        $validator
+            ->scalar('vehicle_type')
+            ->maxLength('vehicle_type', 45)
+            ->allowEmptyString('vehicle_type');
+
+        $validator
+            ->integer('escort')
+            ->allowEmptyString('escort');
+
+        $validator
+            ->scalar('trip_num')
+            ->maxLength('trip_num', 45)
+            ->allowEmptyString('trip_num');
+
+        $validator
+            ->scalar('shared_group')
+            ->maxLength('shared_group', 45)
+            ->allowEmptyString('shared_group');
+
+        $validator
+            ->scalar('outbound')
+            ->maxLength('outbound', 20)
+            ->allowEmptyString('outbound');
+
+        $validator
+            ->scalar('one_way')
+            ->allowEmptyString('one_way');
+
+        $validator
+            ->scalar('priority')
+            ->allowEmptyString('priority');
+
+        $validator
+            ->scalar('re_route')
+            ->requirePresence('re_route', 'create')
+            ->allowEmptyString('re_route', false);
 
         return $validator;
     }

@@ -29,6 +29,7 @@ use Cake\Utility\Security;
  * @property string|null $photo_dir
  * @property string|null $photo_size
  * @property string|null $photo_type
+ * @property string|null $activated
  *
  * @property \App\Model\Entity\Company $company
  * @property \App\Model\Entity\Car[] $cars
@@ -38,6 +39,7 @@ use Cake\Utility\Security;
  */
 class User extends Entity
 {
+   // use AuthorizationTrait;
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -68,7 +70,8 @@ class User extends Entity
         'cars' => true,
         'drivers' => true,
         'trips' => true,
-        'roles' => true
+        'roles' => true,
+        'activated' => true
     ];
 
     /**
@@ -92,6 +95,10 @@ class User extends Entity
         return $this->_properties['first_name'] . '  ' .
             $this->_properties['last_name'];
     }
+    protected function _getUserType()
+    {
+        return $this->_properties['type'] ;
+    }
     protected function _getFullUrl()
     {
         return '/'.$this->_properties['photo_dir'] . '' . $this->_properties['photo'];
@@ -102,5 +109,6 @@ class User extends Entity
             ->notEmpty('contact', 'A contact is required')
             ->notEmpty('password', 'A password is required');
     }
+
 
 }

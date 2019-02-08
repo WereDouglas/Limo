@@ -6,9 +6,22 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Brand -->
-        <a class="navbar-brand pt-0" href="../index.html">
+        <a class="navbar-brand pt-0" href="#">
             <img src="<?= $this->Url->image('logo.png') ?>" class="navbar-brand-img" alt="...">
+            <h1 class="logo">
+                <span class="word1">ERP</span>
+                <span class="word1">LIMO</span>
+            </h1>
         </a>
+        <?php if($this->session->read('company_image') != ''): ?>
+            <span class="avatar avatar-sm rounded-circle">
+                     <?php
+                     $image = $this->Url->build($this->session->read('company_image'));
+                     ?>
+                <img alt="<?= $image; ?>" src="<?= $image; ?>">
+
+                </span>
+            <?php endif; ?>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
             <li class="nav-item dropdown">
@@ -75,7 +88,7 @@
             </li>
         </ul>
         <!-- Collapse -->
-        <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+        <li class="collapse navbar-collapse" id="sidenav-collapse-main">
             <!-- Collapse header -->
             <div class="navbar-collapse-header d-md-none">
                 <div class="row">
@@ -114,33 +127,18 @@
                         ' <i class="ni ni-tv-2"></i>Dashboard',
                         array(
                             'controller' => 'users',
-                            'action' => 'index'
+                            'action' => 'dashboard'
                         ),
                         array(
-                            'class' => 'nav-link active green',
+                            'class' => 'nav-link word1 green ',
                             'escape' => false
                         )
                     );
                     ?>
                 </li>
+
                 <li class="nav-item">
-                    <?php
-                    echo $this->Html->link(
-                        ' <i class="ni ni-briefcase-24 text-blue"></i>Companies',
-                        array(
-                            'controller' => 'companies',
-                            'action' => 'index'
-                        ),
-                        array(
-                            'class' => 'nav-link ',
-                            'escape' => false
-                        )
-                    );
-                    ?>
-                </li>
-                <li class="nav-item">
-                    <h6 class="navbar-heading text-muted">Quick items</h6>
-                    <?= $this->element('newMenu') ?>
+
                     <hr class="my-3">
                     <!-- Divider -->
                     <h6 class="navbar-heading text-muted">View</h6>
@@ -152,7 +150,7 @@
                             'action' => 'index'
                         ),
                         array(
-                            'class' => 'nav-link active',
+                            'class' => 'nav-link ',
                             'escape' => false
                         )
                     );
@@ -167,7 +165,7 @@
                             'action' => 'index'
                         ),
                         array(
-                            'class' => 'nav-link active',
+                            'class' => 'nav-link ',
                             'escape' => false
                         )
                     );
@@ -182,7 +180,7 @@
                             'action' => 'index'
                         ),
                         array(
-                            'class' => 'nav-link active',
+                            'class' => 'nav-link ',
                             'escape' => false
                         )
                     );
@@ -197,7 +195,7 @@
                             'action' => 'index'
                         ),
                         array(
-                            'class' => 'nav-link active',
+                            'class' => 'nav-link',
                             'escape' => false
                         )
                     );
@@ -212,27 +210,27 @@
                             'action' => 'index'
                         ),
                         array(
-                            'class' => 'nav-link active',
+                            'class' => 'nav-link ',
                             'escape' => false
                         )
                     );
                     ?>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <?php
-                    echo $this->Html->link(
-                        ' <i class="ni ni-lock-circle-open text-red"></i>Permissions',
-                        array(
-                            'controller' => 'permissions',
-                            'action' => 'index'
-                        ),
-                        array(
-                            'class' => 'nav-link active',
-                            'escape' => false
-                        )
-                    );
-                    ?>
-                </li>
+                /*                    echo $this->Html->link(
+                                        ' <i class="ni ni-lock-circle-open text-red"></i>Permissions',
+                                        array(
+                                            'controller' => 'permissions',
+                                            'action' => 'index'
+                                        ),
+                                        array(
+                                            'class' => 'nav-link ',
+                                            'escape' => false
+                                        )
+                                    );
+                                    */ ?>
+                </li>-->
 
                 <li class="nav-item">
                     <!-- Divider -->
@@ -241,17 +239,144 @@
                     <!-- Navigation -->
                     <ul class="navbar-nav mb-md-3">
                         <li class="nav-item">
-                            <a class="nav-link"  href="#"><i class="ni ni-spaceship"></i> Getting started </a>
+                            <a class="nav-link" href="#"><i class="ni ni-spaceship"></i> Getting started </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#"><i class="ni ni-palette"></i> Foundation </a>
                         </li>
+
                     </ul>
 
+                </li>
+
+                <li class="nav-item">
+                    <button class="btn btn-icon btn-3 btn-default btn-sm" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                        <span class="btn-inner--text">Add</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                        <ul class="side-nav" style="list-style: none">
+                            <li class="nav-item">
+                                <?php
+                                echo $this->Html->link(
+                                    ' <i class="ni ni-pin-3 text-orange"></i>  Trips ',
+                                    array(
+                                        'controller' => 'trips',
+                                        'action' => 'add'
+                                    ),
+                                    array(
+                                        'class' => 'nav-link ',
+                                        'escape' => false
+                                    )
+                                );
+                                ?>
+                            </li>
+                            <li class="nav-item">
+                                <?php
+                                echo $this->Html->link(
+                                    ' <i class="ni ni-circle-08 "></i>  Users ',
+                                    array(
+                                        'controller' => 'users',
+                                        'action' => 'add'
+                                    ),
+                                    array(
+                                        'class' => 'nav-link ',
+                                        'escape' => false
+                                    )
+                                );
+                                ?>
+                            </li>
+                            <li class="nav-item">
+                                <?php
+                                echo $this->Html->link(
+                                    ' <i class="ni ni-delivery-fast text-indigo"></i>  Cars',
+                                    array(
+                                        'controller' => 'cars',
+                                        'action' => 'add'
+                                    ),
+                                    array(
+                                        'class' => 'nav-link ',
+                                        'escape' => false
+                                    )
+                                );
+                                ?>
+                            </li>
+                            <li class="nav-item">
+                                <?php
+                                echo $this->Html->link(
+                                    ' <i class="ni ni-single-02 text-green"></i>  Drivers',
+                                    array(
+                                        'controller' => 'drivers',
+                                        'action' => 'add'
+                                    ),
+                                    array(
+                                        'class' => 'nav-link ',
+                                        'escape' => false
+                                    )
+                                );
+                                ?>
+
+                            </li>
+                            <li class="nav-item">
+                                <?php
+                                echo $this->Html->link(
+                                    ' <i class="ni ni-badge text-gray"></i>  Roles',
+                                    array(
+                                        'controller' => 'roles',
+                                        'action' => 'add'
+                                    ),
+                                    array(
+                                        'class' => 'nav-link ',
+                                        'escape' => false
+                                    )
+                                );
+                                ?>
+
+                            </li>
+                            <li class="nav-item">
+                                <?php
+                                echo $this->Html->link(
+                                    ' <i class="ni ni-lock-circle-open text-red"></i>  Permissions',
+                                    array(
+                                        'controller' => 'permissions',
+                                        'action' => 'add'
+                                    ),
+                                    array(
+                                        'class' => 'nav-link ',
+                                        'escape' => false
+                                    )
+                                );
+                                ?>
+                            </li>
+                            <li class="nav-item">
+                                <?php
+                                echo $this->Html->link(
+                                    ' <i class="ni ni-briefcase-24 text-red"></i>  Company',
+                                    array(
+                                        'controller' => 'companies',
+                                        'action' => 'add'
+                                    ),
+                                    array(
+                                        'class' => 'nav-link ',
+                                        'escape' => false
+                                    )
+                                );
+                                ?>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                    <button class="btn btn-icon btn-3 btn-default btn-sm" type="button" data-toggle="modal"
+                            data-target="#roleModal">
+                        <span class="btn-inner--icon"><i class="ni ni-user-run"></i></span>
+                        <span class="btn-inner--text">Roles</span>
+                    </button>
                 </li>
             </ul>
 
 
-        </div>
+    </div>
     </div>
 </nav>

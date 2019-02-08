@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
  * Companies Controller
@@ -50,6 +52,38 @@ class CompaniesController extends AppController
     {
         $company = $this->Companies->newEntity();
         if ($this->request->is('post')) {
+            $data = $this->request->getData();
+            $new_user = $data['users'];
+
+            $company = $this->Companies->patchEntity($company, $this->request->getData());
+            $company->active = 'yes';
+            if ($this->Companies->save($company)) {
+
+                $users = TableRegistry::getTableLocator()->get('Users');
+                $user = $users->newEntity($new_user);
+                $user->company_id = $company->id;
+                $user->type = 'Administrator';
+                $user->activated = 'yes';
+                if ($users->save($user)) {
+                    $this->Flash->success(__('User has been saved.'));
+                }
+                $this->Flash->success(__('The company has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The company could not be saved. Please, try again.'));
+        }
+        $this->loadModel('Roles');
+        $roles = $this->Roles->find('list', ['limit' => 200]);
+        $active = $this->active;
+        $this->set(compact('company', 'roles','active'));
+    }
+
+
+    public function add_backup()
+    {
+        $company = $this->Companies->newEntity();
+        if ($this->request->is('post')) {
             $company = $this->Companies->patchEntity($company, $this->request->getData());
             if ($this->Companies->save($company)) {
                 $this->Flash->success(__('The company has been saved.'));
@@ -58,7 +92,9 @@ class CompaniesController extends AppController
             }
             $this->Flash->error(__('The company could not be saved. Please, try again.'));
         }
-        $this->set(compact('company'));
+        $this->loadModel('Roles');
+        $roles = $this->Roles->find('list', ['limit' => 200]);
+        $this->set(compact('company', 'roles'));
     }
 
     /**
@@ -82,7 +118,9 @@ class CompaniesController extends AppController
             }
             $this->Flash->error(__('The company could not be saved. Please, try again.'));
         }
-        $this->set(compact('company'));
+        $active = $this->active;
+        $this->set(compact('company', 'active'));
+
     }
 
     /**
@@ -103,5 +141,20 @@ class CompaniesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function isAuthorized($user)
+    {
+        $id = $user['id'];
+
+        if ($user['type'] == 'Management') {
+            return true;
+        }
+        $session = $this->getRequest()->getSession();
+        if ( $session->read('session_type')=='advanced'){
+            return true;
+        }
+
+        return false;
     }
 }

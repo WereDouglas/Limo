@@ -6,6 +6,11 @@
 $this->extend('/Common/subPage');
 $this->assign('title', 'Companies');
 ?>
+<?php $this->start('counter'); ?>
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <?php echo $cell = $this->cell('Trip',['company_id'=>$cid]); ?>
+</div>
+<?php $this->end(); ?>
 <?php $this->start('links'); ?>
 <li><?= $this->Html->link(__('New Company'), ['action' => 'add']) ?></li>
 <li><?= $this->Html->link(__('List Trips'), ['controller' => 'Trips', 'action' => 'index']) ?></li>
@@ -19,7 +24,7 @@ $this->assign('title', 'Companies');
     <th scope="col"></th>
     <th scope="col"><?= $this->Paginator->sort('id') ?></th>
     <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-    <th scope="col"><?= $this->Paginator->sort('photo') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('Active') ?></th>
     <th scope="col"><?= $this->Paginator->sort('address') ?></th>
     <th scope="col"><?= $this->Paginator->sort('contact') ?></th>
     <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -45,7 +50,7 @@ $this->assign('title', 'Companies');
         </td>
         <td><?= $this->Number->format($company->id) ?></td>
         <td><?= h($company->name) ?></td>
-        <td><?= h($company->photo) ?></td>
+        <td><?= h($company->activated) ?></td>
         <td><?= h($company->address) ?></td>
         <td><?= h($company->contact) ?></td>
         <td class="actions">
@@ -62,11 +67,11 @@ $this->assign('title', 'Companies');
 <?php $this->start('pagination'); ?>
 <div class="paginator">
     <ul class="pagination">
-        <?= $this->Paginator->first('<< ' . __('first')) ?>
-        <?= $this->Paginator->prev('< ' . __('previous')) ?>
+        <?= $this->Paginator->first('<< ') ?>
+        <?= $this->Paginator->prev('< ') ?>
         <?= $this->Paginator->numbers() ?>
-        <?= $this->Paginator->next(__('next') . ' >') ?>
-        <?= $this->Paginator->last(__('last') . ' >>') ?>
+        <?= $this->Paginator->next( ' >') ?>
+        <?= $this->Paginator->last( ' >>') ?>
     </ul>
     <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
 </div>

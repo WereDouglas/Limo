@@ -6165,19 +6165,16 @@ input[type='button'].btn-block
 
 .badge
 {
-    font-size: 66%;
-    font-weight: 600;
-    line-height: 1;
-
+    font-size: 106%;
+    font-weight: 100;
     display: inline-block;
-
     padding: .35rem .375rem;
-
     text-align: center;
     vertical-align: baseline;
     white-space: nowrap;
-
+    margin: 20px 0px 20px 0px;
     border-radius: .375rem;
+    width:100%;
 }
 .badge:empty
 {
@@ -6194,8 +6191,6 @@ input[type='button'].btn-block
 {
     padding-right: .875em;
     padding-left: .875em;
-
-    border-radius: 10rem;
 }
 
 .badge-primary
@@ -16115,13 +16110,12 @@ button.section-darker:focus
     left: 10rem;
 }
 
-.center
-{
-    left: 50%;
 
-    transform: translateX(-50%);
+.center {
+    left: 36%;
+    transform: translateX(0%);
+    transform: translateY(-255%);
 }
-
 .h-100vh
 {
     height: 100vh !important;
@@ -16796,8 +16790,8 @@ a.text-lighter:focus
 {
     display: inline-block;
 
-    width: .375rem;
-    height: .375rem;
+    width: 1.375rem;
+    height: 1.375rem;
     margin-right: .375rem; 
 
     vertical-align: middle;
@@ -19155,9 +19149,6 @@ textarea[resize='horizontal']
     .navbar-vertical .navbar-collapse:before
     {
         display: block;
-
-        margin: 1rem -1rem; 
-
         content: '';
     }
 }
@@ -19510,7 +19501,7 @@ textarea[resize='horizontal']
         width: 100%;
         max-width: 250px;
         padding-right: 1.5rem;
-        padding-left: 1.5rem;
+
     }
     .navbar-vertical.navbar-expand-md > [class*='container']
     {
@@ -19568,7 +19559,7 @@ textarea[resize='horizontal']
     }
     .navbar-vertical.navbar-expand-md .navbar-nav .nav-link
     {
-        padding: .65rem 1.5rem;
+        padding: .65rem 0.5rem;
     }
     .navbar-vertical.navbar-expand-md .navbar-nav .nav-link.active:before
     {
@@ -19592,8 +19583,7 @@ textarea[resize='horizontal']
     {
         display: block;
 
-        padding-top: 1rem;
-        padding-bottom: 1rem; 
+
 
         text-align: center;
     }
@@ -21866,4 +21856,21 @@ html:not([dir='rtl']) .noUi-horizontal .noUi-handle
 }
 .nav-item {
    padding-left: 10px;
+}
+.word1{
+
+    text-shadow: #2c2c2c 3px 3px 5px;
+}
+.word2{
+
+    font-size: 35px;
+    line-height: 20px;
+    font-family: 'JungleFeverRegular', Helvetica, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: rgba(0, 0, 0, .2) 3px 3px 3px;
+
+    /*text stroke*/
+    -webkit-text-stroke: 2px #2c2c2c;
+
 }

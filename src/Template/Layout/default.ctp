@@ -43,7 +43,7 @@ $cakeDescription = 'erplimo';
     <!-- content -->
 
     <?= $this->fetch('content') ?>
-    <div class="col-lg-2 center ">
+    <div class="col-lg-4 center ">
         <?= $this->Flash->render() ?>
     </div>
 
@@ -51,10 +51,12 @@ $cakeDescription = 'erplimo';
     <?= $this->element('footer') ?>
 
 
-<footer>
-</footer>
+    <footer>
+    </footer>
 
-<?= $this->Html->script(['jquery.min', 'bootstrap.bundle.min', 'argon']); ?>
+    <?= $this->Html->script(['jquery.min', 'bootstrap.bundle.min', 'argon']); ?>
+
 
 </body>
 </html>
+

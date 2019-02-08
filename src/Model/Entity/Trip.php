@@ -14,7 +14,7 @@ use Cake\ORM\Entity;
  * @property string|null $appointment_time
  * @property string|null $pick_up_address
  * @property string|null $pick_up_city
- * @property string|null $drop_off_address
+ * @property string $drop_off_address
  * @property string|null $drop_off_city
  * @property string|null $comments
  * @property \Cake\I18n\FrozenTime|null $created
@@ -26,6 +26,15 @@ use Cake\ORM\Entity;
  * @property float|null $start_long
  * @property float|null $drop_lat
  * @property float|null $drop_long
+ * @property string|null $miles
+ * @property string|null $vehicle_type
+ * @property int|null $escort
+ * @property string|null $trip_num
+ * @property string|null $shared_group
+ * @property string|null $outbound
+ * @property string|null $one_way
+ * @property string|null $priority
+ * @property string $re_route
  *
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Company $company
@@ -50,7 +59,6 @@ class Trip extends Entity
         'appointment_time' => true,
         'pick_up_address' => true,
         'pick_up_city' => true,
-        'drop_off_address' => true,
         'drop_off_city' => true,
         'comments' => true,
         'created' => true,
@@ -61,6 +69,15 @@ class Trip extends Entity
         'start_long' => true,
         'drop_lat' => true,
         'drop_long' => true,
+        'miles' => true,
+        'vehicle_type' => true,
+        'escort' => true,
+        'trip_num' => true,
+        'shared_group' => true,
+        'outbound' => true,
+        'one_way' => true,
+        'priority' => true,
+        're_route' => true,
         'user' => true,
         'company' => true
     ];

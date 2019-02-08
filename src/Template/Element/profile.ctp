@@ -6,14 +6,17 @@
                 <span class="avatar avatar-sm rounded-circle">
                      <?php
                      $image = $this->Url->image('user.png');
+                     if ($this->session->read('image') == '') {
+                         $image = $this->Url->image('user.png');
+                     }
                      if ($this->session->read('image') != "") {
-                         $image =  $this->Url->build( $this->session->read('image'));
+                         $image = $this->Url->build($this->session->read('image'));
                      }
                      ?>
-                  <img alt="Image placeholder" src="<?= $image; ?>">
+                    <img alt="<?= $image; ?>" src="<?= $image; ?>">
                 </span>
                 <div class="media-body ml-2 d-none d-lg-block">
-                    <span class="mb-0 text-sm  font-weight-bold"><?= $this->session->read('name'); ?></span>
+                    <span class="mb-0 text-sm  font-weight-bold word1"><?= $this->session->read('name'); ?></span>
                 </div>
             </div>
         </a>
@@ -28,7 +31,7 @@
                 array(
                     'controller' => 'users',
                     'action' => 'view',
-                 $this->session->read('id')
+                    $this->session->read('id')
                 ),
                 array(
                     'class' => 'dropdown-item',
@@ -51,6 +54,7 @@
                 )
             );
             ?>
+
         </div>
     </li>
 </ul>

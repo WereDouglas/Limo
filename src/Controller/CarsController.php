@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Http\Exception\UnauthorizedException;
 use Cake\ORM\TableRegistry;
 
 /**
@@ -22,12 +23,13 @@ class CarsController extends AppController
      */
     public function index()
     {
+        $cid = $this->Auth->user('company_id');
         $this->paginate = [
-            'contain' => ['Users']
+            'contain' => ['Users'],
+            'conditions' => ['Users.company_id' => $cid],
         ];
         $cars = $this->paginate($this->Cars);
-
-        $this->set(compact('cars'));
+        $this->set(compact('cars','cid'));
     }
 
     /**
@@ -42,7 +44,6 @@ class CarsController extends AppController
         $car = $this->Cars->get($id, [
             'contain' => ['Users']
         ]);
-
         $this->set('car', $car);
     }
 
@@ -103,6 +104,9 @@ class CarsController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $car = $this->Cars->get($id);
+
+
+
         if ($this->Cars->delete($car)) {
             $this->Flash->success(__('The car has been deleted.'));
         } else {
@@ -118,9 +122,13 @@ class CarsController extends AppController
         $action = $this->request->getParam('action');
         $id = $user['id'];
         $permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $id]);
-
-       /* print_r($permissions);
-        exit;*/
+        $session = $this->getRequest()->getSession();
+        if ( $session->read('session_type')=='advanced'){
+            return true;
+        }
+        if ($user['type'] == 'Management') {
+            return true;
+        }
         if (in_array('add_cars', $permissions) && $action === 'add') {
             return true;
         }

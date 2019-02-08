@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
  * Drivers Controller
@@ -12,7 +14,6 @@ use App\Controller\AppController;
  */
 class DriversController extends AppController
 {
-
     /**
      * Index method
      *
@@ -20,12 +21,13 @@ class DriversController extends AppController
      */
     public function index()
     {
+        $cid = $this->Auth->user('company_id');
         $this->paginate = [
-            'contain' => ['Users']
+            'contain' => ['Users'],
+            'conditions' => ['Users.company_id' => $cid],
         ];
         $drivers = $this->paginate($this->Drivers);
-
-        $this->set(compact('drivers'));
+        $this->set(compact('drivers','cid'));
     }
 
     /**
@@ -51,6 +53,53 @@ class DriversController extends AppController
      */
     public function add()
     {
+        $cid = $this->Auth->user('company_id');
+        $driver = $this->Drivers->newEntity();
+        if ($this->request->is('post')) {
+
+
+            $data = $this->request->getData();
+            $driving = $data['drivers'];
+            $expire = $data['expires'];
+
+
+            $users = TableRegistry::getTableLocator()->get('Users');
+            $user = $users->newEntity($data);
+            $user->company_id = $this->Auth->user('company_id');
+            if ($users->save($user)) {
+
+                $drivers = TableRegistry::getTableLocator()->get('Drivers');
+                $driver = $drivers->newEntity($driving);
+                $driver->user_id = $user->id;
+                $driver->expires = date('Y-m-d', strtotime($expire));
+
+                if ($drivers->save($driver)) {
+                    $this->Flash->success(__('The driver has been saved.'));
+                }
+                $this->Flash->success(__('User Information saved.'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The driver could not be saved. Please, try again.'));
+
+
+        }
+        $this->loadModel('Companies');
+        $this->loadModel('Roles');
+        $companies = $this->Companies->find('list', ['limit' => 200]);
+        $roles = $this->Roles->find('list', ['limit' => 200])->where(['company_id' => $cid]);
+        $users = $this->Drivers->Users->find('list', ['limit' => 200])->where(['company_id' => $cid]);
+        $active = $this->active;
+        $types = $this->types;
+        if ($this->Auth->user('type') == 'Management') {
+            $types['Management'] = 'Management';
+        }
+
+        $this->set(compact('driver', 'users', 'roles', 'companies', 'active', 'types'));
+    }
+
+
+    public function add_back()
+    {
         $driver = $this->Drivers->newEntity();
         if ($this->request->is('post')) {
             $driver = $this->Drivers->patchEntity($driver, $this->request->getData());
@@ -61,8 +110,12 @@ class DriversController extends AppController
             }
             $this->Flash->error(__('The driver could not be saved. Please, try again.'));
         }
+        $this->loadModel('Companies');
+        $this->loadModel('Roles');
+        $companies = $this->Companies->find('list', ['limit' => 200]);
+        $roles = $this->Roles->find('list', ['limit' => 200]);
         $users = $this->Drivers->Users->find('list', ['limit' => 200]);
-        $this->set(compact('driver', 'users'));
+        $this->set(compact('driver', 'users', 'roles', 'companies'));
     }
 
     /**
@@ -87,7 +140,10 @@ class DriversController extends AppController
             $this->Flash->error(__('The driver could not be saved. Please, try again.'));
         }
         $users = $this->Drivers->Users->find('list', ['limit' => 200]);
+
+
         $this->set(compact('driver', 'users'));
+
     }
 
     /**
@@ -109,4 +165,42 @@ class DriversController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function isAuthorized($user)
+    {
+        $action = $this->request->getParam('action');
+        $id = $user['id'];
+        $permissions = TableRegistry::getTableLocator()->get('Users')->find('permissions', ['id' => $id]);
+        if ($user['type'] == 'Management') {
+            return true;
+        }
+        $session = $this->getRequest()->getSession();
+        if ( $session->read('session_type')=='advanced'){
+            return true;
+        }
+        if (in_array('add_drivers', $permissions) && $action === 'add') {
+            return true;
+        }
+        if (in_array('view_drivers', $permissions) && $action === 'view') {
+            return true;
+        }
+        if (in_array('delete_drivers', $permissions) && $action === 'delete') {
+            return true;
+        }
+        if (in_array('edit_drivers', $permissions) && $action === 'edit') {
+            return true;
+        }
+        if (in_array('list_drivers', $permissions) && $action === 'index') {
+            return true;
+        }
+        if (in_array('update_drivers', $permissions) && $action === 'update') {
+            return true;
+        }
+        {
+
+            return false;
+        }
+
+    }
+
 }

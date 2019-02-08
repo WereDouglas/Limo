@@ -8,7 +8,7 @@ $this->assign('title', 'Drivers');
 ?>
 <?php $this->start('counter'); ?>
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-    <?php echo $cell = $this->cell('Trip'); ?>
+    <?php echo $cell = $this->cell('Trip',['company_id'=>$cid]); ?>
 </div>
 
 <?php $this->end(); ?>
@@ -59,11 +59,11 @@ $this->assign('title', 'Drivers');
 <?php $this->start('pagination'); ?>
 <div class="paginator">
     <ul class="pagination">
-        <?= $this->Paginator->first('<< ' . __('first')) ?>
-        <?= $this->Paginator->prev('< ' . __('previous')) ?>
+        <?= $this->Paginator->first('<<') ?>
+        <?= $this->Paginator->prev('< ') ?>
         <?= $this->Paginator->numbers() ?>
-        <?= $this->Paginator->next(__('next') . ' >') ?>
-        <?= $this->Paginator->last(__('last') . ' >>') ?>
+        <?= $this->Paginator->next( ' >') ?>
+        <?= $this->Paginator->last(' >>') ?>
     </ul>
     <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
 </div>

@@ -15,23 +15,7 @@
 <?php $this->end(); ?>
 <?php $this->start('form'); ?>
 
-<?= $this->Form->create($trip,
-    ['type' => 'file', 'controller' => 'trips', 'action' => 'import']) ?>
-<legend><?= __('Import trips') ?></legend>
 
-<?php echo $this->Form->control('start_address', ['class' => 'form-control']); ?>
-<br>
-<?php echo $this->Form->control('date',
-    ['label' => 'Date', 'empty' => true, 'class' => 'form-control']); ?>
-<?php echo $this->Form->control('trip', ['type' => 'file', 'class' => 'form-control']); ?>
-
-<div>
-    <?php echo $this->Form->submit('Import',
-        ['div' => false, 'name' => 'importexcel', 'class' => 'btn btn-primary mt-4']);
-    ?>
-</div>
-
-<?= $this->Form->end() ?>
 <?= $this->Form->create($trip) ?>
 <fieldset>
     <legend><?= __('Add Trip') ?></legend>
@@ -61,8 +45,16 @@
     echo $this->Form->control('start_long', ['class' => 'form-control']);
     echo $this->Form->control('drop_lat', ['class' => 'form-control']);
     echo $this->Form->control('drop_long', ['class' => 'form-control']);
+    echo $this->Form->control('miles', ['class' => 'form-control']);
+    echo $this->Form->control('vehicle_type', ['class' => 'form-control']);
+    echo $this->Form->control('escort', ['class' => 'form-control']);
+    echo $this->Form->control('trip_num', ['class' => 'form-control']);
+    echo $this->Form->control('shared_group', ['class' => 'form-control']);
+    echo $this->Form->control('outbound', ['class' => 'form-control']);
+    echo $this->Form->control('priority', ['class' => 'form-control']);
     ?>
 </fieldset>
 <?php  echo $this->Form->submit('Submit'); ?>
 <?= $this->Form->end() ?>
 <?php $this->end(); ?>
+

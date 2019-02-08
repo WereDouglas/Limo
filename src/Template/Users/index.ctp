@@ -3,15 +3,14 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\User[]|\Cake\Collection\CollectionInterface $users
  */
-?>
-<?php
 $this->extend('/Common/subPage');
 $this->assign('title', 'Users');
 ?>
+
 <!-- Header -->
 <?php $this->start('counter'); ?>
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-    <?php echo $cell = $this->cell('Trip'); ?>
+    <?php echo $cell = $this->cell('Trip',['company_id'=>$cid]); ?>
 </div>
 <?php $this->end(); ?>
 <!-- Page content -->
@@ -33,14 +32,13 @@ $this->assign('title', 'Users');
 <tr>
     <th scope="col">#</th>
     <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+    <th scope="col"><?= $this->Paginator->sort('activated') ?></th>
     <th scope="col"><?= $this->Paginator->sort('first_name') ?></th>
     <th scope="col"><?= $this->Paginator->sort('last_name') ?></th>
     <th scope="col"><?= $this->Paginator->sort('contact') ?></th>
     <th scope="col"><?= $this->Paginator->sort('email') ?></th>
-
     <th scope="col"><?= $this->Paginator->sort('type') ?></th>
     <th scope="col"><?= $this->Paginator->sort('company_id') ?></th>
-
     <th scope="col" class="actions"><?= __('Actions') ?></th>
 
 </tr>
@@ -51,7 +49,8 @@ $this->assign('title', 'Users');
         <td>
             <?php
             $image = $this->Url->image('user.png');
-            if (h($user->photo != "")) {
+
+            if (h($user->photo != "" )) {
                 $image = $this->Url->build($user->full_url);
             }
             ?>
@@ -62,6 +61,7 @@ $this->assign('title', 'Users');
             </div>
         </td>
         <td><?= $this->Number->format($user->id) ?></td>
+        <td><?= h($user->activated) ?></td>
         <td><?= h($user->first_name) ?></td>
         <td><?= h($user->last_name) ?></td>
         <td><?= h($user->contact) ?></td>
@@ -70,13 +70,15 @@ $this->assign('title', 'Users');
         <td><?= h($user->type) ?></td>
         <td><?= $user->has('company') ? $this->Html->link($user->company->name,
                 ['controller' => 'Companies', 'action' => 'view', $user->company->id]) : '' ?></td>
-
         <td class="actions" >
+
             <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
-            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>
+            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id],['class' => 'fat-remove word1']) ?>
             <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id],
                 ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
+
         </td>
+
 
     </tr>
 <?php endforeach; ?>
@@ -84,11 +86,11 @@ $this->assign('title', 'Users');
 <?php $this->start('pagination'); ?>
 <div class="paginator">
     <ul class="pagination">
-        <?= $this->Paginator->first('<< ' . __('first')) ?>
-        <?= $this->Paginator->prev('< ' . __('previous')) ?>
+        <?= $this->Paginator->first('<<' ) ?>
+        <?= $this->Paginator->prev('<' ) ?>
         <?= $this->Paginator->numbers() ?>
-        <?= $this->Paginator->next(__('next') . ' >') ?>
-        <?= $this->Paginator->last(__('last') . ' >>') ?>
+        <?= $this->Paginator->next( '>') ?>
+        <?= $this->Paginator->last('>>') ?>
     </ul>
     <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
 </div>

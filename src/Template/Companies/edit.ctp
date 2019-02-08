@@ -29,6 +29,8 @@
     echo $this->Form->control('address');
     echo $this->Form->control('contact');
     echo $this->Form->control('photo', ['type' => 'file','class' => 'form-control']);
+    echo $this->Form->control('activated',
+        ['options' => $active, 'empty' => 'yes', 'class' => 'form-control']);
     ?>
 </fieldset>
 <?php  echo $this->Form->submit('Submit'); ?>

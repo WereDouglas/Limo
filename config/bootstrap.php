@@ -87,6 +87,7 @@ try {
  * When debug = true the metadata cache should only last
  * for a short time.
  */
+
 if (Configure::read('debug')) {
     Configure::write('Cache._cake_model_.duration', '+2 minutes');
     Configure::write('Cache._cake_core_.duration', '+2 minutes');
