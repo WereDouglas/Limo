@@ -76,7 +76,6 @@
                                     <?php if ($this->fetch('links')) { ?>
                                         <?= $this->fetch('links') ?>
                                     <?php } ?>
-
                                 </ul>
                             </div>
                         </div>
@@ -99,9 +98,7 @@
                             <?php endif; ?>
                             <table class="table align-items-center table-flush">
                                 <thead class="thead-light">
-
                                 <?= $this->fetch('th') ?>
-
                                 </thead>
                                 <tbody>
                                 <?= $this->fetch('tr') ?>

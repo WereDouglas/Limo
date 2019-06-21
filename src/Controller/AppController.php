@@ -33,6 +33,7 @@ use Cake\ORM\TableRegistry;
  *
  * @property  array $types
  * @property  array $active
+ * @property  array $cid
  */
 class AppController extends Controller
 {
@@ -99,5 +100,6 @@ class AppController extends Controller
     {
        // $this->Auth->allow(['index']);
         $this->set('loggedIn', $this->Auth->user());
+        $this->cid = $this->Auth->user('company_id');
     }
 }

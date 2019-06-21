@@ -65,7 +65,6 @@ $this->assign('title', 'Users');
         <td><?= h($user->last_name) ?></td>
         <td><?= h($user->contact) ?></td>
         <td><?= h($user->email) ?></td>
-
         <td><?= h($user->type) ?></td>
         <td><?= $user->has('company') ? $this->Html->link($user->company->name,
                 ['controller' => 'Companies', 'action' => 'view', $user->company->id]) : '' ?></td>

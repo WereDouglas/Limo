@@ -43,6 +43,21 @@
             <div class="dropdown-divider"></div>
             <?php
             echo $this->Html->link(
+                ' <i class="ni ni-tv-2"></i>Company profile',
+                array(
+                    'controller' => 'companies',
+                    'action' => 'edit'
+                ),
+                array(
+                    'class' => 'dropdown-item',
+                    'escape' => false
+                )
+            );
+            ?>
+
+            <div class="dropdown-divider"></div>
+            <?php
+            echo $this->Html->link(
                 ' <i class="ni ni-user-run"></i>Sign out',
                 array(
                     'controller' => 'users',

@@ -37,9 +37,13 @@ $this->assign('header', 'Or sign in with credentials');
         <label class="custom-control-label" for=" customCheckLogin">
             <span class="text-muted">Remember me</span>
         </label>
+
     </div>
     <div class="text-center">
         <button type="submit" class="btn btn-primary my-4">Sign in</button>
+        <div class="copyright text-center text-xl-center text-muted">
+            <i class="fas fa-mobile" aria-hidden="true"></i><?php  echo $this->Html->link('Mobile', '/apk/limo.apk',array('download'=>'limo.apk'));?>
+        </div>
     </div>
 <?= $this->Form->end() ?>
 <?php $this->end(); ?>

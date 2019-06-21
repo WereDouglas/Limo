@@ -6,7 +6,7 @@ use App\Controller\AppController;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use PhpParser\Node\Expr\Array_;
-
+use Cake\Event\Event;
 
 class ManagementController extends AppController
 {
@@ -24,6 +24,7 @@ class ManagementController extends AppController
     {
         $this->viewBuilder()->setLayout('management');
         $this->loadModel('Companies');
+
         $companies = $this->Companies->find();
         $companies = $this->paginate($companies);
         $this->set(compact('companies'));
@@ -32,18 +33,21 @@ class ManagementController extends AppController
 
     public function index()
     {
-        $this->viewBuilder()->setLayout('management');
-        $users = TableRegistry::getTableLocator()->get('Users')->find('all');
-        $users = $this->paginate($users);
 
+        $this->loadModel('Users');
+        $this->loadModel('Companies');
+        $users = $this->Users->find()->contain([
+            'Companies'
+        ]);
+        $users = $this->paginate($users);
         $this->set(compact('users'));
 
     }
 
     public function users()
     {
-        $this->viewBuilder()->setLayout('management');
         $this->loadModel('Users');
+        $this->loadModel('Companies');
         $users = $this->Users->find()->contain([
             'Companies'
         ]);
@@ -89,6 +93,7 @@ class ManagementController extends AppController
 
         $this->set(compact('trips', 'day'));
     }
+
     public function editUsers($id = null)
     {
         $this->viewBuilder()->setLayout('management');
@@ -114,7 +119,7 @@ class ManagementController extends AppController
 
         $active = $this->active;
         $companies = $this->Users->Companies->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'roles', 'types', 'active','companies'));
+        $this->set(compact('user', 'roles', 'types', 'active', 'companies'));
     }
 
     public function permissions()
@@ -150,6 +155,31 @@ class ManagementController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+    public function addRoles()
+    {
+        $this->loadModel('Roles');
+        $role = $this->Roles->newEntity();
+        /*echo '<pre>';
+        var_dump($this->request->getData());
+
+        exit;*/
+
+        if ($this->request->is('post')) {
+            $role = $this->Roles->patchEntity($role, $this->request->getData());
+            $role->company_id = $this->cid;
+            if ($this->Roles->save($role)) {
+                $this->Flash->success(__('The role has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The role could not be saved. Please, try again.'));
+        }
+        $users = $this->Roles->Users->find('list', ['limit' => 200]);
+        $permissions = $this->Roles->Permissions->find('list', ['limit' => 200]);
+        $companies = $this->Roles->Companies->find('list', ['limit' => 200]);
+        $this->set(compact('role', 'users', 'permissions', 'companies'));
+    }
+
     public function viewRoles($id = null)
     {
         $this->viewBuilder()->setLayout('management');
@@ -160,6 +190,7 @@ class ManagementController extends AppController
 
         $this->set('role', $role);
     }
+
     public function viewUsers($id = null)
     {
         $this->viewBuilder()->setLayout('management');
@@ -170,6 +201,7 @@ class ManagementController extends AppController
 
         $this->set('user', $user);
     }
+
     public function deleteUsers($id = null)
     {
         $this->viewBuilder()->setLayout('management');
@@ -230,7 +262,7 @@ class ManagementController extends AppController
     public function drivers()
     {
 
-        $this->viewBuilder()->setLayout('management');
+
         $this->loadModel('Drivers');
         $drivers = $this->Drivers->find()->contain([
             'Users'
@@ -353,7 +385,10 @@ class ManagementController extends AppController
         if ($user) {
             $this->Auth->setUser($user);
             $current_user = $this->Auth->user('first_name') . ' ' . $this->Auth->user('last_name');
-            $user_image = '/' . $this->Auth->user('photo_dir') . '' . $this->Auth->user('photo');
+            $user_image = '';
+            if ($this->Auth->user('photo') != '') {
+                $user_image = '/' . $this->Auth->user('photo_dir') . '' . $this->Auth->user('photo');
+            }
             $user_id = $this->Auth->user('id');
             $user_type = $this->Auth->user('type');
             $user_contact = $this->Auth->user('contact');
@@ -361,13 +396,19 @@ class ManagementController extends AppController
 
             $companies = TableRegistry::get('Companies');
             $company = $companies->get($company_id);
+
+            $company_image = '' ;
+            if ($company['photo']!='') {
+                $company_image = '/' . $company['photo_dir'] . '' .$company['photo'];
+            }
+
             $permissions = TableRegistry::getTableLocator()->get('Users')->find('roles', ['id' => $user_id]);
             $session->write([
                 'name' => $current_user,
                 'image' => $user_image,
                 'contact' => $user_contact,
                 'id' => $user_id,
-                'company_image' => '/' . $company['photo_dir'] . ' ' . $company['photo'],
+                'company_image' => $company_image,
                 'company_name' => $company['name'],
                 'company_id' => $company_id,
                 'permissions' => $permissions,
@@ -376,7 +417,7 @@ class ManagementController extends AppController
                 'session_type' => 'advanced'
             ]);
             $this->Flash->success(__('Logged in successfully.'));
-            return $this->redirect(['controller' => 'Users', 'action' => 'index']);
+            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard']);
         } else {
             $this->Flash->error(__('Could not log you in !'));
         }
@@ -432,6 +473,11 @@ class ManagementController extends AppController
         }
 
         return false;
+    }
+
+    public function beforeRender(Event $event)
+    {
+        $this->viewBuilder()->setLayout('management');
     }
 
 

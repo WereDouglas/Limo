@@ -106,6 +106,8 @@ class CompaniesController extends AppController
      */
     public function edit($id = null)
     {
+
+        $id = $this->cid;
         $company = $this->Companies->get($id, [
             'contain' => []
         ]);

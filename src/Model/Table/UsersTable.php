@@ -229,4 +229,12 @@ class UsersTable extends Table
 
     }
 
+    public function findActive(Query $query, array $options)
+    {
+
+        $query->find('all')
+            ->select(['id','first_name']);
+        return $query;
+    }
+
 }

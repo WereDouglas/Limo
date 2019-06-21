@@ -2,6 +2,7 @@
 namespace App\Test\TestCase\Controller;
 
 use App\Controller\UsersController;
+use Cake\ORM\TableRegistry;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
@@ -26,6 +27,24 @@ class UsersControllerTest extends TestCase
         'app.Roles',
         'app.RolesUsers'
     ];
+    public function setUp()
+    {
+        parent::setUp();
+        $this->Users = TableRegistry::getTableLocator()->get('Users');
+    }
+    public function testFindActive()
+    {
+        $query = $this->Users->find('active');
+        $this->assertInstanceOf('Cake\ORM\Query', $query);
+        $result = $query->enableHydration(false)->toArray();
+        $expected = [
+            ['id' => 1, 'first_name' => 'Douglas'],
+            ['id' => 2, 'first_name' => 'Shamim'],
+            ['id' => 3, 'first_name' => 'Dennis']
+        ];
+
+        $this->assertEquals($expected, $result);
+    }
 
     /**
      * Test index method

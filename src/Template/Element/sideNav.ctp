@@ -13,7 +13,7 @@
                 <span class="word1">LIMO</span>
             </h1>
         </a>
-        <?php if($this->session->read('company_image') != ''): ?>
+        <?php if ($this->session->read('company_image') != ''): ?>
             <span class="avatar avatar-sm rounded-circle">
                      <?php
                      $image = $this->Url->build($this->session->read('company_image'));
@@ -21,7 +21,7 @@
                 <img alt="<?= $image; ?>" src="<?= $image; ?>">
 
                 </span>
-            <?php endif; ?>
+        <?php endif; ?>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
             <li class="nav-item dropdown">

@@ -202,9 +202,10 @@ class UsersController extends AppController
 
                 $companies = TableRegistry::get('Companies');
                 $company = $companies->get($company_id);
-
-                $company_image = '/' . $company['photo_dir'] . '' .$company['photo'];
-
+                $company_image = '' ;
+                if ($company['photo']!='') {
+                    $company_image = '/' . $company['photo_dir'] . '' .$company['photo'];
+                }
                 $permissions = TableRegistry::getTableLocator()->get('Users')->find('roles', ['id' => $user_id]);
                 $session->write([
                     'name' => $current_user,
@@ -218,7 +219,6 @@ class UsersController extends AppController
                     'roles' => $roles,
                     'type' => $user_type
                 ]);
-
 
                 // $values = $this->request->getData();
                 if ($this->request->getData('rememberme') == 1) {
@@ -237,7 +237,7 @@ class UsersController extends AppController
                 if ($this->Auth->user('type') == 'Management') {
                     $this->Flash->success(__('Welcome'));
 
-                    return $this->redirect(array('controller' => 'Management', 'action' => 'index'));
+                    return $this->redirect(array('controller' => 'Management', 'action' => 'dashboard'));
                 } else {
                     $this->Flash->success(__('Welcome'));
 
