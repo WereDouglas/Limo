@@ -1,0 +1,81 @@
+<?php
+
+namespace App\View\Cell;
+
+use Cake\View\Cell;
+use PhpParser\Node\Expr\Array_;
+
+/**
+ * Monthly cell
+ * @property  array $months
+ */
+class MonthlyCell extends Cell
+{
+
+    /**
+     * List of valid options that can be passed into this
+     * cell's constructor.
+     *
+     * @var array
+     */
+    protected $_validCellOptions = [];
+
+    /**
+     * Initialization logic run at the end of object construction.
+     *
+     * @return void
+     */
+    public function initialize()
+    {
+    }
+
+    /**
+     * Default display method.
+     *
+     * @return void
+     */
+    public function display()
+    {
+      //  $this->loadComponent('Compute');
+        $months = Array();
+        $m = array(
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July ',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December',
+        );
+        foreach ($m as $key => $value) {
+
+            array_push($months, $this->counts($value));
+        }
+
+        $this->set('trips', $months);
+    }
+
+    public function counts($month = null)
+    {
+        $this->loadModel('Trips');
+        $year = date('Y');
+        $object = new \stdClass();
+
+        $month_int  = date('m', strtotime($month));
+
+        $query = $this->Trips->find('all', [
+            'conditions' => [
+                'MONTH(date) =' => $month_int,
+                'YEAR(date ) =' => $year
+                ],
+        ]);
+        $object->name = $month;
+        $object->count = $query->count();
+        return $object;
+    }
+}
